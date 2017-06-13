@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/tmp" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jszip-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="image-size-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="koa-bodyparser-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="koa-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="koa-router-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="koa-static-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="md5-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="nodemailer-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="pg-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="sequelize-DefinitelyTyped" level="application" />
+  </component>
+</module>
