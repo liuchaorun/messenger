@@ -18,11 +18,14 @@ h1{
     height: 3em !important;
 }
 
+.modal-body{
+    font-size: 2em;
+}
+
 #verification_code_div{
     text-align: center;
     margin-left:auto;
     margin-right:auto;
-    margin-bottom: 1em;
     width: 28em !important;
     height: 3em !important;
 }
@@ -38,7 +41,6 @@ h1{
     display: inline-block;
     height: 3em;
     width: 8em;
-    margin-top: -0.5em;
 }
 
 .alert{
@@ -46,13 +48,25 @@ h1{
     margin-right:auto;
     width: 12em !important;
     text-align: center;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    font-size: 1.5em;
     transition: 0.5s;
+    margin-bottom: 0.5em;
+    font-size: 0.75em;
 }
 
 .alert-danger{
     cursor: default;
     opacity: 0;
+}
+
+#download_modal{
+    text-align: center;
+}
+
+#download_code{
+    width: 50%;
+    margin-bottom: 1em;
+}
+
+#login_modal input{
+    font-size: 1em;
 }

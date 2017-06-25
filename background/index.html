@@ -6,11 +6,10 @@
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="stylesheets/common.css">
     <link rel="stylesheet" href="stylesheets/index.css">
-    <title>登录 - Messenger</title>
+    <title>首页 - Messenger</title>
 </head>
 <body>
 <div class="container">
-
     <div class="jumbotron well well-lg">
         <h1>Messenger</h1>
         <p>Messenger 图像媒体广播系统由本管理工具与 Android 客户端组成。</p>
@@ -18,11 +17,12 @@
         <p>如果您是第一次使用本系统，请参考我们提供的使用教程。</p>
         <p class="index_btn"><a class="btn btn-primary btn-lg" data-toggle="modal" href="#register_modal" role="button"><span
                 class="glyphicon glyphicon-plus"></span> 注册</a></p>
-        <p class="index_btn"><a class="btn btn-primary btn-lg" href="#" role="button"><span
+        <p class="index_btn"><a class="btn btn-primary btn-lg" data-toggle="modal" href="#download_modal" role="button"><span
                 class="glyphicon glyphicon-cloud-download"></span> 下载</a></p>
-        <p class="index_btn"><a class="btn btn-primary btn-lg" href="#" role="button"><span
+        <p class="index_btn"><a class="btn btn-primary btn-lg" data-toggle="modal" href="#login_modal"
+                                role="button"><span
                 class="glyphicon glyphicon-user"></span> 登录系统</a></p>
-        <p class="index_btn"><a class="btn btn-primary btn-lg" href="#" role="button"><span
+        <p class="index_btn"><a class="btn btn-primary btn-lg" data-toggle="modal" href="#" role="button"><span
                 class="glyphicon glyphicon-asterisk"></span> 使用教程</a></p>
     </div>
 </div>
@@ -37,67 +37,80 @@
                 <h4 class="modal-title">注册</h4>
             </div>
             <div class="modal-body">
-                <input type="text" placeholder="用户名" class="form-control" id="username">
-                <input type="email" placeholder="邮箱" class="form-control" id="email">
-                <input type="password" placeholder="密码" class="form-control" id="password">
-                <input type="password" placeholder="重复密码" class="form-control" id="password_again">
+                <input type="text" placeholder="用户名" class="form-control" id="register_username">
+                <input type="email" placeholder="邮箱" class="form-control" id="register_email">
+                <input type="password" placeholder="密码" class="form-control" id="register_password">
+                <input type="password" placeholder="重复密码" class="form-control" id="register_password_again">
                 <div id="verification_code_div">
                     <input type="text" placeholder="验证码" class="form-control" id="verification_code">
                     <button class="btn btn-primary" id="verification_code_btn">获取验证码</button>
                 </div>
-                <div class="alert alert-danger" role="alert" id="register_error">信息有误，请检查</div>
+                <div class="alert alert-danger" role="alert" id="register_error">出现错误。请重试</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-lg" id="register_btn">提交</button>
-                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary btn-lg" id="register_btn"><span
+                        class="glyphicon glyphicon-ok">提交</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- 下载框 -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="download_modal">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">注册</h4>
-                </div>
-                <div class="modal-body">
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-lg">提交</button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取消</button>
-                </div>
+<!-- 下载框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="download_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">下载</h4>
+            </div>
+            <div class="modal-body">
+                <p>您可扫描二维码下载</p>
+                <img src="images/index/code.png" alt="download_code" id="download_code" class="img-thumbnail img-responsive">
+                <p>也可点击<a href="">这里</a>下载</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- 登录框 -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="_modal">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">注册</h4>
-                </div>
-                <div class="modal-body">
-                    login
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-lg">提交</button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取消</button>
-                </div>
+<!-- 登录框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="login_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">登录系统</h4>
+            </div>
+            <div class="modal-body">
+                <input type="email" placeholder="邮箱" class="form-control" id="login_email">
+                <input type="password" placeholder="密码" class="form-control" id="login_password">
+                <div class="alert alert-danger" role="alert" id="login_error">出现错误。请重试</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="login_btn"><span class="glyphicon glyphicon-ok"></span> 登录
+                </button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="lib/jquery-3.2.1.min.js"></script>
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="scripts/index.js"></script>
+<script src="lib/jquery-3.2.1.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="scripts/lib.js"></script>
+<script src="scripts/index.js"></script>
 </body>
 </html>
