@@ -14,20 +14,20 @@
     <div id="sidebar">
         <img src="images/icon.png" alt="icon" id="icon">
         <ul class="nav nav-pills nav-stacked" id="nav">
-            <li role="presentation" class="active"><a href=""><span class="glyphicon glyphicon-tags"></span> 基本信息</a>
+            <li role="presentation" class="active" id="user_info"><a href=""><span class="glyphicon glyphicon-tags"></span> 基本信息</a>
             </li>
-            <li role="presentation"><a href=""><span class="glyphicon glyphicon-phone"></span> 屏幕信息</a></li>
+            <li role="presentation" id="screen_info"><a href=""><span class="glyphicon glyphicon-phone"></span> 屏幕信息</a></li>
             <li role="presentation">
                 <a data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
-                    <span class="glyphicon glyphicon-folder-open"></span>资源管理</a>
+                    <span class="glyphicon glyphicon-folder-open"></span> 资源管理</a>
             </li>
             <li class="collapse" id="collapse">
                 <ul class="nav nav-pills nav-stacked" id="sub_nav">
-                    <li role="presentation"><a href=""><span class="glyphicon glyphicon-upload"></span> 上传</a></li>
-                    <li role="presentation"><a href=""><span class="glyphicon glyphicon-th-list"></span> 包管理</a></li>
+                    <li role="presentation" id="upload"><a href=""><span class="glyphicon glyphicon-upload"></span> 上传</a></li>
+                    <li role="presentation" id="package_management"><a href=""><span class="glyphicon glyphicon-th-list"></span> 包管理</a></li>
                 </ul>
             </li>
-            <li role="presentation"><a href=""><span class="glyphicon glyphicon-wrench"></span> 修改信息</a></li>
+            <li role="presentation" id="modify_info"><a href=""><span class="glyphicon glyphicon-wrench"></span> 修改信息</a></li>
             <li role="presentation"><a href="index.html" id="logout"><span class="glyphicon glyphicon-log-out"></span>
                 退出</a></li>
         </ul>

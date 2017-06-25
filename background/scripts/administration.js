@@ -27,3 +27,48 @@ $(function ()
         clearCookie();
     })
 });
+
+$(function ()
+{
+    const $frame = $('#frame');
+   const $user_info = $('#user_info');
+   const $screen_info = $('#screen_info');
+   const $upload = $('#upload');
+   const $package_management = $('#package_management');
+   const $modify_info = $('#modify_info');
+   $user_info.click(function (event)
+   {
+       event.preventDefault();
+       $('.active').removeClass('active');
+       $user_info.addClass('active');
+       $frame.attr('src','frames/user_info.html');
+   });
+    $screen_info.click(function (event)
+    {
+        event.preventDefault();
+        $('.active').removeClass('active');
+        $screen_info.addClass('active');
+        $frame.attr('src','frames/screen_info.html');
+    });
+    $upload.click(function (event)
+    {
+        event.preventDefault();
+        $('.active').removeClass('active');
+        $upload.addClass('active');
+        $frame.attr('src','frames/upload.html');
+    });
+    $package_management.click(function (event)
+    {
+        event.preventDefault();
+        $('.active').removeClass('active');
+        $package_management.addClass('active');
+        $frame.attr('src','frames/package_management.html');
+    });
+    $modify_info.click(function (event)
+    {
+        event.preventDefault();
+        $('.active').removeClass('active');
+        $modify_info.addClass('active');
+        $frame.attr('src','frames/modify_info.html');
+    })
+});
