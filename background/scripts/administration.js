@@ -33,6 +33,7 @@ $(function ()
     const $frame = $('#frame');
    const $user_info = $('#user_info');
    const $screen_info = $('#screen_info');
+    const $resource_management = $('#resource_management');
    const $upload = $('#upload');
    const $package_management = $('#package_management');
    const $modify_info = $('#modify_info');
@@ -54,6 +55,7 @@ $(function ()
     {
         event.preventDefault();
         $('.active').removeClass('active');
+        $resource_management.addClass('active');
         $upload.addClass('active');
         $frame.attr('src','frames/upload.html');
     });
@@ -61,6 +63,7 @@ $(function ()
     {
         event.preventDefault();
         $('.active').removeClass('active');
+        $resource_management.addClass('active');
         $package_management.addClass('active');
         $frame.attr('src','frames/package_management.html');
     });
