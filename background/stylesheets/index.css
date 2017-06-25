@@ -1,0 +1,58 @@
+h1{
+    margin-bottom: 1em;
+}
+
+
+.index_btn{
+    display: inline-block;
+    margin-right: 1em;
+    margin-top: 1em;
+    transition: 0.5s;
+}
+
+.modal-body>input{
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom: 1em;
+    width: 20em !important;
+    height: 3em !important;
+}
+
+#verification_code_div{
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom: 1em;
+    width: 28em !important;
+    height: 3em !important;
+}
+
+#verification_code{
+    width: 8em;
+    height: 3em;
+    display: inline-block;
+    margin-right: 3.7em;
+}
+
+#verification_code_btn{
+    display: inline-block;
+    height: 3em;
+    width: 8em;
+    margin-top: -0.5em;
+}
+
+.alert{
+    margin-left:auto;
+    margin-right:auto;
+    width: 12em !important;
+    text-align: center;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    font-size: 1.5em;
+    transition: 0.5s;
+}
+
+.alert-danger{
+    cursor: default;
+    opacity: 0;
+}
