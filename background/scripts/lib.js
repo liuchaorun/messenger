@@ -1,7 +1,7 @@
 /**
  * Created by 31641 on 2017-6-25.
  */
-function AJAX(action,data,success_function,error_function)
+function AJAX(action, data, success_function, error_function)
 {
     $.ajax(
         {
@@ -17,4 +17,14 @@ function AJAX(action,data,success_function,error_function)
             success: success_function,
             error: error_function,
         })
+}
+
+function clearCookie()
+{
+    let keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+    if (keys)
+    {
+        for (let i = keys.length; i--;)
+            document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+    }
 }

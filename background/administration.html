@@ -3,21 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/icon-small.png">
     <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="stylesheets/common.css">
+    <link rel="stylesheet" href="stylesheets/administration.css">
     <title>管理 - Messenger</title>
 </head>
 <body>
 <div class="container">
-    <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="active"><a href="">基本信息</a></li>
-        <li role="presentation"><a href="">屏幕信息</a></li>
-        <li role="presentation"><a href="">资源管理</a></li>
-        <li role="presentation"><a href="">修改信息</a></li>
-        <li role="presentation"><a href="">退出</a></li>
-    </ul>
+    <div id="sidebar">
+        <img src="images/icon.png" alt="icon" id="icon">
+        <ul class="nav nav-pills nav-stacked" id="nav">
+            <li role="presentation" class="active"><a href=""><span class="glyphicon glyphicon-tags"></span> 基本信息</a>
+            </li>
+            <li role="presentation"><a href=""><span class="glyphicon glyphicon-phone"></span> 屏幕信息</a></li>
+            <li role="presentation">
+                <a data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
+                    <span class="glyphicon glyphicon-folder-open"></span>资源管理</a>
+            </li>
+            <li class="collapse" id="collapse">
+                <ul class="nav nav-pills nav-stacked" id="sub_nav">
+                    <li role="presentation"><a href=""><span class="glyphicon glyphicon-upload"></span> 上传</a></li>
+                    <li role="presentation"><a href=""><span class="glyphicon glyphicon-th-list"></span> 包管理</a></li>
+                </ul>
+            </li>
+            <li role="presentation"><a href=""><span class="glyphicon glyphicon-wrench"></span> 修改信息</a></li>
+            <li role="presentation"><a href="index.html" id="logout"><span class="glyphicon glyphicon-log-out"></span>
+                退出</a></li>
+        </ul>
+
+    </div>
+    <div id="frame_div">
+        <iframe src="frames/user_info.html" frameborder="0" id="frame"></iframe>
+    </div>
 </div>
 
 <script src="lib/jquery-3.2.1.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="scripts/lib.js"></script>
+<script src="scripts/administration.js"></script>
 </body>
 </html>
