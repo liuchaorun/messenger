@@ -9,12 +9,12 @@ $(function ()
     const $frame = $('#frame');
     $sidebar.css('height', $(window).height());
     $frame_div.css('height', $(window).height());
-    $frame.css('height', $(window).height());
+    $frame.css('height', $(window).height() * 0.99);
     $(window).resize(function ()
     {
         $sidebar.css('height', $(window).height());
         $frame_div.css('height', $(window).height());
-        $frame.css('height', $(window).height());
+        $frame.css('height', $(window).height() * 0.99);
     })
 });
 
@@ -37,6 +37,8 @@ $(function ()
     const $user_info = $('#user_info');
     const $screen_info = $('#screen_info');
     const $resource_management = $('#resource_management');
+    const $resource_management_icon = $('#resource_management_icon');
+    const $collapse = $('#collapse');
     const $upload = $('#upload');
     const $package_management = $('#package_management');
     const $modify_info = $('#modify_info');
@@ -53,6 +55,15 @@ $(function ()
         $('.active').removeClass('active');
         $screen_info.addClass('active');
         $frame.attr('src', 'frames/screen_info.html');
+    });
+    $resource_management.click(function ()
+    {
+        if (!$collapse.hasClass('collapsing'))
+            if ($collapse.hasClass('in'))
+                $resource_management_icon.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+
+            else
+                $resource_management_icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
     });
     $upload.click(function (event)
     {

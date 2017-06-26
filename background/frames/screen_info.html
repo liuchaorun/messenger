@@ -4,11 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/frame_common.css">
+    <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/screen_info.css">
     <title>屏幕信息 - Messenger</title>
 </head>
 <body>
-
-
+<div class="container table-responsive" id="table">
+    <table class="table">
+        <tr>
+            <th>序号</th>
+            <th>屏幕名</th>
+            <th>上次更新时间</th>
+            <th>更新频率</th>
+            <th>资源包</th>
+            <th>备注</th>
+            <th>UUID</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>aaa</td>
+            <td>111</td>
+            <td>11</td>
+            <td>555</td>
+            <td>888</td>
+            <td>666</td>
+            <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline"></td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>aaa</td>
+            <td>111</td>
+            <td>11</td>
+            <td>555</td>
+            <td>888</td>
+            <td>666</td>
+            <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline"></td>
+        </tr>
+    </table>
+</div>
+<div id="buttons">
+    <button class="btn btn-primary btn-lg">增加</button>
+    <button class="btn btn-primary btn-lg">修改</button>
+    <button class="btn btn-danger btn-lg">删除</button>
+</div>
 <script src="../lib/jquery-3.2.1.min.js"></script>
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 </body>

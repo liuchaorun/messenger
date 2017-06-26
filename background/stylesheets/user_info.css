@@ -1,3 +1,18 @@
-html,body{
-    background: transparent;
+#user_info {
+    width: 32em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#user_info > p {
+    padding: 0.25em 1em;
+    transition: 0.2s;
+    border-radius: 0.5em;
+}
+
+#user_info > p:hover {
+    background-color: #337ab7;
+    color: white;
 }

@@ -4,11 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/frame_common.css">
     <link rel="stylesheet" href="../stylesheets/user_info.css">
     <title>基本信息 - Messenger</title>
 </head>
 <body>
-
+<div id="user_info" class="container">
+    <p><span class="glyphicon glyphicon-user"></span> 用户名：<span id="username"></span></p>
+    <p><span class="glyphicon glyphicon-envelope"></span> 邮箱：<span id="email"></span></p>
+    <p><span class="glyphicon glyphicon-phone"></span> 屏幕数：<span id="screen_num"></span></p>
+    <p><span class="glyphicon glyphicon-picture"></span> 图片数：<span id="picture_num"></span></p>
+    <p><span class="glyphicon glyphicon-log-in"></span> 上次登录时间：<span id="last_login_time"></span></p>
+</div>
 
 <script src="../lib/jquery-3.2.1.min.js"></script>
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>

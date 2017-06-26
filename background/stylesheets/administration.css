@@ -3,6 +3,7 @@
     padding: 0;
     background: url("../images/background.jpg");
     background-size: cover;
+    background-repeat: no-repeat;
 }
 
 #sidebar {
@@ -11,13 +12,18 @@
     float: left;
     width: 20%;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.4);
+    transition: 0.5s;
+}
+
+#sidebar:hover {
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 #nav {
     display: inline-block;
     text-align: center;
-    font-size: 2em;
+    font-size: 2.25em;
     margin-top: 2.5em;
     width: 100%;
 }
@@ -47,4 +53,8 @@
 
 #frame {
     width: 100%;
+}
+
+#resource_management {
+    text-indent: 1em;
 }

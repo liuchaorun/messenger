@@ -1,11 +1,12 @@
 *
 {
     text-shadow: 0 0 1px #999 !important;
+    font-family: "Noto Sans", "思源黑体", "微软雅黑", sans-serif;
 }
 
-
-body{
+html, body {
     font-size: 10px;
+    background: transparent;
 }
 
 .modal-title{
