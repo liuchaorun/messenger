@@ -18,5 +18,6 @@
     <orderEntry type="library" name="nodemailer-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="pg-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="sequelize-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="socket.io-DefinitelyTyped" level="application" />
   </component>
 </module>

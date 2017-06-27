@@ -27,7 +27,7 @@ function defineModel(name, attributes) {
             };
         }
     }
-    if(name!=='screen_picture'){
+    if(name!=='resource_picture'&&name!=='picture'){
         attrs.created_at = {
             type: Sequelize.DATE,
         };
@@ -74,7 +74,6 @@ function defineModel(name, attributes) {
                         obj.version = 0;
                     } else {
                         console.log('will update entity...');
-                        obj.updated_at = now;
                         obj.version++;
                     }
             }

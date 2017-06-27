@@ -1,22 +1,25 @@
 /**
- * Created by liuchaorun on 2017/3/30.
+ * Created by lcr on 17-6-27.
  */
 const database = require("../database");
 const Sequelize = require('sequelize');
 module.exports=database.defineModel('user',{
-    user_id: {
+    screen_id: {
         type: Sequelize.BIGINT,
         primaryKey:true,
         autoIncrement:true
     },
-    username: {
+    name: {
         type:Sequelize.STRING(255)
     },
-    email: {
+    time: {
+        type:Sequelize.BIGINT
+    },
+    user_id:Sequelize.BIGINT,
+    uuid:{
         type:Sequelize.STRING(255)
     },
-    password: {
-        type:Sequelize.STRING(32)
-    },
-    remark:Sequelize.STRING(255)
+    remark:{
+        type:Sequelize.STRING(255)
+    }
 });
