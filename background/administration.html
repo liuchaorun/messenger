@@ -34,6 +34,9 @@
             </li>
             <li role="presentation" id="modify_info"><a href=""><span class="glyphicon glyphicon-wrench"></span>
                 修改信息</a></li>
+            <li role="presentation" id="download"><a data-toggle="modal" href="#download_modal" role="button"><span
+                    class="glyphicon glyphicon-cloud-download"></span> 下载</a>
+            </li>
             <li role="presentation"><a href="index.html" id="logout"><span class="glyphicon glyphicon-log-out"></span>
                 退出</a></li>
         </ul>
@@ -41,6 +44,31 @@
     </div>
     <div id="frame_div">
         <iframe src="frames/user_info.html" frameborder="0" id="frame"></iframe>
+    </div>
+</div>
+
+<!-- 下载框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="download_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">下载</h4>
+            </div>
+            <div class="modal-body">
+                <p>您可扫描二维码下载</p>
+                <img src="images/index/code.png" alt="download_code" id="download_code"
+                     class="img-thumbnail img-responsive">
+                <p>也可点击<a href="">这里</a>下载</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

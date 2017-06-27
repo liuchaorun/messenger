@@ -18,3 +18,8 @@ html, body {
 .btn{
     outline: none !important;
 }
+
+.alert, .btn {
+    box-shadow: #444 0.1em 0.1em 0.2em !important;
+}
+

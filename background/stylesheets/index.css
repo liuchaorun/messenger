@@ -1,5 +1,33 @@
+html, body {
+    background: url("../images/background_index.jpg");
+    background-size: cover;
+    overflow: hidden;
+}
+
+#icon {
+    width: 10em;
+    margin-bottom: 4.5em;
+    margin-right: 1.5em;
+}
+
+.well {
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: #444 0.5em 0.5em 0.75em;
+}
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+}
+
 h1{
     margin-bottom: 1em;
+    font-weight: bolder;
+    cursor: default;
+    display: inline-block;
 }
 
 
@@ -43,7 +71,7 @@ h1{
     width: 8em;
 }
 
-.alert{
+.modal .alert {
     margin-left:auto;
     margin-right:auto;
     width: 12em !important;
@@ -51,11 +79,18 @@ h1{
     transition: 0.5s;
     margin-bottom: 0.5em;
     font-size: 0.75em;
+
 }
 
-.alert-danger{
+.modal .alert-danger {
     cursor: default;
     opacity: 0;
+}
+
+.container .alert {
+    font-size: 2em;
+    cursor: default;
+    opacity: 0.75;
 }
 
 #download_modal{
@@ -65,6 +100,7 @@ h1{
 #download_code{
     width: 50%;
     margin-bottom: 1em;
+    box-shadow: gray 0.25em 0.25em 0.5em;
 }
 
 #login_modal input{

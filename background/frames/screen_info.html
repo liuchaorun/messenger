@@ -50,8 +50,9 @@
     <button class="btn btn-danger btn-lg" id="del_btn" data-toggle="modal" data-target="#del_modal">删除</button>
 </div>
 
+<!--增加-->
 <div class="modal fade" tabindex="-1" role="dialog" id="add_modal">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
@@ -59,18 +60,69 @@
                 <h4 class="modal-title">增加设备</h4>
             </div>
             <div class="modal-body">
-
+                <input type="text" class="form-control" id="uuid" placeholder="设备UUID">
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-lg" id="register_btn"><span
-                            class="glyphicon glyphicon-ok">提交</span></button>
+                    <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
+                            class="glyphicon glyphicon-ok">增加</span></button>
                     <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
                             class="glyphicon glyphicon-remove"></span>关闭
                     </button>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!--修改-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modify_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改设备</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-asterisk"></span>
+                    只可在单选情况下修改屏幕名。
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-lg" id="modify_modal_btn"><span
+                            class="glyphicon glyphicon-ok">确定</span></button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span>关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--删除-->
+<div class="modal fade" tabindex="-1" role="dialog" id="del_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除设备</h4>
+            </div>
+            <div class="modal-body">
+                <p id="del_warning"><span class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除设备<span
+                        id="del_screen"></span>，删除后你将丢失这些屏幕的所有设置，请仔细确认。</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-lg" id="del_modal_btn"><span
+                            class="glyphicon glyphicon-ok">确认</span></button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span>关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="../lib/jquery-3.2.1.min.js"></script>
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../scripts/screen_info.js"></script>
 </body>
 </html>

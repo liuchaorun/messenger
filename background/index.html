@@ -12,10 +12,21 @@
 <body>
 <div class="container">
     <div class="jumbotron well well-lg">
-        <h1>Messenger</h1>
-        <p>Messenger 图像媒体广播系统由本管理工具与 Android 客户端组成。</p>
-        <p>如果您还没有下载客户端，请点击下方按钮下载。</p>
-        <p>如果您是第一次使用本系统，请参考我们提供的使用教程。</p>
+        <div class="page-header">
+            <img src="images/icon.png" alt="icon" id="icon">
+            <h1>Messenger</h1>
+        </div>
+        <div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-th-large"></span> Messenger
+            图像媒体广播系统由本管理工具与 Android 客户端组成。
+        </div>
+        <div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-download-alt"></span>
+            如果您还没有下载客户端，请点击下方按钮下载。
+        </div>
+        <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-book"></span>
+            如果您是第一次使用本系统，请参考我们提供的使用教程。
+        </div>
+        <p></p>
+        <p></p>
         <p class="index_btn"><a class="btn btn-primary btn-lg" data-toggle="modal" href="#register_modal" role="button"><span
                 class="glyphicon glyphicon-plus"></span> 注册</a></p>
         <p class="index_btn"><a class="btn btn-primary btn-lg" data-toggle="modal" href="#download_modal" role="button"><span
@@ -71,7 +82,8 @@
             </div>
             <div class="modal-body">
                 <p>您可扫描二维码下载</p>
-                <img src="images/index/code.png" alt="download_code" id="download_code" class="img-thumbnail img-responsive">
+                <img src="images/index/code.png" alt="download_code" id="download_code"
+                     class="img-thumbnail img-responsive">
                 <p>也可点击<a href="">这里</a>下载</p>
             </div>
             <div class="modal-footer">
@@ -99,7 +111,8 @@
                 <div class="alert alert-danger" role="alert" id="login_error">出现错误。请重试</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btn-lg" id="login_btn"><span class="glyphicon glyphicon-ok"></span> 登录
+                <button type="button" class="btn btn-primary btn-lg" id="login_btn"><span
+                        class="glyphicon glyphicon-ok"></span> 登录
                 </button>
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
                         class="glyphicon glyphicon-remove"></span>关闭

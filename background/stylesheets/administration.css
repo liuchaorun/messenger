@@ -1,7 +1,7 @@
 .container {
     width: 100%;
     padding: 0;
-    background: url("../images/background.jpg");
+    background: url("../images/background_admin.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -14,6 +14,7 @@
     text-align: center;
     background-color: rgba(255, 255, 255, 0.4);
     transition: 0.5s;
+    box-shadow: #444 0.1em 0.1em 0.25em;
 }
 
 #sidebar:hover {
@@ -57,4 +58,18 @@
 
 #resource_management {
     text-indent: 1em;
+}
+
+.modal-body {
+    font-size: 2em;
+}
+
+#download_modal {
+    text-align: center;
+}
+
+#download_code {
+    width: 50%;
+    margin-bottom: 1em;
+    box-shadow: gray 0.25em 0.25em 0.5em;
 }
