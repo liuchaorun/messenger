@@ -1,17 +1,45 @@
-.container {
+.panel {
     font-size: 2.25em;
-    border-radius: 1em;
-    background-color: rgba(255, 255, 255, 0.4);
-    padding: 1.5em 1em;
+    border-radius: 0.75em;
     cursor: default;
     transition: 0.5s;
+    transition-property: background;
     box-shadow: #444 0.2em 0.2em 0.5em;
 }
 
-.container:hover {
-    background-color: rgba(255, 255, 255, 0.6);
+.panel, .panel-heading {
+    background-color: rgba(255, 255, 255, 0.25) !important;
 }
 
-html, body {
-    overflow: hidden;
+.panel:hover {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.panel-heading {
+    border-top-left-radius: 0.75em;
+    border-top-right-radius: 0.75em;
+}
+
+.panel-title {
+    font-size: 1.25em;
+}
+
+#table {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+th {
+    background-color: #337ab7;
+    color: white;
+    transition: 0.2s;
+}
+
+tr:hover {
+    background-color: #337ab7;
+    color: white;
+}
+
+th, td {
+    text-align: center;
 }

@@ -6,12 +6,35 @@
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../stylesheets/frame_common.css">
     <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/upload.css">
     <title>上传 - Messenger</title>
 </head>
 <body>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">上传文件</h3>
+        </div>
+        <div class="panel-body">
+            <form action="" id="upload_form">
+                <div class="progress" id="upload_progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0"
+                         aria-valuemax="100" style="width: 0">
+                    </div>
+                </div>
+                <div id="btn_div">
+                    <button class="btn btn-primary btn-lg" id="file_btn">选择文件</button>
+                    <input id="upload_input" type="file" class="form-control" multiple accept="image/jpeg,image/png">
+                    <button class="btn btn-primary btn-lg" id="upload_btn">上传</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+</div>
 <script src="../lib/jquery-3.2.1.min.js"></script>
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="../scripts/lib.js"></script>
+<script src="../scripts/upload.js"></script>
 </body>
 </html>

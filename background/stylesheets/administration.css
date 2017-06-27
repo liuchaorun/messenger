@@ -50,10 +50,14 @@
 #frame_div {
     display: inline-block;
     width: 80%;
+    margin: 0;
+    padding: 0;
 }
 
 #frame {
     width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 #resource_management {

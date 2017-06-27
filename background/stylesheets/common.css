@@ -1,12 +1,13 @@
 *
 {
-    text-shadow: 0 0 1px #999 !important;
+    text-shadow: 0 0 1px #444 !important;
     font-family: "Noto Sans", "思源黑体", "微软雅黑", sans-serif;
 }
 
 html, body {
     font-size: 10px;
     background: transparent;
+    overflow: hidden;
 }
 
 .modal-title{
@@ -21,6 +22,10 @@ html, body {
 
 .alert, .btn {
     box-shadow: #444 0.1em 0.1em 0.2em !important;
+}
+
+.alert {
+    opacity: 0.75;
 }
 
 .modal-content, .modal-content input {

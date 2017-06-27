@@ -6,17 +6,26 @@
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../stylesheets/frame_common.css">
     <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/user_info.css">
     <link rel="stylesheet" href="../stylesheets/modify_info.css">
     <title>修改信息 - Messenger</title>
 </head>
 <body>
 <div id="user_info" class="container">
-    <p><span class="glyphicon glyphicon-user"></span> 用户名：<span id="username"></span>
-        <button class="btn btn-primary btn-lg" id="modify_username">修改</button>
-    </p>
-    <p><span class="glyphicon glyphicon-envelope"></span> 邮箱：<span id="email"></span>
-        <button class="btn btn-primary btn-lg" id="modify_email">修改</button>
-    </p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">修改信息</h3>
+        </div>
+        <div class="panel-body">
+            <p><span class="glyphicon glyphicon-user"></span> 用户名：<span id="username"></span>
+                <button class="btn btn-primary btn-lg" id="modify_username">修改</button>
+            </p>
+            <p><span class="glyphicon glyphicon-envelope"></span> 邮箱：<span id="email"></span>
+                <button class="btn btn-primary btn-lg" id="modify_email">修改</button>
+            </p>
+        </div>
+    </div>
+
 </div>
 
 <script src="../lib/jquery-3.2.1.min.js"></script>

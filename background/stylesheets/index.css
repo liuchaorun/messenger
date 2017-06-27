@@ -14,6 +14,7 @@ html, body {
     background-color: rgba(255, 255, 255, 0.5);
     box-shadow: #444 0.5em 0.5em 0.75em;
     transition: 0.5s;
+    padding-bottom: 5em;
 }
 
 .well:hover {
@@ -29,7 +30,6 @@ html, body {
 }
 
 h1{
-    margin-bottom: 1em;
     font-weight: bolder;
     cursor: default;
     display: inline-block;
@@ -39,7 +39,7 @@ h1{
 .index_btn{
     display: inline-block;
     margin-right: 1em;
-    margin-top: 1em;
+    margin-top: 1.5em;
     transition: 0.5s;
 }
 
@@ -95,7 +95,6 @@ h1{
 .container .alert {
     font-size: 2em;
     cursor: default;
-    opacity: 0.75;
 }
 
 #download_modal{

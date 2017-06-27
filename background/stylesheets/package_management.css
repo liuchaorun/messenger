@@ -1,0 +1,32 @@
+.modal-body {
+    max-height: 40em;
+    overflow-y: scroll;
+}
+
+#add_modal_body {
+    display: table;
+    margin: auto 2em;
+}
+
+.add_modal_row {
+    display: table-row;
+}
+
+.add_modal_cell {
+    display: table-cell;
+    padding-left: 3.25em;
+    padding-right: 3.25em;
+    padding-top: 1em;
+}
+
+.image {
+    width: 10em;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+label {
+    background-size: contain;
+}

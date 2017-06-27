@@ -6,12 +6,144 @@
     <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../stylesheets/frame_common.css">
     <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/screen_info.css">
+    <link rel="stylesheet" href="../stylesheets/package_management.css">
     <title>资源管理 - Messenger</title>
 </head>
 <body>
+<div class="container table-responsive" id="table">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">包管理</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>备注</th>
+                    <th>关联屏幕</th>
+                    <th></th>
+                </tr>
+                <!--
+                <tr>
+                    <td>1</td>
+                    <td>aaa</td>
+                    <td>111</td>
+                    <td>5555</td>
+                    <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline"></td>
+                </tr>
+                -->
+            </table>
+        </div>
+    </div>
+</div>
 
+<div id="buttons">
+    <button class="btn btn-primary btn-lg" id="add_btn" data-toggle="modal" data-target="#add_modal">增加</button>
+    <button class="btn btn-primary btn-lg" id="modify_btn" data-toggle="modal" data-target="#modify_modal">修改</button>
+    <button class="btn btn-danger btn-lg" id="del_btn" data-toggle="modal" data-target="#del_modal">删除</button>
+</div>
 
+<!--增加-->
+<div class="modal fade" tabindex="-1" role="dialog" id="add_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">增加包</h4>
+            </div>
+            <div class="modal-body">
+                <div id="add_modal_body">
+                    <!--
+                    <div class="add_modal_row">
+                        <div class="add_modal_cell">
+                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
+                                    type="checkbox" class="add_checkbox"></label>
+                        </div>
+                        <div class="add_modal_cell">
+                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
+                                    type="checkbox" class="add_checkbox"></label>
+                        </div>
+                        <div class="add_modal_cell">
+                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
+                                    type="checkbox" class="add_checkbox"></label>
+                        </div>
+                        <div class="add_modal_cell">
+                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
+                                    type="checkbox" class="add_checkbox"></label>
+                        </div>
+                        <div class="add_modal_cell">
+                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
+                                    type="checkbox" class="add_checkbox"></label>
+                        </div>
+                    </div>
+                </div>
+                -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
+                        class="glyphicon glyphicon-ok">增加</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modify_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改包</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-asterisk"></span>
+                    只可在单选情况下修改包名。
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modify_modal_btn"><span
+                        class="glyphicon glyphicon-ok">确定</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--删除-->
+<div class="modal fade" tabindex="-1" role="dialog" id="del_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除设备</h4>
+            </div>
+            <div class="modal-body">
+                <p id="del_warning"><span class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除包<span
+                        id="del_screen"></span>，删除后你将丢失这些包的所有设置，请仔细确认。</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-lg" id="del_modal_btn"><span
+                            class="glyphicon glyphicon-ok">确认</span></button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span>关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="../lib/jquery-3.2.1.min.js"></script>
 <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../scripts/package_management.js"></script>
 </body>
 </html>

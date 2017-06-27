@@ -9,12 +9,12 @@ $(function ()
     const $frame = $('#frame');
     $sidebar.css('height', $(window).height());
     $frame_div.css('height', $(window).height());
-    $frame.css('height', $(window).height() * 0.99);
+    $frame.css('height', $(window).height());
     $(window).resize(function ()
     {
         $sidebar.css('height', $(window).height());
         $frame_div.css('height', $(window).height());
-        $frame.css('height', $(window).height() * 0.99);
+        $frame.css('height', $(window).height());
     })
 });
 

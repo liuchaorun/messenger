@@ -1,0 +1,34 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#upload_input {
+    opacity: 0;
+    display: inline-block;
+    width: 7.6em;
+    height: 3.5em;
+    position: absolute;
+    right: 12em;
+}
+
+#file_btn, #upload_btn {
+    width: 6em;
+}
+
+#btn_div {
+    float: right;
+    margin-top: 1em;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+#upload_progress {
+    height: 1.5em;
+}
+
+#upload_btn {
+    display: inline-block;
+}

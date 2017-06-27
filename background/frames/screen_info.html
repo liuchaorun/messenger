@@ -11,38 +11,39 @@
 </head>
 <body>
 <div class="container table-responsive" id="table">
-    <table class="table">
-        <tr>
-            <th>序号</th>
-            <th>屏幕名</th>
-            <th>上次更新时间</th>
-            <th>更新频率</th>
-            <th>资源包</th>
-            <th>备注</th>
-            <th>UUID</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>aaa</td>
-            <td>111</td>
-            <td>11</td>
-            <td>555</td>
-            <td>888</td>
-            <td>666</td>
-            <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline"></td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>aaa</td>
-            <td>111</td>
-            <td>11</td>
-            <td>555</td>
-            <td>888</td>
-            <td>666</td>
-            <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline"></td>
-        </tr>
-    </table>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">设备信息</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <tr>
+                    <th>序号</th>
+                    <th>状态</th>
+                    <th>屏幕名</th>
+                    <th>上次更新时间</th>
+                    <th>更新频率</th>
+                    <th>资源包</th>
+                    <th>备注</th>
+                    <th>UUID</th>
+                    <th></th>
+                </tr>
+                <!--
+                <tr>
+                    <td>1</td>
+                    <td>在线</td>
+                    <td>aaa</td>
+                    <td>111</td>
+                    <td>11</td>
+                    <td>555</td>
+                    <td>888</td>
+                    <td>666</td>
+                    <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline"></td>
+                </tr>
+                -->
+            </table>
+        </div>
+    </div>
 </div>
 <div id="buttons">
     <button class="btn btn-primary btn-lg" id="add_btn" data-toggle="modal" data-target="#add_modal">增加</button>
@@ -61,13 +62,13 @@
             </div>
             <div class="modal-body">
                 <input type="text" class="form-control" id="uuid" placeholder="设备UUID">
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
-                            class="glyphicon glyphicon-ok">增加</span></button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
-                            class="glyphicon glyphicon-remove"></span>关闭
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
+                        class="glyphicon glyphicon-ok">增加</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
     </div>
@@ -86,13 +87,13 @@
                 <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-asterisk"></span>
                     只可在单选情况下修改屏幕名。
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-lg" id="modify_modal_btn"><span
-                            class="glyphicon glyphicon-ok">确定</span></button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
-                            class="glyphicon glyphicon-remove"></span>关闭
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modify_modal_btn"><span
+                        class="glyphicon glyphicon-ok">确定</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
     </div>
@@ -110,13 +111,13 @@
             <div class="modal-body">
                 <p id="del_warning"><span class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除设备<span
                         id="del_screen"></span>，删除后你将丢失这些屏幕的所有设置，请仔细确认。</p>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-lg" id="del_modal_btn"><span
-                            class="glyphicon glyphicon-ok">确认</span></button>
-                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
-                            class="glyphicon glyphicon-remove"></span>关闭
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-lg" id="del_modal_btn"><span
+                        class="glyphicon glyphicon-ok">确认</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
     </div>

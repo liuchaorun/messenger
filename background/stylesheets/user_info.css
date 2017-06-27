@@ -1,18 +1,18 @@
 #user_info {
-    width: 32em;
+    width: 80em;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
-#user_info > p {
+#user_info p {
     padding: 0.25em 1em;
     transition: 0.2s;
     border-radius: 0.5em;
 }
 
-#user_info > p:hover {
+#user_info p:hover {
     background-color: #337ab7;
     color: white;
 }
