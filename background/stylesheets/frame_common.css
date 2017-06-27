@@ -43,3 +43,7 @@ tr:hover {
 th, td {
     text-align: center;
 }
+
+#error_modal .modal-body {
+    font-size: 2em;
+}

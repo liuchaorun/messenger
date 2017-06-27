@@ -9,7 +9,21 @@
  <p><span class="glyphicon glyphicon-log-in"></span> 上次登录时间：<span id="last_login_time"></span></p>
  **/
 
+/**获取并填充信息**/
 $(function ()
 {
+    const $username = $('#username');
+    const $email = $('#email');
+    const $screen_num = $('#screen_num');
+    const $picture_num = $('#picture_num');
+    const $last_login_time = $('#last_login_time');
+    AJAX('get_info', {},
+        function (response)
+        {
+            
+        },
+        function (error)
+        {
 
+        })
 });
