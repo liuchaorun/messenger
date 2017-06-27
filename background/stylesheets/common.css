@@ -23,3 +23,11 @@ html, body {
     box-shadow: #444 0.1em 0.1em 0.2em !important;
 }
 
+.modal-content, .modal-content input {
+    background: rgba(255, 255, 255, 0.75);
+    transition: 0.25s;
+}
+
+.modal-content input:hover, .modal-content input:focus {
+    background: rgba(255, 255, 255, 1);
+}

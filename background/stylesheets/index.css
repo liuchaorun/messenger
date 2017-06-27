@@ -13,6 +13,11 @@ html, body {
 .well {
     background-color: rgba(255, 255, 255, 0.5);
     box-shadow: #444 0.5em 0.5em 0.75em;
+    transition: 0.5s;
+}
+
+.well:hover {
+    background-color: rgba(255, 255, 255, 0.75);
 }
 
 .container {
