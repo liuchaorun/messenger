@@ -103,3 +103,14 @@ h1{
 #login_modal input{
     font-size: 1em;
 }
+
+#remember_me {
+    margin-left: 37em;
+    font-size: 0.75em;
+}
+
+#remember_me_checkbox {
+    height: 1em;
+    width: 1em;
+    vertical-align: text-top;
+}

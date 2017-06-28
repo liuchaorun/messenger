@@ -9,6 +9,7 @@ const $verification_code = $('#verification_code');
 
 const $login_email = $('#login_email');
 const $login_password = $('#login_password');
+const $remember_me_checkbox = $('#remember_me_checkbox');
 
 /**输入框弹框**/
 $(function ()
@@ -241,10 +242,10 @@ $(function ()
             return false;
         }
 
-        /**AJAX**/
         let data = {};
         data.email = $login_email.val();
         data.password = $login_password.val();
+        data.remember_me = $remember_me_checkbox.is(':checked');
         AJAX('login', data,
             function (response)
             {
