@@ -18,5 +18,5 @@ module.exports=database.defineModel('user',{
     password: {
         type:Sequelize.STRING(32)
     },
-    remark:Sequelize.STRING(255)
+    last_login_time:Sequelize.DATE
 });

@@ -9,6 +9,9 @@ module.exports=database.defineModel('resource',{
         primaryKey:true,
         autoIncrement:true
     },
+    name:{
+        type:Sequelize.STRING(255)
+    },
     md5:Sequelize.STRING(255),
     user_id:Sequelize.BIGINT,
     screen_id:Sequelize.BIGINT

@@ -43,7 +43,7 @@ $(function ()
                 $error_modal.modal('show');
             else
             {
-                screen_info = response.data;
+                screen_info = response.data.info;
                 let update_time = '';
                 for (let i = 0; i < screen_info.length; i++)
                 {
@@ -89,7 +89,7 @@ $(function ()
     $add_modal_btn.click(function (event)
     {
         event.preventDefault();
-        if ((/^[0-9A-z]{6}$/.test($uuid.val())))//符合要求
+        if ((/^[0-9A-z]{8}$/.test($uuid.val())))//符合要求
         {
             let data = {};
             data.uuid = $uuid.val();
