@@ -48,7 +48,7 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">注册</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="register_modal_body">
                 <input type="text" placeholder="用户名" class="form-control" id="register_username">
                 <input type="email" placeholder="邮箱" class="form-control" id="register_email">
                 <input type="password" placeholder="密码" class="form-control" id="register_password">
@@ -57,16 +57,16 @@
                     <input type="text" placeholder="验证码" class="form-control" id="verification_code">
                     <button class="btn btn-primary" id="verification_code_btn">获取验证码</button>
                 </div>
-                <div class="alert alert-danger" role="alert" id="register_error">出现错误。请重试</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="register_btn"><span
+                        class="glyphicon glyphicon-ok">提交</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-lg" id="register_btn"><span
-                    class="glyphicon glyphicon-ok">提交</span></button>
-            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
-                    class="glyphicon glyphicon-remove"></span>关闭
-            </button>
-        </div>
+
     </div>
 </div>
 
@@ -86,12 +86,13 @@
                      class="img-thumbnail img-responsive">
                 <p>也可点击<a href="">这里</a>下载</p>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
-                    class="glyphicon glyphicon-remove"></span>关闭
-            </button>
-        </div>
+
     </div>
 </div>
 
@@ -105,20 +106,20 @@
                 </button>
                 <h4 class="modal-title">登录系统</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="login_modal_body">
                 <input type="email" placeholder="邮箱" class="form-control" id="login_email">
                 <input type="password" placeholder="密码" class="form-control" id="login_password">
-                <div class="alert alert-danger" role="alert" id="login_error">出现错误。请重试</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="login_btn"><span
+                        class="glyphicon glyphicon-ok"></span> 登录
+                </button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-lg" id="login_btn"><span
-                    class="glyphicon glyphicon-ok"></span> 登录
-            </button>
-            <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
-                    class="glyphicon glyphicon-remove"></span>关闭
-            </button>
-        </div>
+
     </div>
 </div>
 

@@ -113,15 +113,3 @@ $(function ()
 {
 
 });
-
-/**追加警告函数**/
-function append_warning(modal_body_id, alert_type, icon_class, warn_text)
-{
-    let id = new Date().getTime();
-    $(`#${modal_body_id}`).append(`<div class="alert alert-${alert_type} alert-dismissible fade in" role="alert" id=${id}>
- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="glyphicon ${icon_class}"></span><span> ${warn_text}</span></div>`);
-    setTimeout(function ()
-    {
-        $(`#${id}`).alert('close');
-    }, 3000);
-}

@@ -7,11 +7,8 @@ const $register_password = $('#register_password');
 const $register_password_again = $('#register_password_again');
 const $verification_code = $('#verification_code');
 
-const $register_error = $('#register_error');
-
 const $login_email = $('#login_email');
 const $login_password = $('#login_password');
-const $login_error = $('#login_error');
 
 /**输入框弹框**/
 $(function ()
@@ -69,6 +66,33 @@ $(function ()
     $verification_code_btn.click(
         function ()
         {
+            let status = true;
+            if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
+            {
+                $register_username.css('borderColor', 'red');
+                status = false;
+            }
+            if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($register_email.val()))
+            {
+                $register_email.css('borderColor', 'red');
+                status = false;
+            }
+            if (!/^[A-z0-9_]{1,32}$/.test($register_password.val()))
+            {
+                $register_password.css('borderColor', 'red');
+                status = false;
+            }
+            else if ($register_password.val() !== $register_password_again.val())
+            {
+                $register_password_again.css('borderColor', 'red');
+                status = false;
+            }
+            if (status === false)
+            {
+                append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+                return false;
+            }
+
             $verification_code_btn.attr('disabled', 'disabled');
             let sec = 60;
             let interval = setInterval(function ()
@@ -92,8 +116,7 @@ $(function ()
                 {
                     if (response.status.code === 0)
                     {
-                        $register_error.text(response.status.msg);
-                        $register_error.css('opacity', 1);
+                        append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                         clearTimeout(timeout);
                         clearInterval(interval);
                         $verification_code_btn.removeAttr('disabled');
@@ -103,8 +126,7 @@ $(function ()
                 function (error)
                 {
                     console.log(error);
-                    $register_error.text('出现错误。请重试');
-                    $register_error.css('opacity', 1);
+                    append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
                     clearTimeout(timeout);
                     clearInterval(interval);
                     $verification_code_btn.removeAttr('disabled');
@@ -119,7 +141,6 @@ $(function ()
 {
     const $input = $('input');
     const $button = $('.container .btn');
-    const $alert = $('.alert');
     const $register_modal = $('#register_modal');
     const $register_btn = $('#register_btn');
     let status = true;
@@ -128,40 +149,33 @@ $(function ()
         if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
         {
             $register_username.css('borderColor', 'red');
-            $register_error.text('用户名非法');
-            $register_error.css('opacity', 1);
             status = false;
         }
         if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($register_email.val()))
         {
             $register_email.css('borderColor', 'red');
-            $register_error.text('邮箱非法');
-            $register_error.css('opacity', 1);
             status = false;
         }
         if (!/^[A-z0-9_]{1,32}$/.test($register_password.val()))
         {
             $register_password.css('borderColor', 'red');
-            $register_error.text('密码非法');
-            $register_error.css('opacity', 1);
             status = false;
         }
         else if ($register_password.val() !== $register_password_again.val())
         {
             $register_password_again.css('borderColor', 'red');
-            $register_error.text('两次密码不一致');
-            $register_error.css('opacity', 1);
             status = false;
         }
         if (!$verification_code.val())
         {
             $verification_code.css('borderColor', 'red');
-            $register_error.text('验证码非法');
-            $register_error.css('opacity', 1);
             status = false;
         }
         if (status === false)
+        {
+            append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
             return false;
+        }
 
         /**AJAX**/
         let data = {};
@@ -174,27 +188,21 @@ $(function ()
             {
                 if (response.status.code === 0)
                 {
-                    $register_error.text(response.status.msg);
-                    $register_error.css('opacity', 1);
+                    append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                 }
                 else
                 {
-                    $register_error.text(response.status.msg);
-                    $register_error.removeClass('alert-danger').addClass('alert-success');
-                    $register_error.css('opacity', 1);
+                    append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     setTimeout(function ()
                     {
-                        $register_modal.modal(`hide`);
-                        $register_error.removeClass('alert-success').addClass('alert-danger');
-                        $register_error.css('opacity', 0);
+                        $register_modal.modal('hide');
                     }, 3000);
                 }
             },
             function (error)
             {
                 console.log(error);
-                $register_error.text('出现错误。请重试');
-                $register_error.css('opacity', 1);
+                append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
             })
     });
 
@@ -205,7 +213,6 @@ $(function ()
     });
     $button.click(function ()
     {
-        $alert.removeAttr('style');
         $input.removeAttr('style');
         $input.val('');
     })
@@ -214,55 +221,50 @@ $(function ()
 /**登录**/
 $(function ()
 {
-   const $login_btn = $('#login_btn');
-   let status = true;
-   $login_btn.click(function ()
-   {
-       if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($login_email.val()))
-       {
-           $login_email.css('borderColor', 'red');
-           $login_error.text('邮箱非法');
-           $login_error.css('opacity', 1);
-           status = false;
-       }
-       if (!/^[A-z0-9_]{1,32}$/.test($login_password.val()))
-       {
-           $login_password.css('borderColor', 'red');
-           $login_error.text('密码非法');
-           $login_error.css('opacity', 1);
-           status = false;
-       }
-       if (status === false)
-           return false;
+    const $login_btn = $('#login_btn');
+    let status = true;
+    $login_btn.click(function ()
+    {
+        if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($login_email.val()))
+        {
+            $login_email.css('borderColor', 'red');
+            status = false;
+        }
+        if (!/^[A-z0-9_]{1,32}$/.test($login_password.val()))
+        {
+            $login_password.css('borderColor', 'red');
+            status = false;
+        }
+        if (status === false)
+        {
+            append_warning('login_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            return false;
+        }
 
-       /**AJAX**/
-       let data = {};
-       data.email = $login_email.val();
-       data.password = $login_password.val();
-       AJAX('login', data,
-           function (response)
-           {
-               if (response.status.code === 0)
-               {
-                   $login_error.text(response.status.msg);
-                   $login_error.css('opacity', 1);
-               }
-               else
-               {
-                   $login_error.text(response.status.msg);
-                   $login_error.removeClass('alert-danger').addClass('alert-success');
-                   $login_error.css('opacity', 1);
-                   setTimeout(function ()
-                   {
-                       location.href = 'administration.html';
-                   }, 1000);
-               }
-           },
-           function (error)
-           {
-               console.log(error);
-               $login_error.text('出现错误。请重试');
-               $login_error.css('opacity', 1);
-           })
-   })
+        /**AJAX**/
+        let data = {};
+        data.email = $login_email.val();
+        data.password = $login_password.val();
+        AJAX('login', data,
+            function (response)
+            {
+                if (response.status.code === 0)
+                {
+                    append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                }
+                else
+                {
+                    append_warning('login_modal_body', 'success', 'glyphicon-remove', response.status.msg);
+                    setTimeout(function ()
+                    {
+                        location.href = 'administration.html';
+                    }, 1000);
+                }
+            },
+            function (error)
+            {
+                console.log(error);
+                append_warning('login_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+            })
+    })
 });
