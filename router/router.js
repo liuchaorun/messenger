@@ -133,4 +133,5 @@ router.post('/action=login',async (ctx,next)=>{
     }
     await next();
 });
+router.post('/action=')
 module.exports = router;
