@@ -161,9 +161,9 @@ $(function ()
         let screen_checkbox = $('.screen_checkbox');
         for (let checkbox of screen_checkbox)
         {
-            if (checkbox.checked)
+            if ($(checkbox).is(':checked'))
             {
-                checked_screen_uuid.push(checkbox.parent().parent().attr('id'));
+                checked_screen_uuid.push($(checkbox).parent().parent().attr('id'));
             }
         }
         if (checked_screen_uuid.length === 1)
