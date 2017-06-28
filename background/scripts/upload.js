@@ -5,6 +5,7 @@ $(function ()
 {
     const $upload_input = $('#upload_input');
     const $upload_btn = $('#upload_btn');
+    const $upload_progress_bar = $('#upload_progress_bar');
     $upload_btn.click(function ()
     {
         if ($upload_input[0].files.length === 0)
