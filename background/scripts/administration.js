@@ -37,6 +37,7 @@ $(function ()
     const $user_info = $('#user_info');
     const $screen_info = $('#screen_info');
     const $resource_management = $('#resource_management');
+    const $resource_management_icon_front = $('#resource_management_icon_front');
     const $resource_management_icon = $('#resource_management_icon');
     const $collapse = $('#collapse');
     const $upload = $('#upload');
@@ -60,10 +61,15 @@ $(function ()
     {
         if (!$collapse.hasClass('collapsing'))
             if ($collapse.hasClass('in'))
+            {
                 $resource_management_icon.removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
-
+                $resource_management_icon_front.removeClass('glyphicon-folder-open').addClass('glyphicon-folder-close');
+            }
             else
+            {
                 $resource_management_icon.removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+                $resource_management_icon_front.removeClass('glyphicon-folder-close').addClass('glyphicon-folder-open');
+            }
     });
     $upload.click(function (event)
     {
