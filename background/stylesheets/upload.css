@@ -32,3 +32,13 @@
 #upload_btn {
     display: inline-block;
 }
+
+#upload_panel_body .alert {
+    display: inline-block;
+    clear: both;
+    width: 12.5em;
+    padding-top: 0.75em;
+    padding-bottom: 0.75em;
+    margin-top: 1em;
+    font-size: 0.75em;
+}

@@ -21,12 +21,13 @@ $(function ()
 /**退出按钮**/
 $(function ()
 {
-    const $logout = $('#logout');
-    $logout.click(function ()
+    const $exit_btn = $('#exit_btn');
+    $exit_btn.click(function ()
     {
         localStorage.clear();
         sessionStorage.clear();
         clearCookie();
+        location.href = 'index.html';
     })
 });
 
