@@ -3,8 +3,9 @@
     display: inline-block;
     width: 7.6em;
     height: 3.5em;
-    position: absolute;
-    right: 14em;
+    position: relative;
+    left: 8.075em;
+    bottom: 0.25em;
 }
 
 #file_btn, #upload_btn {
@@ -12,10 +13,10 @@
 }
 
 #btn_div {
-    float: right;
-    margin-top: 1em;
+    text-align: right;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
     margin-right: 1em;
-    margin-bottom: 1em;
 }
 
 #upload_progress {
@@ -37,6 +38,5 @@
 }
 
 #file_info_modal_body {
-    height: 14em;
     overflow-y: scroll;
 }

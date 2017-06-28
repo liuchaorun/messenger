@@ -24,8 +24,8 @@
                     </div>
                 </div>
                 <div id="btn_div">
-                    <button class="btn btn-primary btn-lg" id="file_btn">选择文件</button>
                     <input id="upload_input" type="file" class="form-control" multiple accept="image/jpeg,image/png">
+                    <button class="btn btn-primary btn-lg" id="file_btn">选择文件</button>
                     <button class="btn btn-primary btn-lg" id="upload_btn">上传</button>
                 </div>
             </form>
@@ -37,8 +37,9 @@
             <h3 class="panel-title">文件信息</h3>
         </div>
         <div class="panel-body" id="file_info_modal_body">
-            <table class="table">
+            <table class="table" id="file_table">
                 <tr>
+                    <th>序号</th>
                     <th>文件名</th>
                     <th>文件类型</th>
                     <th>文件大小</th>

@@ -62,12 +62,50 @@ $(function ()
 });
 
 /**填充文件信息表格**/
+/**
+ *
+ <tr>
+ <th>序号</th>
+ <th>文件名</th>
+ <th>文件类型</th>
+ <th>文件大小</th>
+ </tr>
+ * **/
 $(function ()
 {
     const $upload_input = $('#upload_input');
+    const $file_table = $('#file_table');
     $upload_input.change(function ()
     {
+        $file_table.html(`
+                <tbody><tr>
+                    <th>序号</th>
+                    <th>文件名</th>
+                    <th>文件类型</th>
+                    <th>文件大小</th>
+                </tr>
+            </tbody>`);
         let files = $upload_input[0].files;
-
+        for (let i = 0; i < files.length; i++)
+        {
+            $file_table.append(`<tr>
+    <td>${i + 1}</td>
+    <td>${files[i].name}</td>
+    <td>${files[i].type}</td>
+    <td>${(files[i].size / 1024 / 1024).toFixed(2)}MB</td>
+ </tr>`)
+        }
     });
+});
+
+/**文件表格高度自动设定**/
+$(function ()
+{
+    const $file_info_modal_body = $('#file_info_modal_body');
+
+    $file_info_modal_body.css('height', $(window).height() - 330);
+    $(window).resize(function ()
+    {
+        $file_info_modal_body.css('height', $(window).height() - 330);
+    })
 });
