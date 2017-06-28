@@ -168,8 +168,8 @@ $(function ()
         data.username = $register_username.val();
         data.email = $register_email.val();
         data.password = $register_password.val();
-        data.vertification_code = $verification_code.val();
-        AJAX('signup', data,
+        data.vertify= $verification_code.val();
+        AJAX('vertify', data,
             function (response)
             {
                 if (response.status.code === 0)
