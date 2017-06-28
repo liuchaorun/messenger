@@ -49,3 +49,17 @@ function parseTimeString(rawTimeString)
     let date = new Date(rawTimeString);
     return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日${date.getHours()}时${date.getMinutes()}分`
 }
+
+$(function ()
+{
+    const $input = $('input');
+    const $modal = $('.modal');
+    $input.focus(function ()
+    {
+        $(this).removeAttr('style');
+    });
+    $modal.on('hidden.bs.modal', function ()
+    {
+        $(this).find("input").val('').removeAttr('style');
+    })
+});

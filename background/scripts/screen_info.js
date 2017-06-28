@@ -130,7 +130,6 @@ $(function ()
     const $modify_btn = $('#modify_btn');
     const $modify_modal_btn = $('#modify_modal_btn');
     let checked_screen_uuid = [];//存储被选屏幕的UUID
-
     /**输入框弹框**/
     $new_screen_name.tooltip(
         {

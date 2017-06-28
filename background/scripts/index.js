@@ -206,17 +206,6 @@ $(function ()
                 append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
             })
     });
-
-
-    $input.click(function ()
-    {
-        $(this).removeAttr('style');
-    });
-    $button.click(function ()
-    {
-        $input.removeAttr('style');
-        $input.val('');
-    })
 });
 
 /**登录**/
