@@ -282,6 +282,7 @@ $(function ()
 
     $forget_btn.click(function ()
     {
+        append_warning('forget_modal_body', 'info', 'glyphicon-send', "处理中，请稍后");
         status = true;
         if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($forget_username.val()))
         {
