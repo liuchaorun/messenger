@@ -208,13 +208,13 @@ $(function ()
         }
         if (!$new_freq.val())
         {
-            if (!/^[0-9]+$/.test($new_freq.val()))
+            if (!/^[0-9]+$/.test($new_freq.val()) || parseInt($new_freq) <= 0)
             {
                 $new_freq.css('border', 'red');
                 status = false;
             }
             else
-                data.new_freq = $new_freq.val();
+                data.new_freq = parseInt($new_freq.val());
         }
         if (!$new_note.val())
         {
