@@ -200,7 +200,7 @@ $(function ()
         {
             if (!/^[0-9A-z\u4e00-\u9fa5]{1,16}$/.test($new_screen_name.val()))
             {
-                $new_screen_name.css('border', 'red');
+                $new_screen_name.css('borderColor', 'red');
                 status = false;
             }
             else
@@ -210,7 +210,7 @@ $(function ()
         {
             if (!/^[0-9]+$/.test($new_freq.val()) || parseInt($new_freq) <= 0)
             {
-                $new_freq.css('border', 'red');
+                $new_freq.css('borderColor', 'red');
                 status = false;
             }
             else
@@ -220,7 +220,7 @@ $(function ()
         {
             if (!/^[0-9A-z\u4e00-\u9fa5]{1,32}$/.test($new_note.val()))
             {
-                $new_note.css('border', 'red');
+                $new_note.css('borderColor', 'red');
                 status = false;
             }
             else
