@@ -196,7 +196,7 @@ $(function ()
         let status = true;
         let data = {};
         data.uuid = checked_screen_uuid;
-        if (!$new_screen_name.val())
+        if ($new_screen_name.val())
         {
             if (!/^[0-9A-z\u4e00-\u9fa5]{1,16}$/.test($new_screen_name.val()))
             {
@@ -206,7 +206,7 @@ $(function ()
             else
                 data.new_name = $new_screen_name.val();
         }
-        if (!$new_freq.val())
+        if ($new_freq.val())
         {
             if (!/^[0-9]+$/.test($new_freq.val()) || parseInt($new_freq) <= 0)
             {
@@ -216,7 +216,7 @@ $(function ()
             else
                 data.new_freq = parseInt($new_freq.val());
         }
-        if (!$new_note.val())
+        if ($new_note.val())
         {
             if (!/^[0-9A-z\u4e00-\u9fa5]{1,32}$/.test($new_note.val()))
             {
