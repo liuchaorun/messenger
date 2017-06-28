@@ -166,7 +166,7 @@ $(function ()
                 checked_screen_uuid.push($(checkbox).parent().parent().attr('id'));
             }
         }
-        if (checked_screen_uuid.length === 1)
+        if (checked_screen_uuid.length > 1)
         {
             $new_screen_name.removeAttr('disabled').val('');
             $new_freq.removeAttr('disabled').val('');
