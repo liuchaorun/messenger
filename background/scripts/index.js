@@ -272,7 +272,7 @@ $(function ()
     const $new_password_again = $('#new_password_again');
     const $new_password_btn = $('#new_password_btn');
     const $forget = $('#forget');
-    let status = true;
+    let status;
     $forget.click(function (event)
     {
         event.preventDefault();
@@ -282,6 +282,7 @@ $(function ()
 
     $forget_btn.click(function ()
     {
+        status = true;
         if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($forget_username.val()))
         {
             $forget_username.css('borderColor', 'red');
