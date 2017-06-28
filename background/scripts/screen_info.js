@@ -44,14 +44,16 @@ $(function ()
             else
             {
                 screen_info = response.data;
+                let update_time = '';
                 for (let i = 0; i < screen_info.length; i++)
                 {
+                    update_time = parseTimeString(screen_info[i].update_time);
                     $screen_table.append(
                         `<tr id=${screen_info[i].uuid} class="screen">
                             <td>${i + 1}</td>
                             <td>${screen_info[i].status}</td>
                             <td>${screen_info[i].name}</td>
-                            <td>${screen_info[i].update_time}</td>
+                            <td>${update_time}</td>
                             <td>${screen_info[i].freq}</td>
                             <td>${screen_info[i].pack}</td>
                             <td>${screen_info[i].note}</td>

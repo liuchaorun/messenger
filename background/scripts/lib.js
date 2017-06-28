@@ -43,3 +43,9 @@ function append_warning(modal_body_id, alert_type, icon_class, warn_text, set_ti
             $(`#${id}`).alert('close');
         }, 3000);
 }
+
+function parseTimeString(rawTimeString)
+{
+    let date = new Date(rawTimeString);
+    return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日${date.getHours()}时${date.getMinutes()}分`
+}
