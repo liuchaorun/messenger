@@ -161,7 +161,7 @@ $(function ()
         let screen_checkbox = $('.screen_checkbox');
         for (let checkbox of screen_checkbox)
         {
-            if (checkbox.is(':checked'))
+            if (checkbox.checked)
             {
                 checked_screen_uuid.push(checkbox.parent().parent().attr('id'));
             }
