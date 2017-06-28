@@ -60,3 +60,14 @@ $(function ()
             })
     })
 });
+
+/**填充文件信息表格**/
+$(function ()
+{
+    const $upload_input = $('#upload_input');
+    $upload_input.change(function ()
+    {
+        let files = $upload_input[0].files;
+
+    });
+});

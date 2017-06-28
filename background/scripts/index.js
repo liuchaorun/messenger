@@ -323,6 +323,7 @@ $(function ()
 
     $new_password_btn.click(function ()
     {
+        status = true;
         if (!/^[A-z0-9_]{1,32}$/.test($new_password.val()))
         {
             $register_password.css('borderColor', 'red');
