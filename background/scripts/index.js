@@ -270,7 +270,7 @@ $(function ()
     const $new_password_modal = $('#new_password_modal');
     const $new_password = $('#new_password');
     const $new_password_again = $('#new_password_again');
-    const $new_password_btn = $('#new_password_btn');
+    const $new_password_modal_btn = $('#new_password_modal_btn');
     const $forget = $('#forget');
     let status;
     $forget.click(function (event)
@@ -322,17 +322,17 @@ $(function ()
             })
     });
 
-    $new_password_btn.click(function ()
+    $new_password_modal_btn.click(function ()
     {
         status = true;
         if (!/^[A-z0-9_]{1,32}$/.test($new_password.val()))
         {
-            $register_password.css('borderColor', 'red');
+            $new_password.css('borderColor', 'red');
             status = false;
         }
-        else if ($register_password.val() !== $new_password_again.val())
+        else if ($new_password.val() !== $new_password_again.val())
         {
-            $register_password_again.css('borderColor', 'red');
+            $new_password_again.css('borderColor', 'red');
             status = false;
         }
         if (status === false)
