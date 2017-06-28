@@ -168,6 +168,10 @@ $(function ()
         }
         if (checked_screen_uuid.length === 1)
         {
+            $new_screen_name.removeAttr('disabled').val('');
+            $new_freq.removeAttr('disabled').val('');
+            $new_note.removeAttr('disabled').val('');
+            $modify_modal_btn.removeAttr('disabled').val('');
             $new_screen_name.attr('disabled', 'disabled');
         }
         else if (checked_screen_uuid.length === 0)
@@ -177,6 +181,13 @@ $(function ()
             $new_note.attr('disabled', 'disabled');
             $modify_modal_btn.attr('disabled', 'disabled');
             append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少选择一个屏幕');
+        }
+        else
+        {
+            $new_screen_name.removeAttr('disabled').val('');
+            $new_freq.removeAttr('disabled').val('');
+            $new_note.removeAttr('disabled').val('');
+            $modify_modal_btn.removeAttr('disabled').val('');
         }
     });
 
