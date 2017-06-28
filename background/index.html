@@ -108,6 +108,7 @@
             </div>
             <div class="modal-body" id="login_modal_body">
                 <input type="email" placeholder="邮箱" class="form-control" id="login_email">
+                <a id="forget">忘记密码？</a>
                 <input type="password" placeholder="密码" class="form-control" id="login_password">
                 <label id="remember_me"><input type="checkbox" id="remember_me_checkbox" checked> 记住密码</label>
             </div>
@@ -120,7 +121,58 @@
                 </button>
             </div>
         </div>
+    </div>
+</div>
 
+<!-- 忘记密码框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="forget_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">找回密码</h4>
+            </div>
+            <div class="modal-body" id="forget_modal_body">
+                <input type="text" placeholder="用户名" class="form-control" id="forget_username">
+                <input type="email" placeholder="邮箱" class="form-control" id="forget_email">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="forget_btn"><span
+                        class="glyphicon glyphicon-ok"></span> 提交
+                </button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 填写新密码框 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="new_password_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">找回密码</h4>
+            </div>
+            <div class="modal-body" id="_modal_body">
+                <input type="password" placeholder="新密码" class="form-control" id="new_password">
+                <input type="password" placeholder="重复新密码" class="form-control" id="new_password_again">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="new_password_btn"><span
+                        class="glyphicon glyphicon-ok"></span> 提交
+                </button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

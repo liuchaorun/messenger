@@ -183,7 +183,7 @@ $(function ()
         data.username = $register_username.val();
         data.email = $register_email.val();
         data.password = $register_password.val();
-        data.verify= $verification_code.val();
+        data.verify = $verification_code.val();
         AJAX('verify', data,
             function (response)
             {
@@ -267,5 +267,112 @@ $(function ()
                 console.log(error);
                 append_warning('login_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
             })
+    })
+});
+
+/**忘记密码**/
+$(function ()
+{
+    const $login_modal = $('#login_modal');
+    const $forget_modal = $('#forget_modal');
+    const $forget_btn = $('#forget_btn');
+    const $forget_email = $('#forget_email');
+    const $forget_username = $('#forget_username');
+    const $new_password_modal = $('#new_password_modal');
+    const $new_password = $('#new_password');
+    const $new_password_again = $('#new_password_again');
+    const $new_password_btn = $('#new_password_btn');
+    const $forget = $('#forget');
+    let status = true;
+    $forget.click(function (event)
+    {
+        event.preventDefault();
+        $login_modal.modal('hide');
+        $forget_modal.modal('show');
+    });
+
+    $forget_btn.click(function ()
+    {
+        if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($forget_username.val()))
+        {
+            $forget_username.css('borderColor', 'red');
+            status = false;
+        }
+        if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($forget_email.val()))
+        {
+            $forget_email.css('borderColor', 'red');
+            status = false;
+        }
+        if (status === false)
+        {
+            append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            return false;
+        }
+
+        let data = {};
+        data.username = $forget_username.val();
+        data.email = $forget_email.val();
+        AJAX('forget', data,
+            function (response)
+            {
+                if (response.status.code === 0)
+                {
+                    append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                }
+                else
+                {
+                    $forget_modal.modal('hide');
+                    $new_password_modal.modal('show');
+                }
+            },
+            function (error)
+            {
+                console.log(error);
+                append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+            })
+    });
+
+    $new_password_btn.click(function ()
+    {
+        if (!/^[A-z0-9_]{1,32}$/.test($new_password.val()))
+        {
+            $register_password.css('borderColor', 'red');
+            status = false;
+        }
+        else if ($register_password.val() !== $new_password_again.val())
+        {
+            $register_password_again.css('borderColor', 'red');
+            status = false;
+        }
+        if (status === false)
+        {
+            append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            return false;
+        }
+
+        let data = {};
+        data.new_password = $new_password.val();
+        AJAX('new_password', data,
+            function (response)
+            {
+                if (response.status.code === 0)
+                {
+                    append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                }
+                else
+                {
+                    append_warning('new_password_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    setTimeout(function ()
+                    {
+                        $new_password_modal.modal('hide');
+                    }, 3000)
+                }
+            },
+            function (error)
+            {
+                console.log(error);
+                append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+            })
+
     })
 });

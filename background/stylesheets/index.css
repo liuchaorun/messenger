@@ -114,3 +114,13 @@ h1{
     width: 1em;
     vertical-align: text-top;
 }
+
+#forget {
+    font-size: 0.75em;
+    margin-left: 37em;
+    cursor: pointer;
+}
+
+#login_email {
+    margin-bottom: 0.5em;
+}
