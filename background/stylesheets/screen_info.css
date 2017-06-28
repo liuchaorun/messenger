@@ -28,8 +28,8 @@
     margin-left: 0.5em;
 }
 
-#uuid {
-    margin: 2em 0;
+.modal_input {
+    margin: 1em 0;
     padding: 1em 0.5em;
     font-size: 2em;
 }
