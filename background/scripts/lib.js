@@ -31,10 +31,10 @@ function clearCookie()
 
 /**追加警告函数**/
 let last_one;
-function append_warning(modal_body_id, alert_type, icon_class, warn_text, set_time)
+function append_warning(modal_body_id, alert_type, icon_class, warn_text, className)
 {
-    if (set_time === undefined)
-        set_time = true;
+    if (className === undefined)
+        className = '';
     /**如果上一个还存在就删除它**/
     if (last_one !== undefined && $(`#${last_one}`).length)
     {
@@ -43,13 +43,32 @@ function append_warning(modal_body_id, alert_type, icon_class, warn_text, set_ti
     let id = new Date().getTime();
     last_one = id;
 
-    $(`#${modal_body_id}`).append(`<div class="alert alert-${alert_type} alert-dismissible fade in" role="alert" id=${id}>
+    $(`#${modal_body_id}`).append(`<div class="alert alert-${alert_type} alert-dismissible fade in ${className}" role="alert" id=${id}>
  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="glyphicon ${icon_class}"></span><span> ${warn_text}</span></div>`);
-    if (set_time === true)
-        setTimeout(function ()
-        {
-            $(`#${id}`).alert('close');
-        }, 3000);
+    setTimeout(function ()
+    {
+        $(`#${id}`).alert('close');
+    }, 3000);
+}
+
+function prepend_warning(modal_body_id, alert_type, icon_class, warn_text, className)
+{
+    if (className === undefined)
+        className = '';
+    /**如果上一个还存在就删除它**/
+    if (last_one !== undefined && $(`#${last_one}`).length)
+    {
+        $(`#${last_one}`).remove();
+    }
+    let id = new Date().getTime();
+    last_one = id;
+
+    $(`#${modal_body_id}`).prepend(`<div class="alert alert-${alert_type} alert-dismissible fade in ${className}" role="alert" id=${id}>
+ <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="glyphicon ${icon_class}"></span><span> ${warn_text}</span></div>`);
+    setTimeout(function ()
+    {
+        $(`#${id}`).alert('close');
+    }, 3000);
 }
 
 /**把时间串解析为中文**/

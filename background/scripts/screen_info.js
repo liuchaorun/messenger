@@ -274,8 +274,8 @@ $(function ()
         event.preventDefault();
         let screen_checkbox = $('.screen_checkbox');
         for (let checkbox of screen_checkbox)
-            if (checkbox.is(':checked'))
-                checked_screen_uuid.push(checkbox.parent().parent().attr('id'));
+            if ($(checkbox).is(':checked'))
+                checked_screen_uuid.push($(checkbox).parent().parent().attr('id'));
         if (checked_screen_uuid.length === 0)
         {
             $del_error_modal.modal('show');

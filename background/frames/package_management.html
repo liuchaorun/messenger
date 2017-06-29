@@ -54,36 +54,20 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">增加包</h4>
             </div>
-            <div class="modal-body">
-                <div id="add_modal_body">
+            <div class="modal-body" id="add_modal_body">
+                <div id="add_modal_table">
                     <!--
                     <div class="add_modal_row">
                         <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
+                            <label id=`${pictures[i].name}`><img src=`${pictures[i].src}` alt="test" class="image img-responsive"><input type="checkbox" class="add_checkbox"></label>
                         </div>
                     </div>
                 </div>
                 -->
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="add_modal_footer">
+                <input type="text" class="form-control input" id="pack_name_input" placeholder="新包名">
                 <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
                         class="glyphicon glyphicon-ok">增加</span></button>
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
@@ -103,37 +87,11 @@
                         aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">修改包</h4>
             </div>
-            <div class="modal-body">
-                <div id="modify_modal_table">
-                    <div class="add_modal_row">
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                        <div class="add_modal_cell">
-                            <label><img src="../images/test.png" alt="test" class="image img-responsive"><input
-                                    type="checkbox" class="add_checkbox"></label>
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body" id="modify_modal_body">
+                <div id="modify_modal_table"></div>
             </div>
-
-            <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-asterisk"></span>
-                只可在单选情况下修改包名。
-            </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="modify_modal_footer">
+                <input type="text" class="form-control input" id="new_pack_name_input" placeholder="新包名">
                 <button type="button" class="btn btn-primary btn-lg" id="modify_modal_btn"><span
                         class="glyphicon glyphicon-ok">确定</span></button>
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
@@ -155,8 +113,10 @@
                 <h4 class="modal-title">删除设备</h4>
             </div>
             <div class="modal-body">
-                <p id="del_warning"><span class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除包<span
-                        id="del_screen"></span>，删除后你将丢失这些包的所有设置，请仔细确认。</p>
+                <div class="alert alert-danger" role="alert" id="del_warning"><span
+                        class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除包<span
+                        id="del_screen"></span>，删除后你将丢失这些包的所有设置，请仔细确认。
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-lg" id="del_modal_btn"><span
                             class="glyphicon glyphicon-ok">确认</span></button>

@@ -1,9 +1,8 @@
 .modal-body {
-    max-height: 40em;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
-#add_modal_body, #modify_modal_table {
+#add_modal_table, #modify_modal_table {
     display: table;
     margin: auto 2em;
 }
@@ -33,4 +32,20 @@ label {
 
 #package_management_panel_body {
     overflow: auto;
+}
+
+.tip {
+    text-align: left;
+    display: inline-block;
+    width: 18em;
+    margin-bottom: 0;
+}
+
+.input {
+    display: inline-block;
+    width: 17em;
+    height: 3em;
+    margin-top: 0.5em;
+    margin-left: 4em;
+    margin-right: 5em;
 }
