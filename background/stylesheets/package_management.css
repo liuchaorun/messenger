@@ -28,6 +28,8 @@ input[type=checkbox] {
 
 label {
     background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 #package_management_panel_body {
