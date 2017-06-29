@@ -257,14 +257,14 @@ router.post('/action=get_picture',async (ctx,next)=>{
     data.pictures = new Array();
     for(let i = 0 ; i < user_person_picture.length ; ++i){
         data.pictures[i] = {};
-        data.pictures[i].picture_id = user_person_picture[i].picture_id;
+        data.pictures[i].id = user_person_picture[i].picture_id;
         data.pictures[i].src = user_person_picture[i].url;
     }
     ctx.api(200,data,{code:10000,msg:'获取图片成功！'});
     await next()
 });
 router.post('/action=',async (ctx,next)=>{
-
+    await next();
 });
 router.post('/action=modify_user',async (ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
