@@ -27,6 +27,7 @@
                     <input id="upload_input" type="file" class="form-control" multiple accept="image/jpeg,image/png">
                     <button class="btn btn-primary btn-lg" id="file_btn">选择文件</button>
                     <button class="btn btn-primary btn-lg" id="upload_btn">上传</button>
+                    <button id="clear_file_btn" class="btn btn-danger btn-lg">清空</button>
                 </div>
             </form>
         </div>
@@ -34,7 +35,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">文件信息</h3>
+            <h3 class="panel-title">文件信息<span id="file_total_info">(共0个文件，0.00MB)</span></h3>
         </div>
         <div class="panel-body" id="file_info_modal_body">
             <table class="table" id="file_table">

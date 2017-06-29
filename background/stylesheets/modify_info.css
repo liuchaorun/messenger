@@ -1,14 +1,20 @@
 #username {
     display: inline-block;
-    width: 21em;
+    height: 2em;
+    vertical-align: middle;
 }
 
 #work_place {
     display: inline-block;
-    width: 20em;
+    height: 2em;
+    vertical-align: middle;
 }
 
 .modal .alert {
     font-size: 1.5em;
     margin-top: 1em;
+}
+
+#modify_username_btn, #modify_work_place_btn {
+    float: right;
 }

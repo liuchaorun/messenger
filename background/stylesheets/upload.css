@@ -8,7 +8,7 @@
     bottom: 0.25em;
 }
 
-#file_btn, #upload_btn {
+#file_btn, #upload_btn，#clear_file_btn {
     width: 6em;
     margin-left: 1em;
 }
@@ -33,7 +33,7 @@
 #upload_panel_body .alert {
     display: inline-block;
     margin-top: 1.8em;
-    width: 12.5em;
+    width: 14em;
     padding-top: 0.6em;
     padding-bottom: 0.6em;
     font-size: 0.75em;

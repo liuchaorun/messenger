@@ -1,10 +1,11 @@
 /**
  * Created by 31641 on 2017-6-27.
  */
+let $upload_input;
+
 /**上传文件**/
 $(function ()
 {
-    const $upload_input = $('#upload_input');
     const $upload_btn = $('#upload_btn');
     const $upload_progress_bar = $('#upload_progress_bar');
     $upload_btn.click(function (event)
@@ -14,6 +15,10 @@ $(function ()
         {
             append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "请选择文件");
             return false;
+        }
+        else
+        {
+            append_warning('upload_panel_body', 'success', 'glyphicon-ok', "上传中，请稍等");
         }
         let formData = new FormData;
         for (let i = 0; i < $upload_input[0].files.length; i++)
@@ -73,13 +78,36 @@ $(function ()
  <th>文件大小</th>
  </tr>
  * **/
+
+
+/**文件表格高度自动设定，以及开启表单变化监听**/
 $(function ()
 {
-    const $upload_input = $('#upload_input');
-    const $file_table = $('#file_table');
-    $upload_input.change(function ()
+    resizeToScreenHeight('file_info_modal_body', 360);
+    update_table();
+});
+
+/**清空文件列表按钮**/
+$(function ()
+{
+    const $clear_file_btn = $('#clear_file_btn');
+    $clear_file_btn.click(function (event)
     {
-        $file_table.html(`
+        event.preventDefault();
+        $upload_input.after($upload_input.clone().val(""));
+        $upload_input.remove();
+        $upload_input = $('#upload_input');
+        /**删除原本的上传控件，换上克隆的上传控件以起到清空效果**/
+        reset_file_table();
+        update_table();
+    });
+});
+
+/**清空表格**/
+function reset_file_table()
+{
+    const $file_table = $('#file_table');
+    $file_table.html(`
                 <tbody><tr>
                     <th>序号</th>
                     <th>文件名</th>
@@ -87,9 +115,25 @@ $(function ()
                     <th>文件大小</th>
                 </tr>
             </tbody>`);
+    const $file_total_info = $('#file_total_info');
+    $file_total_info.text(`(共0个文件，0.00MB)`);
+}
+
+/**更新选择器，清空表格，填入最新数据**/
+function update_table()
+{
+    $upload_input = $('#upload_input');
+    const $file_table = $('#file_table');
+    const $file_total_info = $('#file_total_info');
+    let file_size;
+    $upload_input.change(function ()
+    {
+        reset_file_table();
         let files = $upload_input[0].files;
+        file_size = 0;
         for (let i = 0; i < files.length; i++)
         {
+            file_size += files[i].size;
             $file_table.append(`<tr>
     <td>${i + 1}</td>
     <td>${files[i].name}</td>
@@ -97,11 +141,6 @@ $(function ()
     <td>${(files[i].size / 1024 / 1024).toFixed(2)}MB</td>
  </tr>`)
         }
-    });
-});
-
-/**文件表格高度自动设定**/
-$(function ()
-{
-    resizeToScreenHeight('file_info_modal_body', 345);
-});
+        $file_total_info.text(`(共${files.length}个文件，${(file_size / 1024 / 1024).toFixed(2)}MB)`);
+    })
+}

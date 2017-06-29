@@ -21,7 +21,7 @@ $(function ()
         function (error)
         {
             console.log(error);
-            $error_modal.modal('show');
+            //$error_modal.modal('show');
         })
 });
 
