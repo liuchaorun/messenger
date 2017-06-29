@@ -121,9 +121,9 @@ function image_AJAX(table_id, button_id, footer_id)
 function activate_checkbox()
 {
     const $add_checkbox = $('.add_checkbox');
-    $add_checkbox.click(function (event)
+    $add_checkbox.attr('checked', false);
+    $add_checkbox.click(function ()
     {
-        event.preventDefault();
         if ($(this).is(':checked'))
         {
             $(this).prev().css('opacity', 0.25);
