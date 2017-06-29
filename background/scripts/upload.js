@@ -1,6 +1,7 @@
 /**
  * Created by 31641 on 2017-6-27.
  */
+/**上传文件**/
 $(function ()
 {
     const $upload_input = $('#upload_input');

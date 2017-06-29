@@ -20,6 +20,7 @@ $(function ()
     })
 });
 
+/**自适应高度**/
 $(function ()
 {
     resizeToScreenHeight('package_management_panel_body', 90);
