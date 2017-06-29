@@ -86,7 +86,7 @@ $(function ()
 /**文件表格高度自动设定，以及开启表单变化监听**/
 $(function ()
 {
-    resizeToScreenHeight('file_info_modal_body', 360);
+    resizeToScreenHeight('file_info_modal_body', 320);
     update_table();
 });
 
