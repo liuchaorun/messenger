@@ -55,7 +55,7 @@ $(function ()
                             <td>${screen_info[i].name}</td>
                             <td>${update_time}</td>
                             <td>${screen_info[i].freq}</td>
-                            <td>${screen_info[i].pack}</td>
+                            <td>${screen_info[i].pack === undefined ? '无' : screen_info[i].pack}</td>
                             <td>${screen_info[i].note}</td>
                             <td>${screen_info[i].uuid}</td>
                             <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline screen_checkbox"></td>

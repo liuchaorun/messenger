@@ -67,3 +67,9 @@ label {
     padding-left: 0.5em;
     padding-right: 0.5em;
 }
+
+.picture_div {
+    display: inline-block;
+    background-size: cover;
+    background-position: center center;
+}

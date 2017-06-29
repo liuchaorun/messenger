@@ -5,8 +5,8 @@
 $(function ()
 {
     resizeToScreenHeight('package_management_panel_body', 90);
-    resizeToScreenHeight('add_modal_body', 275);
-    resizeToScreenHeight('modify_modal_body', 275);
+    resizeToScreenHeight('add_modal_body', 225);
+    resizeToScreenHeight('modify_modal_body', 225);
 });
 
 /**
@@ -25,6 +25,7 @@ $(function ()
     const $add_btn = $('#add_btn');
     $add_btn.click(function ()
     {
+        prepend_warning('add_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
         image_AJAX('add_modal_table', 'add_modal_btn', 'add_modal_footer');
     });
 
@@ -36,6 +37,7 @@ $(function ()
     const $modify_btn = $('#modify_btn');
     $modify_btn.click(function ()
     {
+        prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
         image_AJAX('modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
     });
 });
@@ -79,7 +81,7 @@ function image_AJAX(table_id, button_id, footer_id)
                         {
                             $(`#${table_id}`).append(` <div class="add_modal_row">
  <div class="add_modal_cell">
- <label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6"></label>
+ <label id=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6"></label>
  </div>
  </div>`);
                         }
@@ -89,7 +91,7 @@ function image_AJAX(table_id, button_id, footer_id)
                         $(`#${table_id}`).append(`<div class="add_modal_row" id="${table_id}_last_row"></div>`);
                         for (let i = 0; i < pictures.length - row * 5; i++)
                         {
-                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6"></label></div></div>`)
+                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6"></label></div></div>`)
                         }
                     }
                     activate_checkbox();
@@ -113,13 +115,13 @@ function activate_checkbox()
     {
         if ($(this).is(':checked'))
         {
-            $(this).prev().css('opacity', 0.25);
-            $(this).parent().css('backgroundImage', 'url("../images/selected.png")');
+            $(this).prev().css('backgroundImage', 'url("../images/selected.png")');
+            $(this).prev().children().css('opacity', 0.25);
         }
         else
         {
             $(this).prev().removeAttr('style');
-            $(this).parent().removeAttr('style');
+            $(this).prev().children().removeAttr('style');
         }
     });
 }
