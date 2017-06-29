@@ -75,3 +75,18 @@ function resizeToScreenHeight(id, offset)
         $(`#${id}`).css('height', $(window).height() - offset);
     })
 }
+
+/**Tip**/
+function tip(id, content, position)
+{
+    if (position === undefined)
+        position = 'left';
+    $(`#${id}`).tooltip(
+        {
+            container: 'body',
+            placement: `${position}`,
+            trigger: 'focus hover',
+            title: `${content}`
+        }
+    );
+}

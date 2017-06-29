@@ -14,6 +14,7 @@ $(function ()
 {
     const $username = $('#username');
     const $email = $('#email');
+    const $work_place = $('#work_place');
     const $screen_num = $('#screen_num');
     const $picture_num = $('#picture_num');
     const $last_login_time = $('#last_login_time');
@@ -27,6 +28,7 @@ $(function ()
                 let info = response.data;
                 $username.text(info.username);
                 $email.text(info.email);
+                $work_place.text(info.work_place);
                 $screen_num.text(info.screen_num);
                 $picture_num.text(info.picture_num);
                 $last_login_time.text(parseTimeString(info.last_login_time));

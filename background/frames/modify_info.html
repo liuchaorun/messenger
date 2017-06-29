@@ -18,14 +18,63 @@
         </div>
         <div class="panel-body">
             <p><span class="glyphicon glyphicon-user"></span> 用户名：<span id="username"></span>
-                <button class="btn btn-primary btn-lg" id="modify_username">修改</button>
+                <button class="btn btn-primary btn-lg" id="modify_username_btn" data-toggle="modal"
+                        data-target="#modify_username_modal">修改
+                </button>
             </p>
-            <p><span class="glyphicon glyphicon-envelope"></span> 邮箱：<span id="email"></span>
-                <button class="btn btn-primary btn-lg" id="modify_email">修改</button>
+            <p><span class="glyphicon glyphicon-briefcase"></span> 工作单位：<span id="work_place"></span>
+                <button class="btn btn-primary btn-lg" id="modify_work_place_btn" data-toggle="modal"
+                        data-target="#modify_work_place_modal">修改
+                </button>
             </p>
         </div>
     </div>
+</div>
 
+<!--修改用户名-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modify_username_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改用户名</h4>
+            </div>
+            <div class="modal-body" id="modify_username_modal_body">
+                <input type="text" class="form-control modal_input" id="new_username" placeholder="新用户名">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modify_username_modal_btn"><span
+                        class="glyphicon glyphicon-ok">确定</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--修改工作地点-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modify_work_place_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改工作地点</h4>
+            </div>
+            <div class="modal-body" id="modify_work_place_modal_body">
+                <input type="text" class="form-control modal_input" id="new_work_place" placeholder="新工作地点">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modify_work_place_modal_btn"><span
+                        class="glyphicon glyphicon-ok">确定</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

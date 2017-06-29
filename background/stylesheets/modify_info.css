@@ -3,7 +3,12 @@
     width: 21em;
 }
 
-#email {
+#work_place {
     display: inline-block;
-    width: 22em;
+    width: 20em;
+}
+
+.modal .alert {
+    font-size: 1.5em;
+    margin-top: 1em;
 }
