@@ -57,8 +57,11 @@ label {
 }
 
 .picture_time_input {
-    width: 5.8em;
+    width: 5em;
     text-align: center;
     height: 2em;
     margin-top: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.25em;
 }

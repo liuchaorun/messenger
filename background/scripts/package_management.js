@@ -75,35 +75,21 @@ function image_AJAX(table_id, button_id, footer_id)
                     let row = 0;
                     for (; row < Math.floor(pictures.length / 5); row++)
                     {
-                        $(`#${table_id}`).append(` <div class="add_modal_row">
+                        for (let i = 0; i < 5; i++)
+                        {
+                            $(`#${table_id}`).append(` <div class="add_modal_row">
  <div class="add_modal_cell">
- <label id=${pictures[row * 5].id}><img src=${pictures[row * 5].src} alt=${pictures[row * 5].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5].id}_time></label>
+ <label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="3"></label>
  </div>
- </div>
- <div class="add_modal_cell">
- <label id=${pictures[row * 5 + 1].id}><img src=${pictures[row * 5 + 1].src} alt=${pictures[row * 5 + 1].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control picture_time_input" id=${pictures[row * 5 + 1].id}_time></label>
- </div>
- </div>
- <div class="add_modal_cell">
- <label id=${pictures[row * 5 + 2].id}><img src=${pictures[row * 5 + 2].src} alt=${pictures[row * 5 + 2].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + 2].id}_time></label>
- </div>
- </div>
- <div class="add_modal_cell">
- <label id=${pictures[row * 5 + 3].id}><img src=${pictures[row * 5 + 3].src} alt=${pictures[row * 5 + 3].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + 3].id}_time></label>
- </div>
- </div>
- <div class="add_modal_cell">
- <label id=${pictures[row * 5 + 4].id}><img src=${pictures[row * 5 + 4].src} alt=${pictures[row * 5 + 4].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + 4].id}_time></label>
- </div>
- </div>
- </div>`)
+ </div>`);
+                        }
                     }
                     if (pictures.length - row * 5 > 0)
                     {
                         $(`#${table_id}`).append(`<div class="add_modal_row" id="${table_id}_last_row"></div>`);
                         for (let i = 0; i < pictures.length - row * 5; i++)
                         {
-                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time></label></div></div>`)
+                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="3"></label></div></div>`)
                         }
                     }
                     activate_checkbox();
