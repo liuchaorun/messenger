@@ -13,7 +13,7 @@ function AJAX(action, data, success_function, error_function)
             dataType: 'json',
             //url: `http://118.89.197.156:3000/action=${action}`,
             //
-            url: `http://http://172.6.2.123:3000/action=${action}`,
+            url: `http://172.6.2.123:3000/action=${action}`,
             method: 'post',
             data: JSON.stringify(data),
             success: success_function,
