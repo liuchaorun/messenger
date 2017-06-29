@@ -104,10 +104,12 @@ $(function ()
 /**初始化上传控件**/
 function initialize_upload()
 {
+    const $upload_progress_bar = $('#upload_progress_bar');
     $upload_input.after($upload_input.clone().val(""));
     $upload_input.remove();
     $upload_input = $('#upload_input');
     /**删除原本的上传控件，换上克隆的上传控件以起到清空效果**/
+    $upload_progress_bar.css('width', 0 + '%');
     reset_file_table();
     update_table();
 }
