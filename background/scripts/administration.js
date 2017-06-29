@@ -13,8 +13,9 @@ $(function ()
 $(function ()
 {
     const $exit_btn = $('#exit_btn');
-    $exit_btn.click(function ()
+    $exit_btn.click(function (event)
     {
+        event.preventDefault();
         localStorage.clear();
         sessionStorage.clear();
         clearCookie();
@@ -49,8 +50,9 @@ $(function ()
         $screen_info.addClass('active');
         $frame.attr('src', 'frames/screen_info.html');
     });
-    $resource_management.click(function ()
+    $resource_management.click(function (event)
     {
+        event.preventDefault();
         if (!$collapse.hasClass('collapsing'))
             if ($collapse.hasClass('in'))
             {

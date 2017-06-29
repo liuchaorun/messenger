@@ -26,8 +26,9 @@ $(function ()
 {
     const $verification_code_btn = $('#verification_code_btn');
     $verification_code_btn.click(
-        function ()
+        function (event)
         {
+            event.preventDefault();
             let status = true;
             if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
             {
@@ -106,8 +107,9 @@ $(function ()
     const $register_modal = $('#register_modal');
     const $register_btn = $('#register_btn');
     let status = true;
-    $register_btn.click(function ()
+    $register_btn.click(function (event)
     {
+        event.preventDefault();
         if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
         {
             $register_username.css('borderColor', 'red');
@@ -154,7 +156,7 @@ $(function ()
                 }
                 else
                 {
-                    append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    append_warning('register_modal_body', 'success', 'glyphicon-ok', response.status.msg);
                     setTimeout(function ()
                     {
                         $register_modal.modal('hide');
@@ -174,8 +176,9 @@ $(function ()
 {
     const $login_btn = $('#login_btn');
     let status = true;
-    $login_btn.click(function ()
+    $login_btn.click(function (event)
     {
+        event.preventDefault();
         if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($login_email.val()))
         {
             $login_email.css('borderColor', 'red');
@@ -205,7 +208,7 @@ $(function ()
                 }
                 else
                 {
-                    append_warning('login_modal_body', 'success', 'glyphicon-remove', response.status.msg);
+                    append_warning('login_modal_body', 'success', 'glyphicon-ok', response.status.msg);
                     setTimeout(function ()
                     {
                         location.href = 'administration.html';
@@ -241,8 +244,9 @@ $(function ()
         $forget_modal.modal('show');
     });
 
-    $forget_btn.click(function ()
+    $forget_btn.click(function (event)
     {
+        event.preventDefault();
         append_warning('forget_modal_body', 'info', 'glyphicon-send', "处理中，请稍后");
         status = true;
         if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($forget_username.val()))
@@ -284,8 +288,9 @@ $(function ()
             })
     });
 
-    $new_password_modal_btn.click(function ()
+    $new_password_modal_btn.click(function (event)
     {
+        event.preventDefault();
         status = true;
         if (!/^[A-z0-9_]{1,32}$/.test($new_password.val()))
         {

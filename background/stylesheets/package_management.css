@@ -3,7 +3,7 @@
     overflow-y: scroll;
 }
 
-#add_modal_body {
+#add_modal_body, #modify_modal_table {
     display: table;
     margin: auto 2em;
 }

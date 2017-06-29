@@ -154,8 +154,9 @@ $(function ()
         });
 
 
-    $modify_btn.click(function ()
+    $modify_btn.click(function (event)
     {
+        event.preventDefault();
         checked_screen_uuid = [];
         let screen_checkbox = $('.screen_checkbox');
         for (let checkbox of screen_checkbox)
@@ -190,8 +191,9 @@ $(function ()
         }
     });
 
-    $modify_modal_btn.click(function ()
+    $modify_modal_btn.click(function (event)
     {
+        event.preventDefault();
         let status = true;
         let data = {};
         data.uuid = checked_screen_uuid;
@@ -290,8 +292,9 @@ $(function ()
         }
     });
 
-    $del_modal_btn.click(function ()
+    $del_modal_btn.click(function (event)
     {
+        event.preventDefault();
         let data = {};
         data.uuid = checked_screen_uuid;
 

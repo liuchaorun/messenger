@@ -5,8 +5,9 @@
 $(function ()
 {
     const $add_checkbox = $('.add_checkbox');
-    $add_checkbox.click(function ()
+    $add_checkbox.click(function (event)
     {
+        event.preventDefault();
         if ($(this).is(':checked'))
         {
             $(this).prev().css('opacity', 0.25);
