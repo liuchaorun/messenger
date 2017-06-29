@@ -72,8 +72,8 @@ function image_AJAX(table_id, button_id, footer_id)
                 {
                     $(`#${button_id}`).removeAttr('disabled');
                     let pictures = response.data.pictures;
-                    let row;
-                    for (row = 0; row < Math.floor(pictures.length / 5); row++)
+                    let row = 0;
+                    for (; row < Math.floor(pictures.length / 5); row++)
                     {
                         $(`#${table_id}`).append(` <div class="add_modal_row">
  <div class="add_modal_cell">
@@ -98,7 +98,6 @@ function image_AJAX(table_id, button_id, footer_id)
  </div>
  </div>`)
                     }
-
                     if (pictures.length - row * 5 > 0)
                     {
                         $(`#${table_id}`).append(`<div class="add_modal_row" id="last_row"></div>`);
