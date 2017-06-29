@@ -84,7 +84,7 @@ function image_AJAX(table_id, button_id, footer_id)
                 $(`#${button_id}`).removeAttr('disabled');
                 let pictures = response.data.pictures;
                 let row;
-                for (row = 0; row < pictures.length / 5; row++)
+                for (row = 0; row < Math.floor(pictures.length / 5); row++)
                 {
                     $(`#${table_id}`).append(` <div class="add_modal_row">
  <div class="add_modal_cell">
