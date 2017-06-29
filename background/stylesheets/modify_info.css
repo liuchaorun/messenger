@@ -7,7 +7,7 @@
 #work_place {
     display: inline-block;
     height: 2em;
-    vertical-align: middle;
+    vertical-align: baseline;
 }
 
 .modal .alert {
@@ -17,4 +17,9 @@
 
 #modify_username_btn, #modify_work_place_btn {
     float: right;
+    margin-top: -0.25em;
+}
+
+#user_info p {
+    padding: 0.5em 1em;
 }
