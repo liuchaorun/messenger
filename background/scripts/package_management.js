@@ -53,6 +53,7 @@ function image_AJAX(table_id, button_id, footer_id)
 {
     if ($(`#${table_id}`).children('.add_modal_row').length)
     {
+        activate_checkbox();
         return false;
     }
     else
