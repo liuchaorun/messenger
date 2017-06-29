@@ -28,8 +28,8 @@ $(function ()
 /**修改信息弹框**/
 $(function ()
 {
-    tip('new_username', '输入新用户名，16个字符以内');
-    tip('new_work_place', '输入新工作地点，16个字符以内');
+    tip_by_id('new_username', '输入新用户名，16个字符以内');
+    tip_by_id('new_work_place', '输入新工作地点，16个字符以内');
 });
 
 /**修改用户名**/

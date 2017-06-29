@@ -26,12 +26,6 @@ input[type=checkbox] {
     display: none;
 }
 
-label {
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-}
-
 #package_management_panel_body {
     overflow: auto;
 }
@@ -56,7 +50,7 @@ label {
     font-size: 0.75em;
 }
 
-.picture_time_input {
+.add_modal_cell .picture_time_input {
     width: 5em;
     text-align: center;
     height: 2em;
@@ -66,6 +60,7 @@ label {
     font-size: 1.25em;
     padding-left: 0.5em;
     padding-right: 0.5em;
+    opacity: 0;
 }
 
 .picture_div {

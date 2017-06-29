@@ -81,7 +81,7 @@ function image_AJAX(table_id, button_id, footer_id)
                         {
                             $(`#${table_id}`).append(` <div class="add_modal_row">
  <div class="add_modal_cell">
- <label id=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6"></label>
+ <label id=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6" disabled></label>
  </div>
  </div>`);
                         }
@@ -91,10 +91,11 @@ function image_AJAX(table_id, button_id, footer_id)
                         $(`#${table_id}`).append(`<div class="add_modal_row" id="${table_id}_last_row"></div>`);
                         for (let i = 0; i < pictures.length - row * 5; i++)
                         {
-                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6"></label></div></div>`)
+                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time maxlength="6" disabled></label></div></div>`)
                         }
                     }
                     activate_checkbox();
+                    tip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
                 }
             },
             function (error)
@@ -117,11 +118,20 @@ function activate_checkbox()
         {
             $(this).prev().css('backgroundImage', 'url("../images/selected.png")');
             $(this).prev().children().css('opacity', 0.25);
+            $(this).next().removeAttr('disabled').css('opacity', 1);
         }
         else
         {
             $(this).prev().removeAttr('style');
             $(this).prev().children().removeAttr('style');
+            $(this).next().attr('disabled', 'disabled').css('opacity', 0);
         }
     });
 }
+
+/**输入弹框**/
+$(function ()
+{
+    tip_by_id('pack_name_input', '16位以内字母、数字与汉字', 'top');
+    tip_by_id('new_pack_name_input', '16位以内字母、数字与汉字', 'top');
+});

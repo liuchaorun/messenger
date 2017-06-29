@@ -14,11 +14,11 @@ const $remember_me_checkbox = $('#remember_me_checkbox');
 /**输入框弹框**/
 $(function ()
 {
-    tip('register_username', '请输入你的用户名。16个字符以内');
-    tip('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
-    tip('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
-    tip('register_password_again', '请再次输入你的密码');
-    tip('verification_code', '请输入接收到的验证码');
+    tip_by_id('register_username', '请输入你的用户名。16个字符以内');
+    tip_by_id('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
+    tip_by_id('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
+    tip_by_id('register_password_again', '请再次输入你的密码');
+    tip_by_id('verification_code', '请输入接收到的验证码');
 });
 
 /**获取验证码**/

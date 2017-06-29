@@ -105,11 +105,25 @@ function resizeToScreenHeight(id, offset)
 }
 
 /**Tip**/
-function tip(id, content, position)
+function tip_by_id(id, content, position)
 {
     if (position === undefined)
         position = 'left';
     $(`#${id}`).tooltip(
+        {
+            container: 'body',
+            placement: `${position}`,
+            trigger: 'focus hover',
+            title: `${content}`
+        }
+    );
+}
+
+function tip_by_className(className, content, position)
+{
+    if (position === undefined)
+        position = 'left';
+    $(`.${className}`).tooltip(
         {
             container: 'body',
             placement: `${position}`,

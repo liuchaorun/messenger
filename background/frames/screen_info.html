@@ -48,7 +48,7 @@
                 <h4 class="modal-title">增加设备</h4>
             </div>
             <div class="modal-body" id="add_modal_body">
-                <input type="text" class="form-control modal_input" id="uuid" placeholder="设备UUID">
+                <input type="text" class="form-control modal_input" id="uuid" placeholder="设备UUID" maxlength="8">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
@@ -74,9 +74,10 @@
                 <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-asterisk"></span>
                     只可在单选时修改屏幕名。
                 </div>
-                <input type="text" class="form-control modal_input" placeholder="屏幕名" id="new_screen_name">
+                <input type="text" class="form-control modal_input" placeholder="屏幕名" id="new_screen_name"
+                       maxlength="16">
                 <input type="text" class="form-control modal_input" placeholder="更新频率" id="new_freq">
-                <input type="text" class="form-control modal_input" placeholder="备注" id="new_note">
+                <input type="text" class="form-control modal_input" placeholder="备注" id="new_note" maxlength="32">
 
                 <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-asterisk"></span>
                     无需修改可以留空
