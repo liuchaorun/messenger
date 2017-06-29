@@ -60,6 +60,8 @@ $(function ()
                             {
                                 let percent = e.loaded / e.total * 100;
                                 $upload_progress_bar.css('width', percent + '%');
+                                if (percent === 100)
+                                    initialize_upload();
                             }
                         }, false);
                     }
@@ -95,14 +97,20 @@ $(function ()
     $clear_file_btn.click(function (event)
     {
         event.preventDefault();
-        $upload_input.after($upload_input.clone().val(""));
-        $upload_input.remove();
-        $upload_input = $('#upload_input');
-        /**删除原本的上传控件，换上克隆的上传控件以起到清空效果**/
-        reset_file_table();
-        update_table();
+        initialize_upload();
     });
 });
+
+/**初始化上传控件**/
+function initialize_upload()
+{
+    $upload_input.after($upload_input.clone().val(""));
+    $upload_input.remove();
+    $upload_input = $('#upload_input');
+    /**删除原本的上传控件，换上克隆的上传控件以起到清空效果**/
+    reset_file_table();
+    update_table();
+}
 
 /**清空表格**/
 function reset_file_table()
