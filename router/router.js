@@ -11,6 +11,8 @@ const Sequelize = require('sequelize');
 const images = require("image-size");
 const isOnline = require('./isOnlie');
 const fs = require('fs');
+const zip = require('./zip');
+const upDir = '/home/lcr/';
 let user = model.user;
 let screen = model.screen;
 let picture = model.picture;
@@ -161,6 +163,7 @@ router.post('/action=get_info',async (ctx,next)=>{
     let data ={};
     data.username = user_person.username;
     data.email = user_person.email;
+    data.work_place = user_person.work_place;
     data.last_login_time = ctx.session.last_login_time;
     data.picture_num = user_picture.length;
     data.screen_num = user_screen.length;
@@ -224,7 +227,7 @@ router.post('/action=del_screen',async (ctx,next)=>{
 router.post('/action=upload', koaBody({
     multipart: true,
     formidable: {
-        uploadDir: '/home/ubuntu/file/'
+        uploadDir: upDir
     }
 }),async (ctx, next) => {
     let files = ctx.request.body.files;
@@ -240,11 +243,34 @@ router.post('/action=upload', koaBody({
             image_type:files.file[i].type,
             url: 'http://118.89.197.156:8000/' + file_name
         });
-        fs.rename(files.file[i].path,'/home/ubuntu/file/'+file_name,(err)=>{
+        fs.rename(files.file[i].path,upDir+file_name,(err)=>{
             console.log(err);
         })
     }
     ctx.api(200,{},{code:10000, msg: '上传成功'});
+    await next();
+});
+router.post('/action=get_picture',async (ctx,next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let user_person_picture = await user_person.getPictures();
+    let data = {};
+    data.pictures = new Array();
+    for(let i = 0 ; i < user_person_picture.length ; ++i){
+        data.pictures[i] = {};
+        data.pictures[i].picture_id = user_person_picture[i].picture_id;
+        data.pictures[i].src = user_person_picture[i].url;
+    }
+    ctx.api(200,data,{code:10000,msg:'获取图片成功！'});
+    await next()
+});
+router.post('/action=',async (ctx,next)=>{
+
+});
+router.post('/action=modify_user',async (ctx,next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    if(ctx.request.body.new_username!==undefined) await user_person.update({username:ctx.request.body.new_username});
+    if(ctx.request.body.new_work_place!==undefined) await user_person.update({work_place:ctx.request.body.new_work_place});
+    ctx.api(200,{},{code:10000,msg:'修改信息成功！'});
     await next();
 });
 module.exports = router;

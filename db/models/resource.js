@@ -14,5 +14,6 @@ module.exports=database.defineModel('resource',{
     },
     md5:Sequelize.STRING(255),
     user_id:Sequelize.BIGINT,
-    screen_id:Sequelize.BIGINT
+    screen_id:Sequelize.BIGINT,
+    remark:Sequelize.STRING(255)
 });

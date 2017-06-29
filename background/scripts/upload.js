@@ -30,7 +30,8 @@ $(function ()
                 xhrFields: {
                     withCredentials: true
                 },
-                url: 'http://118.89.197.156:3000/action=upload',
+                //url: 'http://118.89.197.156:3000/action=upload',
+                url: 'http://127.0.0.1:3000/action=upload',
                 method: 'post',
                 data: formData,
                 processData: false,

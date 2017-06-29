@@ -82,7 +82,7 @@ function image_AJAX(table_id, button_id, footer_id)
             else
             {
                 $(`#${button_id}`).removeAttr('disabled');
-                let pictures = response.data;
+                let pictures = response.data.pictures;
                 let row;
                 for (row = 0; row < pictures.length / 5; row++)
                 {
