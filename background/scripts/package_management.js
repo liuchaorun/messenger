@@ -1,26 +1,6 @@
 /**
  * Created by 31641 on 2017-6-27.
  */
-/**checkbox特效**/
-$(function ()
-{
-    const $add_checkbox = $('.add_checkbox');
-    $add_checkbox.click(function (event)
-    {
-        event.preventDefault();
-        if ($(this).is(':checked'))
-        {
-            $(this).prev().css('opacity', 0.25);
-            $(this).parent().css('backgroundImage', 'url("../images/selected.png")');
-        }
-        else
-        {
-            $(this).prev().removeAttr('style');
-            $(this).parent().removeAttr('style');
-        }
-    })
-});
-
 /**自适应高度**/
 $(function ()
 {
@@ -71,22 +51,28 @@ $(function ()
  * **/
 function image_AJAX(table_id, button_id, footer_id)
 {
-    AJAX('get_picture', {},
-        function (response)
-        {
-            if (response.status.code === 0)
+    if ($(`#${table_id}`).children('.add_modal_row').length)
+    {
+        return false;
+    }
+    else
+    {
+        AJAX('get_picture', {},
+            function (response)
             {
-                prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
-                $(`#${button_id}`).attr('disabled', 'disabled');
-            }
-            else
-            {
-                $(`#${button_id}`).removeAttr('disabled');
-                let pictures = response.data.pictures;
-                let row;
-                for (row = 0; row < Math.floor(pictures.length / 5); row++)
+                if (response.status.code === 0)
                 {
-                    $(`#${table_id}`).append(` <div class="add_modal_row">
+                    prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                    $(`#${button_id}`).attr('disabled', 'disabled');
+                }
+                else
+                {
+                    $(`#${button_id}`).removeAttr('disabled');
+                    let pictures = response.data.pictures;
+                    let row;
+                    for (row = 0; row < Math.floor(pictures.length / 5); row++)
+                    {
+                        $(`#${table_id}`).append(` <div class="add_modal_row">
  <div class="add_modal_cell">
  <label id=${pictures[row * 5].id}><img src=${pictures[row * 5].src} alt=${pictures[row * 5].id} class="image img-responsive"><input type="checkbox"        class="add_checkbox"></label>
  </div>
@@ -108,22 +94,44 @@ function image_AJAX(table_id, button_id, footer_id)
  </div>
  </div>
  </div>`)
-                }
-
-                if (pictures.length - row * 5 > 0)
-                {
-                    $(`#${table_id}`).append(`<div class="add_modal_row" id="last_row"></div>`);
-                    for (let i = 0; i < pictures.length - row * 5; i++)
-                    {
-                        $('#last_row').append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"></label></div></div>`)
                     }
+
+                    if (pictures.length - row * 5 > 0)
+                    {
+                        $(`#${table_id}`).append(`<div class="add_modal_row" id="last_row"></div>`);
+                        for (let i = 0; i < pictures.length - row * 5; i++)
+                        {
+                            $('#last_row').append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"></label></div></div>`)
+                        }
+                    }
+                    activate_checkbox();
                 }
-            }
-        },
-        function (error)
+            },
+            function (error)
+            {
+                console.log(error);
+                prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                $(`#${button_id}`).attr('disabled', 'disabled');
+            })
+    }
+}
+
+/**checkbox特效**/
+function activate_checkbox()
+{
+    const $add_checkbox = $('.add_checkbox');
+    $add_checkbox.click(function (event)
+    {
+        event.preventDefault();
+        if ($(this).is(':checked'))
         {
-            console.log(error);
-            prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
-            $(`#${button_id}`).attr('disabled', 'disabled');
-        })
+            $(this).prev().css('opacity', 0.25);
+            $(this).parent().css('backgroundImage', 'url("../images/selected.png")');
+        }
+        else
+        {
+            $(this).prev().removeAttr('style');
+            $(this).parent().removeAttr('style');
+        }
+    });
 }
