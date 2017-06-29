@@ -49,3 +49,7 @@ label {
     margin-left: 4em;
     margin-right: 5em;
 }
+
+#package_management_table {
+    font-size: 0.75em;
+}

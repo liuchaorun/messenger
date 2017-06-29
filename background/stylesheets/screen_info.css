@@ -46,3 +46,7 @@
 #screen_info_panel_body {
     overflow: auto;
 }
+
+#screen_table {
+    font-size: 0.75em;
+}
