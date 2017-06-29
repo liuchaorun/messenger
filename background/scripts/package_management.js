@@ -100,10 +100,10 @@ function image_AJAX(table_id, button_id, footer_id)
                     }
                     if (pictures.length - row * 5 > 0)
                     {
-                        $(`#${table_id}`).append(`<div class="add_modal_row" id="last_row"></div>`);
+                        $(`#${table_id}`).append(`<div class="add_modal_row" id="${table_id}_last_row"></div>`);
                         for (let i = 0; i < pictures.length - row * 5; i++)
                         {
-                            $('#last_row').append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time></label></div></div>`)
+                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label id=${pictures[row * 5 + i].id}><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${pictures[row * 5 + i].id}_time></label></div></div>`)
                         }
                     }
                     activate_checkbox();
