@@ -102,8 +102,6 @@ $(function ()
 /**输入验证以及提交**/
 $(function ()
 {
-    const $input = $('input');
-    const $button = $('.container .btn');
     const $register_modal = $('#register_modal');
     const $register_btn = $('#register_btn');
     let status = true;
