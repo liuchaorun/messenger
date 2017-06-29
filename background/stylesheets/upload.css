@@ -1,22 +1,25 @@
 #upload_input {
     opacity: 0;
     display: inline-block;
-    width: 7.6em;
+    width: 8em;
     height: 3.5em;
     position: relative;
-    left: 8.075em;
+    left: 9.5em;
     bottom: 0.25em;
 }
 
 #file_btn, #upload_btn {
     width: 6em;
+    margin-left: 1em;
 }
 
 #btn_div {
     text-align: right;
+    display: inline-block;
+    float: right;
     margin-top: 1.5em;
     margin-bottom: 0.5em;
-    margin-right: 1em;
+    width: 20em;
 }
 
 #upload_progress {
@@ -29,14 +32,13 @@
 
 #upload_panel_body .alert {
     display: inline-block;
-    clear: both;
+    margin-top: 1.8em;
     width: 12.5em;
-    padding-top: 0.75em;
-    padding-bottom: 0.75em;
-    margin-top: 1em;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
     font-size: 0.75em;
 }
 
 #file_info_modal_body {
-    overflow-y: scroll;
+    overflow-y: auto;
 }

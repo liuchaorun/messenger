@@ -4,18 +4,9 @@
 /**边栏高度自动设定**/
 $(function ()
 {
-    const $sidebar = $('#sidebar');
-    const $frame_div = $('#frame_div');
-    const $frame = $('#frame');
-    $sidebar.css('height', $(window).height());
-    $frame_div.css('height', $(window).height());
-    $frame.css('height', $(window).height());
-    $(window).resize(function ()
-    {
-        $sidebar.css('height', $(window).height());
-        $frame_div.css('height', $(window).height());
-        $frame.css('height', $(window).height());
-    })
+    resizeToScreenHeight('sidebar', 0);
+    resizeToScreenHeight('frame_div', 0);
+    resizeToScreenHeight('frame', 0);
 });
 
 /**退出按钮**/

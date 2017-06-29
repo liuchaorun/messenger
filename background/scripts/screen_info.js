@@ -51,7 +51,7 @@ $(function ()
                     $screen_table.append(
                         `<tr id=${screen_info[i].uuid} class="screen">
                             <td>${i + 1}</td>
-                            <td>${screen_info[i].status}</td>
+                            <td>${screen_info[i].status === true ? '在线' : '离线'}</td>
                             <td>${screen_info[i].name}</td>
                             <td>${update_time}</td>
                             <td>${screen_info[i].freq}</td>
@@ -315,4 +315,9 @@ $(function ()
                 append_warning('del_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
             })
     })
+});
+
+$(function ()
+{
+    resizeToScreenHeight('screen_info_panel_body', 90);
 });

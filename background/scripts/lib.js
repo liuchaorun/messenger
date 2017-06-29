@@ -44,12 +44,14 @@ function append_warning(modal_body_id, alert_type, icon_class, warn_text, set_ti
         }, 3000);
 }
 
+/**把时间串解析为中文**/
 function parseTimeString(rawTimeString)
 {
     let date = new Date(rawTimeString);
     return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日${date.getHours()}时${date.getMinutes()}分`
 }
 
+/**重置输入框**/
 $(function ()
 {
     const $input = $('input');
@@ -63,3 +65,13 @@ $(function ()
         $(this).find("input").val('').removeAttr('style');
     })
 });
+
+/**自动贴边**/
+function resizeToScreenHeight(id, offset)
+{
+    $(`#${id}`).css('height', $(window).height() - offset);
+    $(window).resize(function ()
+    {
+        $(`#${id}`).css('height', $(window).height() - offset);
+    })
+}

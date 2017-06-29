@@ -19,3 +19,8 @@ $(function ()
         }
     })
 });
+
+$(function ()
+{
+    resizeToScreenHeight('package_management_panel_body', 90);
+});

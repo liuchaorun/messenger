@@ -6,8 +6,9 @@ $(function ()
     const $upload_input = $('#upload_input');
     const $upload_btn = $('#upload_btn');
     const $upload_progress_bar = $('#upload_progress_bar');
-    $upload_btn.click(function ()
+    $upload_btn.click(function (event)
     {
+        event.preventDefault();
         if ($upload_input[0].files.length === 0)
         {
             append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "请选择文件");
@@ -38,7 +39,7 @@ $(function ()
                 error: function (error)
                 {
                     console.log(error);
-                    append_warning('upload_panel_body', 'success', 'glyphicon-remove', "出现错误，请重试");
+                    append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "出现错误，请重试");
                 },
                 xhr: function ()
                 { //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
@@ -101,11 +102,5 @@ $(function ()
 /**文件表格高度自动设定**/
 $(function ()
 {
-    const $file_info_modal_body = $('#file_info_modal_body');
-
-    $file_info_modal_body.css('height', $(window).height() - 330);
-    $(window).resize(function ()
-    {
-        $file_info_modal_body.css('height', $(window).height() - 330);
-    })
+    resizeToScreenHeight('file_info_modal_body', 345);
 });
