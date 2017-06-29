@@ -55,3 +55,9 @@ label {
 #package_management_table {
     font-size: 0.75em;
 }
+
+.picture_time_input {
+    width: 5.8em;
+    text-align: center;
+    height: 2em;
+}
