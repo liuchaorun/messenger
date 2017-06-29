@@ -3,11 +3,11 @@
  */
 const md5 = require('md5');
 const router = require('koa-router')();
+const koaBody = require('koa-body');
 const model = require('../db/model');
 const nodemailer = require('nodemailer');
 const config = require('../db/config');
 const Sequelize = require('sequelize');
-const multer = require('koa-multer');
 const images = require("image-size");
 const isOnline = require('./isOnlie');
 const fs = require('fs');
@@ -22,17 +22,6 @@ user.hasMany(resource,{foreignKey:'user_id'});
 screen.hasMany(resource,{foreignKey:'screen_id'});
 resource.belongsToMany(picture,{through:resource_picture,foreignKey:'resource_id'});
 picture.belongsToMany(resource,{through:resource_picture,foreignKey:'picture_id'});
-let storage = multer.diskStorage({
-    destination: function (ctx, file, cb) {
-        cb(null, '/home/ubuntu/file/');
-    },
-    filename: function (ctx, file, cb) {
-        let fileFormat = (file.originalname).split(".");
-        process.custom_picture_name = 'picture-' + Date.now();
-        cb(null, process.custom_picture_name + "." + fileFormat[fileFormat.length - 1]);
-    }
-});
-let upload = multer({storage: storage});
 let sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     dialect: 'postgres',
@@ -216,9 +205,46 @@ router.post('/action=modify_screen',async (ctx,next)=>{
     for(let i of screen_uuid){
         let screen_new = await screen.findOne({where:{uuid:i}});
         if(ctx.request.body.new_name!==undefined) await screen_new.update({name:ctx.request.body.new_name});
-        if(ctx.request.body.new_freq!==undefined) await screen_new.update({freq:ctx.request.body.new_freq});
-        if(ctx.request.body.new_note!==undefined) await screen_new.update({note:ctx.request.body.new_note});
+        if(ctx.request.body.new_freq!==undefined) await screen_new.update({time:ctx.request.body.new_freq});
+        if(ctx.request.body.new_note!==undefined) await screen_new.update({remark:ctx.request.body.new_note});
     }
     ctx.api(200,{},{code:10000,msg:'修改成功！'});
+});
+router.post('/action=del_screen',async (ctx,next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let uuid = ctx.request.body.uuid;
+    for(let i of uuid){
+        let screen_del = await screen.findOne({where:{uuid:i}});
+        await user_person.removeScreen(screen_del);
+        await screen.destroy({where:{uuid:i}});
+    }
+    ctx.api(200,{},{code:10000,msg:'删除成功！'});
+    await next();
+});
+router.post('/action=upload', koaBody({
+    multipart: true,
+    formidable: {
+        uploadDir: '/home/ubuntu/file/'
+    }
+}),async (ctx, next) => {
+    let files = ctx.request.body.files;
+    for(let i = 0;i<files.file.length;++i){
+        let fileFormat = (files.file[i].name).split(".");
+        let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
+        let user_person = await user.findOne({where: {email:ctx.session.custom_email}});
+        let image = images(files.file[i].path);
+        await user_person.createPicture({
+            name: file_name,
+            size: files.file[i].size,
+            image_size:image.width.toString()+'×'+ image.height.toString(),
+            image_type:files.file[i].type,
+            url: 'http://118.89.197.156:8000/' + file_name
+        });
+        fs.rename(files.file[i].path,'/home/ubuntu/file/'+file_name,(err)=>{
+            console.log(err);
+        })
+    }
+    ctx.api(200,{},{code:10000, msg: '上传成功'});
+    await next();
 });
 module.exports = router;
