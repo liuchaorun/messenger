@@ -2,6 +2,24 @@
  * Created by 31641 on 2017-6-27.
  */
 /**填充表格**/
+/**DOM结构
+ * <tr id=${pack.id}>
+ <td>${i+1}</td>
+ <td>${pack.name}</td>
+ <td>${pack.note}</td>
+ <td>
+ <button class="plus_screen btn btn-primary btn-sm" id=${pack.id}_plus_btn>+</button>
+ ${pack.screen}
+ <button class="minus_screen btn btn-primary btn-sm" id=${pack.id}_minus_btn>-</button>
+ </td>
+ <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
+ </tr>
+ * **/
+/**
+ * data数据格式
+ * {id,name,note,screen}
+ * screen是屏幕名拼接之后的字符串
+ * **/
 $(function ()
 {
     activate_button();
