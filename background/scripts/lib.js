@@ -132,3 +132,11 @@ function tip_by_className(className, content, position)
         }
     );
 }
+
+/**边框变色**/
+function border_color_by_id(id, color)
+{
+    if (color === undefined)
+        color = 'red';
+    $(`#${id}`).css('borderColor', color);
+}

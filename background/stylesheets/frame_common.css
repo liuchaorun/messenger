@@ -43,6 +43,7 @@ tr:hover {
 
 th, td {
     text-align: center;
+    vertical-align: middle !important;
 }
 
 #error_modal .alert {

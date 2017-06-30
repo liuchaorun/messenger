@@ -22,7 +22,7 @@
     width: 10em;
 }
 
-input[type=checkbox] {
+.modal input[type=checkbox] {
     display: none;
 }
 
@@ -67,4 +67,20 @@ input[type=checkbox] {
     display: inline-block;
     background-size: cover;
     background-position: center center;
+}
+
+.plus_screen {
+    float: left;
+}
+
+.minus_screen {
+    float: right;
+}
+
+#package_management_table button {
+    padding: 0.5em 1em;
+    font-size: 0.5em;
+    border-radius: 0.5em;
+    opacity: 0;
+    transition: 0.25s;
 }
