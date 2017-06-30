@@ -84,3 +84,26 @@
     opacity: 0;
     transition: 0.25s;
 }
+
+.screens {
+    display: inline-block;
+    width: 18em;
+    overflow-x: auto;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bolder;
+    text-decoration: underline;
+}
+
+#screen_col {
+    width: 23em;
+}
+
+#screen_modal_body {
+    font-size: 2em;
+    text-align: center;
+}
+
+#screen_modal_body .alert {
+    font-size: 0.9em;
+}

@@ -22,19 +22,8 @@
                     <th>序号</th>
                     <th>名称</th>
                     <th>备注</th>
-                    <th>关联屏幕</th>
+                    <th id="screen_col">关联屏幕</th>
                     <th></th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>aaa</td>
-                    <td>aaa</td>
-                    <td>
-                        <button class="plus_screen btn btn-primary btn-sm">+</button>
-                        aaa
-                        <button class="minus_screen btn btn-primary btn-sm">-</button>
-                    </td>
-                    <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
                 </tr>
             </table>
         </div>
@@ -183,6 +172,25 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal"><span
                         class="glyphicon glyphicon-repeat"></span> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--显示屏幕-->
+<div class="modal fade" tabindex="-1" role="dialog" id="screen_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">屏幕列表</h4>
+            </div>
+            <div class="modal-body" id="screen_modal_body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
                 </button>
             </div>
         </div>

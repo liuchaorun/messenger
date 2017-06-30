@@ -8,20 +8,58 @@
  <td>${pack.name}</td>
  <td>${pack.note}</td>
  <td>
- <button class="plus_screen btn btn-primary btn-sm" id=${pack.id}_plus_btn>+</button>
- ${pack.screen}
- <button class="minus_screen btn btn-primary btn-sm" id=${pack.id}_minus_btn>-</button>
+ <button class="plus_screen btn btn-primary btn-sm">+</button>
+ <span class="screens">${pack.screen}</span>
+ <button class="minus_screen btn btn-primary btn-sm">-</button>
  </td>
  <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
  </tr>
  * **/
+
 /**
  * data数据格式
- * {id,name,note,screen}
+ * [
+ *      {id,name,note,screen},
+ *      {id,name,note,screen},
+ *      {id,name,note,screen},
+ *      {id,name,note,screen},
+ *
+ * ]
  * screen是屏幕名拼接之后的字符串
  * **/
 $(function ()
 {
+    const $package_management_table = $('#package_management_table');
+    const $error_modal = $('#error_modal');
+    AJAX('get_resource', {},
+        function (response)
+        {
+            if (response.status.code === 0)
+                $error_modal.modal('show');
+            else
+            {
+                let packs = response.data.resources;
+                for (let i = 0; i < packs.length; i++)
+                {
+                    $package_management_table.append(`<tr id=${packs[i].id}>
+ <td>${i + 1}</td>
+ <td>${packs[i].name}</td>
+ <td>${packs[i].note}</td>
+ <td>
+ <button class="plus_screen btn btn-primary btn-sm">+</button>
+ <span class="screens">${packs[i].screen}</span>
+ <button class="minus_screen btn btn-primary btn-sm">-</button>
+ </td>
+ <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
+ </tr>`)
+                }
+            }
+        },
+        function (error)
+        {
+            console.log(error);
+            $error_modal.modal('show');
+        });
     activate_button();
 });
 
@@ -62,9 +100,10 @@ $(function ()
 /**自适应高度**/
 $(function ()
 {
-    resizeToScreenHeight('package_management_panel_body', 90);
-    resizeToScreenHeight('add_modal_body', 225);
-    resizeToScreenHeight('modify_modal_body', 225);
+    autoHeight('package_management_panel_body', 90);
+    autoHeight('add_modal_body', 225);
+    autoHeight('modify_modal_body', 225);
+    autoMaxHeight('screen_modal_body', 225);
 });
 
 /**输入弹框**/
@@ -238,7 +277,7 @@ function activate_checkbox()
     });
 }
 
-/**按钮自动显示**/
+/**按钮自动显示、挂载click事件、为按钮增加tip**/
 function activate_button()
 {
     $('tr').hover(
@@ -249,5 +288,45 @@ function activate_button()
         function ()
         {
             $(this).find('button').removeAttr('style');
+        });
+    $('.screens').click(function (event)
+    {
+        event.preventDefault();
+        get_screen_modal(this);
+    });
+    tip_by_className('plus_screen', '增加屏幕', 'left');
+    tip_by_className('minus_screen', '减少屏幕', 'right');
+    tip_by_className('screens', '点击查看完整屏幕列表', 'bottom');
+}
+
+/**屏幕列表modal**/
+/**
+ * 返回格式data
+ * [name,name,name……]
+ * **/
+function get_screen_modal(pack_this)
+{
+    let pack_id = $(pack_this).parent().parent().attr('id');
+    const $screen_modal_body = $('#screen_modal_body');
+    const $screen_modal = $('#screen_modal');
+    $screen_modal_body.html('');
+    $screen_modal.modal('show');
+    let data = {};
+    data.pack_id = pack_id;
+    AJAX('get_pack_screen', data,
+        function (response)
+        {
+            if (response.status.code === 0)
+                append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+            else
+            {
+                for (let screen_name of response.data)
+                    $screen_modal_body.append(`<div class="screen_list_row">${screen_name}</div>`);
+            }
+        },
+        function (error)
+        {
+            console.log(error);
+            append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
         })
 }

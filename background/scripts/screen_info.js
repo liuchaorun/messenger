@@ -323,5 +323,5 @@ $(function ()
 /**自适应高度**/
 $(function ()
 {
-    resizeToScreenHeight('screen_info_panel_body', 90);
+    autoHeight('screen_info_panel_body', 90);
 });

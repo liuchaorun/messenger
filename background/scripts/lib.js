@@ -76,7 +76,7 @@ function prepend_warning(modal_body_id, alert_type, icon_class, warn_text, class
 function parseTimeString(rawTimeString)
 {
     let date = new Date(rawTimeString);
-    return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日${date.getHours()}时${date.getMinutes()}分`
+    return date.getTime() === 0 ? '这是第一次登陆' : `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日${date.getHours()}时${date.getMinutes()}分`;
 }
 
 /**重置输入框**/
@@ -95,12 +95,21 @@ $(function ()
 });
 
 /**自动贴边**/
-function resizeToScreenHeight(id, offset)
+function autoHeight(id, offset)
 {
     $(`#${id}`).css('height', $(window).height() - offset);
     $(window).resize(function ()
     {
         $(`#${id}`).css('height', $(window).height() - offset);
+    })
+}
+
+function autoMaxHeight(id, offset)
+{
+    $(`#${id}`).css('maxHeight', $(window).height() - offset);
+    $(window).resize(function ()
+    {
+        $(`#${id}`).css('maxHeight', $(window).height() - offset);
     })
 }
 
