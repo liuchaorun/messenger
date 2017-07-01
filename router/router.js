@@ -366,7 +366,7 @@ router.post('/action=modify_pack',async (ctx,next)=>{
     }
     else{
         let resource_new = await resource.findOne({where:{resource_id:ctx.request.body.pack[0]}});
-        fs.unlinkSync(upDir+resource_new.name+'.zip');
+        fs.unlinkSync(upDir+'resource/'+resource_new.name+'.zip');
         fs.unlinkSync(upDir+resource_new.resource_id+'.json');
         await resource_new.update({
             name:ctx.request.body.new_pack_name,
