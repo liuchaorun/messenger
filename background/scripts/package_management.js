@@ -135,10 +135,11 @@ $(function ()
                             if (!/.+\..+/.test(picture_id))
                             {
                                 checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
-                                $(checked_picture).first().css('backgroundImage', 'url("../images/selected.png")');
-                                $(checked_picture).first().children().css('opacity', 0.25);
-                                $(checked_picture).first().next().next().removeAttr('disabled').css('opacity', 1);
-                                $(checked_picture).first().next().next().val(checked_pictures.picture_id);
+                                $(checked_picture).children().first().css('backgroundImage', 'url("../images/selected.png")');
+                                $(checked_picture).children().first().css('opacity', 0.25);
+                                $(checked_picture).find('input[type=text]').css('opacity', 1);
+                                $(checked_picture).find('input[type=text]').val(checked_pictures.picture_id);
+                                $(checked_picture).find('input[type=checkbox]').attr('checked', 'checked');
                             }
                         }
                     }
@@ -168,7 +169,7 @@ $(function ()
             }
             for (let checkbox of picture_checked_checkboxes)
             {
-                picture_id.push($(checkbox).parent().parent().attr('class'));
+                picture_id.push($(checkbox).parent().attr('class'));
                 if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
                 {
                     prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
@@ -398,7 +399,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
             return false;
         }
         data.picture_id = picture_id;
-        data.picture_time = picture_time;
+        data.picture_time = parseInt(picture_time);
     }
 
     AJAX(action, data,
