@@ -122,6 +122,20 @@ $(function ()
                         prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
                         $modify_modal_btn.attr('disabled', 'disabled');
                     }
+                    else
+                    {
+                        $modify_modal_btn.removeAttr('disabled');
+                        let pack_info = response.data;
+                        $new_pack_name_input.val(pack_info.name);
+                        $new_pack_note_input.val(pack_info.note);
+                        let checked_pictures = pack_info.used_pictures;
+                        let checked_picture;
+                        for (let picture of used_pictures)
+                        {
+                            checked_picture = $modify_modal_table.find(`label[class=${picture}]`);
+
+                        }
+                    }
                 },
                 function (error)
                 {
@@ -364,13 +378,13 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     for (let checkbox of checkboxes)
     {
         picture_id.push($(checkbox).parent().attr('class'));
-        if (!/^[\d]+$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
+        picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
+        if ($(checkbox).next().val() !== '' || !/^[\d]+$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
         {
             prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
             border_color_by_id($(checkbox).next().attr('id'));
             return false;
         }
-        picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
         data.picture_id = picture_id;
         data.picture_time = picture_time;
     }
