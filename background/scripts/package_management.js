@@ -451,10 +451,10 @@ function modify_AJAX(multiple_bool, data)
         function (response)
         {
             if (response.status.code === 0)
-                prepend_warning(`${type}_body`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
             else
             {
-                prepend_warning(`${type}_body`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                prepend_warning(`${type}_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
                 setTimeout(function ()
                 {
                     location.reload(true);
@@ -464,7 +464,7 @@ function modify_AJAX(multiple_bool, data)
         function (error)
         {
             console.log(error);
-            prepend_warning(`${type}_body`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+            prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
         })
 }
 
