@@ -114,6 +114,21 @@ $(function ()
             $modify_modal.modal('show');
             prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
             image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
+            AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0].parent().parent().attr('id'))},
+                function (response)
+                {
+                    if (response.status.code === 0)
+                    {
+                        prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                        $modify_modal_btn.attr('disabled', 'disabled');
+                    }
+                },
+                function (error)
+                {
+                    console.log(error);
+                    prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                    $modify_modal_btn.attr('disabled', 'disabled');
+                })
         }
         else
             $modify_multiple_modal.modal('show');
@@ -262,7 +277,7 @@ $(function ()
 function image_AJAX(type, table_id, button_id, footer_id)
 {
     if ($(`#${table_id}`).find('.modal_cell').length)
-        activate_checkbox();
+        activate_checkbox(type);
     else
     {
         AJAX('get_picture', {},
@@ -297,7 +312,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
                             $(`#${table_id}_last_row`).append(`<div class="modal_cell"><label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label></div></div>`)
                         }
                     }
-                    activate_checkbox();
+                    activate_checkbox(type);
                     tip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
                 }
             },
@@ -329,13 +344,13 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     let picture_time = [];
     data.pack_name = $(`#${name_input_id}`).val();
     data.pack_note = $(`#${note_input_id}`).val();
-    if (!/^[0-9A-z\u4e00-\u9fa5]]{1,16}$/.test(data.pack_name))
+    if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test(data.pack_name))
     {
         prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
         border_color_by_id(name_input_id);
         return false;
     }
-    if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test(data.pack_note))
+    if (!/^[A-z0-9\u4e00-\u9fa5]{0,32}$/.test(data.pack_note))
     {
         prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
         border_color_by_id(note_input_id);
@@ -426,11 +441,11 @@ function modify_AJAX(multiple_bool, data)
 }
 
 /**checkbox特效**/
-function activate_checkbox()
+function activate_checkbox(type)
 {
-    const $add_checkbox = $('.add_checkbox');
-    $add_checkbox.attr('checked', false);
-    $add_checkbox.click(function ()
+    const $checkbox = $(`.${type}_checkbox`);
+    $checkbox.attr('checked', false);
+    $checkbox.click(function ()
     {
         if ($(this).is(':checked'))
         {
