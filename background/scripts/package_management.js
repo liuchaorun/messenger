@@ -383,15 +383,15 @@ function image_AJAX(type, table_id, button_id, footer_id)
 
                         $(`#${table_id}`).append(` <div class="modal_row">
  <div class="modal_cell">
- <label class=${pictures[row * 5].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5].id}_time maxlength="6" disabled placeholder="10"></label>
+ <label class=${pictures[row * 5].id}><div class="picture_div"><img src=${pictures[row * 5].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5].id}_time maxlength="6" disabled placeholder="10"></label>
  </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 1].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 1].id}_time maxlength="6" disabled placeholder="10"></label>
+ <label class=${pictures[row * 5 + 1].id}><div class="picture_div"><img src=${pictures[row * 5 + 1].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 1].id}_time maxlength="6" disabled placeholder="10"></label>
  </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 2].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 2].id}_time maxlength="6" disabled placeholder="10"></label>
+ <label class=${pictures[row * 5 + 2].id}><div class="picture_div"><img src=${pictures[row * 5 + 2].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 2].id}_time maxlength="6" disabled placeholder="10"></label>
  </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 3].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 3].id}_time maxlength="6" disabled placeholder="10"></label>
+ <label class=${pictures[row * 5 + 3].id}><div class="picture_div"><img src=${pictures[row * 5 + 3].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 3].id}_time maxlength="6" disabled placeholder="10"></label>
  </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 4].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 4].id}_time maxlength="6" disabled placeholder="10"></label>
+ <label class=${pictures[row * 5 + 4].id}><div class="picture_div"><img src=${pictures[row * 5 + 4].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 4].id}_time maxlength="6" disabled placeholder="10"></label>
  </div>
  </div>`);
                     }
