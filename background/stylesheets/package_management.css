@@ -26,6 +26,10 @@
     display: none;
 }
 
+.modal_table input[type = checkbox] {
+    display: inline-block;
+}
+
 #package_management_panel_body {
     overflow: auto;
 }
@@ -126,4 +130,9 @@
 
 #modify_multiple_modal_content {
     width: 71em;
+}
+
+.modal_table {
+    font-size: 1.25em;
+    overflow-y: auto;
 }

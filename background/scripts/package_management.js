@@ -274,6 +274,9 @@ $(function ()
     autoHeight('add_modal_table', 300);
     autoHeight('modify_modal_table', 300);
     autoMaxHeight('screen_modal_body', 225);
+    autoHeight('plus_modal_body', 225);
+    autoHeight('minus_modal_body', 225);
+
 });
 
 /**输入tip**/
@@ -510,6 +513,17 @@ function activate_button()
         event.preventDefault();
         get_screen_modal(this);
     });
+
+    $('.plus_screen').click(function (event)
+    {
+        event.preventDefault();
+        btn_AJAX(this, 'plus', 'get_pack_no_screen');
+    });
+    $('.minus_screen').click(function (event)
+    {
+        event.preventDefault();
+        btn_AJAX(this, 'minus', 'get_pack_screen');
+    });
     tip_by_className('plus_screen', '增加屏幕', 'left');
     tip_by_className('minus_screen', '减少屏幕', 'right');
     tip_by_className('screens', '点击查看完整屏幕列表', 'bottom');
@@ -536,6 +550,8 @@ function get_screen_modal(pack_this)
                 append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
             else
             {
+                if (response.data.screen.length === 0)
+                    append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '该包没有关联屏幕');
                 for (let screen_name of response.data.screen)
                     $screen_modal_body.append(`<div class="screen_list_row">${screen_name}</div>`);
             }
@@ -545,4 +561,45 @@ function get_screen_modal(pack_this)
             console.log(error);
             append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
         })
+}
+
+/****/
+function btn_AJAX(btn_this, type, action)
+{
+    $(`#${type}_modal_table`).html(`<tbody><tr>
+                        <th>序号</th>
+                        <th>屏幕名</th>
+                        <th>备注</th>
+                        <th></th>
+                    </tr>
+                   </tbody>`);
+    $(`#${type}_modal`).modal('show');
+    let data = {};
+    data.resource_id = $(btn_this).parent().parent().attr('id');
+    AJAX(action, data,
+        function (response)
+        {
+            if (response.status.code === 0)
+                prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+            else
+            {
+                prepend_warning(`${type}_modal_footer`, 'info', 'glyphicon-refresh', '加载中', 'tip');
+                let screens = response.data.screen;
+                for (let i = 0; i < screens.length; i++)
+                {
+                    $(`#${type}_modal_table`).append(`<tr class=${screens[i].screen_id}>
+                        <td>${i + 1}</td>
+                        <td>${screens[i].name}</td>
+                        <td>${screens[i].note}</td>
+                        <td><input type="checkbox"></td>
+                    </tr>`)
+                }
+            }
+        },
+        function (error)
+        {
+            console.log(error);
+            append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+        })
+
 }
