@@ -81,7 +81,7 @@ $(function ()
     const $add_modal_btn = $('#add_modal_btn');
     $add_modal_btn.click(function ()
     {
-        package_AJAX('add_modal_table', 'pack_name_input', 'add_modal_footer', 'add_pack');
+        package_AJAX('add_modal_table', 'pack_name_input', 'pack_note_input', 'add_modal_footer', 'add_pack');
     });
 });
 
@@ -315,24 +315,30 @@ function image_AJAX(type, table_id, button_id, footer_id)
  * {
  *     picture_id = [],
  *     picture_time = [],
- *     new_pack_name = '',
- *     new_pack_note = '',
+ *     pack_name = '',
+ *     pack_note = '',
  * }
  *
  * 增加包：add_pack
  * **/
-function package_AJAX(table_id, name_input_id, footer_id, action)
+function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 {
     let checkboxes = $(`#${table_id}`).find(':checked');
     let data = {};
     let picture_id = [];
     let picture_time = [];
     data.pack_name = $(`#${name_input_id}`).val();
-    data.picture = [];
-    if (!/^[0-9A-z\u4e00-\u9fa5]]{1,8}$/.test(data.pack_name))
+    data.pack_note = $(`#${note_input_id}`).val();
+    if (!/^[0-9A-z\u4e00-\u9fa5]]{1,16}$/.test(data.pack_name))
     {
         prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
         border_color_by_id(name_input_id);
+        return false;
+    }
+    if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test(data.pack_note))
+    {
+        prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+        border_color_by_id(note_input_id);
         return false;
     }
     if (checkboxes.length === 0)
