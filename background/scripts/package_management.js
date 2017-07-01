@@ -130,13 +130,13 @@ $(function ()
                         $new_pack_note_input.val(pack_info.note);
                         let checked_pictures = pack_info.used_pictures;
                         let checked_picture;
-                        for (let [picture_id, time] of checked_pictures)
+                        for (let picture_id in checked_pictures)
                         {
                             checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
                             $(checked_picture).first().css('backgroundImage', 'url("../images/selected.png")');
                             $(checked_picture).first().children().css('opacity', 0.25);
                             $(checked_picture).first().next().next().removeAttr('disabled').css('opacity', 1);
-                            $(checked_picture).first().next().next().val(time);
+                            $(checked_picture).first().next().next().val(checked_pictures.picture_id);
                         }
                     }
                 },
