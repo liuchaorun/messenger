@@ -605,8 +605,8 @@ function get_screen_modal(pack_this)
             {
                 if (response.data.screen.length === 0)
                     append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '该包没有关联屏幕');
-                for (let screen_name of response.data.screen)
-                    $screen_modal_body.append(`<div class="screen_list_row">${screen_name}</div>`);
+                for (let screen of response.data.screen)
+                    $screen_modal_body.append(`<div class="screen_list_row">${screen.name}</div>`);
             }
         },
         function (error)
