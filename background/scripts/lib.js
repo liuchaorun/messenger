@@ -1,8 +1,10 @@
 /**
  * Created by 31641 on 2017-6-25.
  */
-function AJAX(action, data, success_function, error_function)
+function AJAX(action, data, success_function, error_function, async)
 {
+    if (async === undefined)
+        async = true;
     $.ajax(
         {
             xhrFields: {
@@ -10,6 +12,7 @@ function AJAX(action, data, success_function, error_function)
             },
             contentType: 'application/json',
             timeout: 5000,
+            async: async,
             dataType: 'json',
             url: `http://118.89.197.156:3000/action=${action}`,
             // url: `http://127.0.0.1:3000/action=${action}`,

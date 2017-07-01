@@ -123,7 +123,7 @@ $(function ()
                     }
                     else
                     {
-                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
+                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer', false);
                         $modify_modal_btn.removeAttr('disabled');
                         let pack_info = response.data;
                         $new_pack_name_input.val(pack_info.name);
