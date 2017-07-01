@@ -169,6 +169,12 @@ $(function ()
             for (let checkbox of picture_checked_checkboxes)
             {
                 picture_id.push($(checkbox).parent().parent().attr('class'));
+                if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
+                {
+                    prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
+                    border_color_by_id($(checkbox).next().attr('id'));
+                    return false;
+                }
                 picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
             }
             if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($new_pack_name_input.val()))
@@ -385,7 +391,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     {
         picture_id.push($(checkbox).parent().attr('class'));
         picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
-        if ($(checkbox).next().val() !== '' || !/^[\d]+$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
+        if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
         {
             prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
             border_color_by_id($(checkbox).next().attr('id'));
