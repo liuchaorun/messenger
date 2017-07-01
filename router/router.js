@@ -387,7 +387,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
             picture_name[i] = picture_add.name;
         }
         zip(picture_name, JSON.stringify(main), resource_new.name);
-        fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main.toString());
+        fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', JSON.stringify(main));
         ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     }
     await next();
