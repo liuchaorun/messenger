@@ -12,7 +12,7 @@ const images = require("image-size");
 const isOnline = require('./isOnlie');
 const fs = require('fs');
 const zip = require('./zip');
-const upDir = '/home/lcr/file/';
+const upDir = '/home/ubuntu/file/';
 let user = model.user;
 let screen = model.screen;
 let picture = model.picture;
@@ -21,7 +21,7 @@ let resource_picture = model.resource_picture;
 user.hasMany(picture, {foreignKey: 'user_id'});
 user.hasMany(screen, {foreignKey: 'user_id'});
 user.hasMany(resource, {foreignKey: 'user_id'});
-screen.hasMany(resource, {foreignKey: 'screen_id'});
+resource.hasMany(screen, {foreignKey: 'resource_id'});
 resource.belongsToMany(picture, {through: resource_picture, foreignKey: 'resource_id'});
 picture.belongsToMany(resource, {through: resource_picture, foreignKey: 'picture_id'});
 let sequelize = new Sequelize(config.database, config.username, config.password, {
@@ -212,6 +212,7 @@ router.post('/action=modify_screen', async (ctx, next) => {
         if (ctx.request.body.new_note !== undefined) await screen_new.update({remark: ctx.request.body.new_note});
     }
     ctx.api(200, {}, {code: 10000, msg: '修改成功！'});
+    await next();
 });
 router.post('/action=del_screen', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
@@ -263,17 +264,21 @@ router.post('/action=get_picture', async (ctx, next) => {
     ctx.api(200, data, {code: 10000, msg: '获取图片成功！'});
     await next()
 });
-router.post('/action=create_resource', async (ctx, next) => {
+router.post('/action=add_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-    let picture_id = ctx.request.body.id;
-    let picture_time = ctx.request.body.time;
+    let picture_id = ctx.request.body.picture_id;
+    let picture_time = ctx.request.body.picture_time;
     let md5 = md5(Date.now());
     let main = {},picture_name=new Array();
     main.md5 = md5;
-    let resource_new = await resource.create({name:ctx.request.body.resource_name});
+    let resource_new = await resource.create({
+        name:ctx.request.body.pack_name,
+        remark:ctx.request.body.pack_note
+    });
     await user_person.addResource(resource_new);
     for(let i = 0 ; i < picture_id.length ; ++i){
         let picture_add = await picture.findOne({where:{picture_id:picture_id[i]}});
+        main[picture_add.picture_id] = picture_time[i];
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
@@ -282,44 +287,118 @@ router.post('/action=create_resource', async (ctx, next) => {
     ctx.api(200,{},{code:10000,msg:'创建资源包成功！'});
     await next();
 });
-router.post('/action=get_resource',async (ctx,next)=>{
+router.post('/action=get_pack',async (ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let person_resource = await user_person.getResources();
     let data = {};
     data.resources = new Array();
     for(let i =0;i<person_resource.length;++i){
         let get_screen = await person_resource[i].getScreens();
-        data.resources[i].screen = get_screen;
-        data.resources[i].name = person_resource[i].name;
-        data.resources[i].note = person_resource[i].remark;
-        data.resources[i].resource_id = person_resource[i].resource_id;
+        data.resources[i]={
+            'screen':get_screen,
+            'name' : person_resource[i].name,
+            'note' : person_resource[i].remark,
+            'resource_id' :person_resource[i].resource_id
+        }
     }
     ctx.api(200,data,{code:10000,msg:'获取资源包成功！'});
     await next();
 });
-router.post('/action=get_resource_info',async (ctx,next)=>{
-    let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-    let user_person_picture = await user_person.getPictures();
-    let resource_get = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
+router.post('/action=get_pack_screen',async (ctx,next)=>{
+    let resource_now = await resource.findOne({where:{resource_id:ctx.request.body.pack_id}});
+    let resource_now_screen = await resource_now.getScreens();
+    let data = {};
+    data.screen = new Array();
+    for(let i =0;i<resource_now_screen.length;++i){
+        data.screen[i] ={
+            name:resource_now_screen[i].name,
+            screen_id:resource_now_screen[i].screen_id
+        }
+    }
+    ctx.api(200,{},{code:10000,msg:'获取关联屏幕成功！'});
+    await next();
+});
+router.post('/action=get_pack_no_screen',async (ctx,next)=>{
+    let resource_now = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
+    let resource_now_screen = await resource_now.getScreens();
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let user_person_screen = await user_person.getScreens();
+    Array.prototype.minus = function (arr) {
+        let result = new Array();
+        let obj = {};
+        for (let i = 0; i < arr.length; i++) {
+            obj[arr[i]] = 1;
+        }
+        for (let j = 0; j < this.length; j++) {
+            if (!obj[this[j]])
+            {
+                obj[this[j]] = 1;
+                result.push(this[j]);
+            }
+        }
+        return result;
+    };
+    let data = {};
+    data.screen = new Array();
+    data.screen = user_person_screen.minus(resource_now_screen);
+    ctx.api(200,data,{code:10000,msg:'获取未添加屏幕成功！'});
+    await next();
+});
+router.post('/action=get_pack_info',async (ctx,next)=>{
+    let resource_get = await resource.findOne({where:{resource_id:ctx.request.body.pack_id}});
     let resource_settings = JSON.parse(fs.readFileSync(upDir+resource_get.resource_id+'.json'));
     let data={};
     data.used_pictures = resource_settings;
-    for (let i = 0; i < user_person_picture.length; ++i) {
-        data.pictures[i] = {};
-        data.pictures[i].id = user_person_picture[i].picture_id;
-        data.pictures[i].src = user_person_picture[i].url;
-    }
+    data.name = resource_get.name;
+    data.note =resource_get.remark;
     ctx.api(200, data, {code: 10000, msg: '获取资源包图片成功！'});
     await next();
 });
-router.post('/action=set_resource',async (ctx,next)=>{});
-router.post('/action=del_resource',async (ctx,next)=>{
-    let del_resource = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
-    fs.unlinkSync(upDir+del_resource.name+'.zip');
-    fs.unlinkSync(upDir+del_resource.resource_id+'.zip');
-    let del_resource_picture = await del_resource.getPictures();
-    await del_resource.removePictures(del_resource_picture);
-    await del_resource.destroy();
+router.post('/action=modify_pack',async (ctx,next)=>{
+    if(ctx.request.body.multiple===true){
+        let pack = ctx.request.body.pack;
+        for(let i of pack){
+            let resource_new = await resource.findOne({where:{resource_id:i}});
+            resource_new.update({remark:ctx.request.body.new_pack_note})
+        }
+    }
+    else{
+        let resource_new = await resource.findOne({where:{resource_id:ctx.request.body.pack[0]}});
+        fs.unlinkSync(upDir+resource_new.name+'.zip');
+        fs.unlinkSync(upDir+resource_new.resource_id+'.json');
+        await resource_new.update({
+            name:ctx.request.body.new_pack_name,
+            remark:ctx.request.body.new_pack_note
+        });
+        let del_pictures = await resource_new.getPictures();
+        await resource_new.removePicture(del_pictures);
+        let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+        let picture_id = ctx.request.body.picture_id;
+        let picture_time = ctx.request.body.picture_time;
+        let md5 = md5(Date.now());
+        let main = {},picture_name=new Array();
+        main.md5 = md5;
+        await user_person.addResource(resource_new);
+        for(let i = 0 ; i < picture_id.length ; ++i){
+            let picture_add = await picture.findOne({where:{picture_id:picture_id[i]}});
+            main[picture_add.picture_id] = picture_time[i];
+            main[picture_add.name] = picture_time[i];
+            picture_name[i] = picture_add.name;
+        }
+        zip(picture_name,JSON.stringify(main),resource_new.name);
+        fs.writeFileSync('/home/ubuntu/file/'+resource_new.resource_id+'.json',main.toString());
+        ctx.api(200,{},{code:10000,msg:'创建资源包成功！'});
+    }
+});
+router.post('/action=del_pack',async (ctx,next)=>{
+    for(let i=0;i<ctx.request.body.pack;++i){
+        let del_resource = await resource.findOne({where:{resource_id:ctx.request.body.pack[i]}});
+        fs.unlinkSync(upDir+del_resource.name+'.zip');
+        fs.unlinkSync(upDir+del_resource.resource_id+'.json');
+        let del_resource_picture = await del_resource.getPictures();
+        await del_resource.removePictures(del_resource_picture);
+        await del_resource.destroy();
+    }
     ctx.api(200,{},{code:10000,msg:'删除成功！'});
     await next();
 });
