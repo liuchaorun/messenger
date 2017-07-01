@@ -132,11 +132,14 @@ $(function ()
                         let checked_picture;
                         for (let picture_id in checked_pictures)
                         {
-                            checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
-                            $(checked_picture).first().css('backgroundImage', 'url("../images/selected.png")');
-                            $(checked_picture).first().children().css('opacity', 0.25);
-                            $(checked_picture).first().next().next().removeAttr('disabled').css('opacity', 1);
-                            $(checked_picture).first().next().next().val(checked_pictures.picture_id);
+                            if (!/.+\..+/.test(picture_id))
+                            {
+                                checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
+                                $(checked_picture).first().css('backgroundImage', 'url("../images/selected.png")');
+                                $(checked_picture).first().children().css('opacity', 0.25);
+                                $(checked_picture).first().next().next().removeAttr('disabled').css('opacity', 1);
+                                $(checked_picture).first().next().next().val(checked_pictures.picture_id);
+                            }
                         }
                     }
                 },
