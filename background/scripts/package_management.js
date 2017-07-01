@@ -308,7 +308,7 @@ function screen_AJAX(type, action)
 {
     let data = {};
     data.screen = [];
-    data.pack_id = $(`#${type}_head_row`).attr('class');
+    data.resource_id = $(`#${type}_head_row`).attr('class');
     let checked_checkboxes = $(`#${type}_modal_table`).find('input:checked');
     if (checked_checkboxes.length === 0)
     {
