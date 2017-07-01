@@ -313,10 +313,11 @@ router.post('/action=get_pack_screen', async (ctx, next) => {
     for (let i = 0; i < resource_now_screen.length; ++i) {
         data.screen[i] = {
             name: resource_now_screen[i].name,
-            screen_id: resource_now_screen[i].screen_id
+            screen_id: resource_now_screen[i].screen_id,
+            note:resource_now_screen[i].remark
         }
     }
-    ctx.api(200, {}, {code: 10000, msg: '获取关联屏幕成功！'});
+    ctx.api(200, data, {code: 10000, msg: '获取关联屏幕成功！'});
     await next();
 });
 router.post('/action=get_pack_no_screen', async (ctx, next) => {
@@ -340,8 +341,37 @@ router.post('/action=get_pack_no_screen', async (ctx, next) => {
     };
     let data = {};
     data.screen = new Array();
-    data.screen = user_person_screen.minus(resource_now_screen);
+    let pack_no_screen = user_person_screen.minus(resource_now_screen);
+    for (let i = 0; i < pack_no_screen.length; ++i) {
+        data.screen[i] = {
+            name: pack_no_screen[i].name,
+            screen_id: pack_no_screen[i].screen_id,
+            note:pack_no_screen[i].remark
+        }
+    }
     ctx.api(200, data, {code: 10000, msg: '获取未添加屏幕成功！'});
+    await next();
+});
+router.post('/action=add_pack_screen',async (ctx,next)=>{
+    let screen_add = ctx.request.body.screen_id;
+    let resource_add = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
+    for(let i of screen_add){
+        let screen_new = await screen.findOne({where:{screen_id:i}});
+        let resource_old = await screen_new.getResources();
+        await screen_new.removeResources(resource_old);
+        await screen_new.addResources(resource_add);
+    }
+    ctx.api(200,{},{code:10000,msg:'添加屏幕成功！'});
+    await next();
+});
+router.post('/action=del_pack_screen',async(ctx,next)=>{
+    let screen_del = ctx.request.body.screen_id;
+    let resource_del = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
+    for(let i of screen_del){
+        let screen_w = await screen.findOne({where:{screen_id:i}});
+        screen_w.removeResources(resource_del);
+    }
+    ctx.api(200,{},{code:10000,msg:'删除屏幕成功！'});
     await next();
 });
 router.post('/action=get_pack_info', async (ctx, next) => {
