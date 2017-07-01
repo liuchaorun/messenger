@@ -282,7 +282,7 @@ router.post('/action=add_pack', async (ctx, next) => {
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
-    let main = JSON.stringify(main);
+    main = JSON.stringify(main);
     zip(picture_name,main,resource_new.name);
     fs.writeFileSync('/home/ubuntu/file/'+resource_new.resource_id+'.json',main);
     ctx.api(200,{},{code:10000,msg:'创建资源包成功！'});
@@ -396,7 +396,7 @@ router.post('/action=modify_pack',async (ctx,next)=>{
 router.post('/action=del_pack',async (ctx,next)=>{
     for(let i=0;i<ctx.request.body.pack.length;++i){
         let del_resource = await resource.findOne({where:{resource_id:ctx.request.body.pack[i]}});
-        fs.unlinkSync(upDir+del_resource.name+'.zip');
+        fs.unlinkSync(upDir+'resource/'+del_resource.name+'.zip');
         fs.unlinkSync(upDir+del_resource.resource_id+'.json');
         let del_resource_picture = await del_resource.getPictures();
         await del_resource.removePictures(del_resource_picture);
