@@ -190,7 +190,7 @@ router.post('/action=get_screen', async (ctx, next) => {
             name: user_screen[i].name,
             update_time: user_screen[i].updated_at,
             freq: user_screen[i].time,
-            pack: resource_name.name,
+            pack: resource_name===null?'无':resource_name.name,
             note: user_screen[i].remark
         }
     }
