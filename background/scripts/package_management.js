@@ -123,7 +123,7 @@ $(function ()
                     }
                     else
                     {
-                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer', false);
+                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
                         $modify_modal_btn.removeAttr('disabled');
                         let pack_info = response.data;
                         $new_pack_name_input.val(pack_info.name);
@@ -350,7 +350,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
                 console.log(error);
                 prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
                 $(`#${button_id}`).attr('disabled', 'disabled');
-            })
+            }, false)
     }
 }
 
