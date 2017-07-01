@@ -136,7 +136,7 @@ $(function ()
                             {
                                 checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
                                 $(checked_picture).children().first().css('backgroundImage', 'url("../images/selected.png")');
-                                $(checked_picture).children().first().css('opacity', 0.25);
+                                $(checked_picture).children().first().children().css('opacity', 0.25);
                                 $(checked_picture).find('input[type=text]').css('opacity', 1);
                                 $(checked_picture).find('input[type=text]').val(checked_pictures.picture_id);
                                 $(checked_picture).find('input[type=checkbox]').attr('checked', 'checked');
