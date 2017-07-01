@@ -313,23 +313,20 @@ function image_AJAX(type, table_id, button_id, footer_id)
 /**
  * data格式
  * {
- *      pack_name:"",
- *      picture:
- *      [
- *          {id,time},
- *          {id,time},
- *          {id,time}
- *      ]
+ *     picture_id = [],
+ *     picture_time = [],
+ *     new_pack_name = '',
+ *     new_pack_note = '',
  * }
  *
  * 增加包：add_pack
- * 编辑包：modify_pack
  * **/
 function package_AJAX(table_id, name_input_id, footer_id, action)
 {
     let checkboxes = $(`#${table_id}`).find(':checked');
     let data = {};
-    let picture = {};
+    let picture_id = [];
+    let picture_time = [];
     data.pack_name = $(`#${name_input_id}`).val();
     data.picture = [];
     if (!/^[0-9A-z\u4e00-\u9fa5]]{1,8}$/.test(data.pack_name))
@@ -345,15 +342,16 @@ function package_AJAX(table_id, name_input_id, footer_id, action)
     }
     for (let checkbox of checkboxes)
     {
-        picture.id = $(checkbox).parent().attr('class');
-        picture.time = ($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
+        picture_id.push($(checkbox).parent().attr('class'));
+        picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
         if (!/^[\d]+$/.test(picture.time) || picture.time === 0)
         {
             prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
             border_color_by_id($(checkbox).next().attr('id'));
             return false;
         }
-        data.picture.push(picture);
+        data.picture_id = picture_id;
+        data.picture_time = picture_time;
     }
     AJAX(action, data,
         function (response)
