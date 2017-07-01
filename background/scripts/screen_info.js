@@ -130,42 +130,14 @@ $(function ()
     const $modify_btn = $('#modify_btn');
     const $modify_modal_btn = $('#modify_modal_btn');
     let checked_screen_uuid = [];//存储被选屏幕的UUID
-    /**输入框弹框**/
-    $new_screen_name.tooltip(
-        {
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus hover',
-            title: '16位以内字母、数字或汉字'
-        });
-    $new_freq.tooltip(
-        {
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus hover',
-            title: '数字，单位为分钟'
-        });
-    $new_note.tooltip(
-        {
-            container: 'body',
-            placement: 'left',
-            trigger: 'focus hover',
-            title: '32位以内字母、数字或汉字'
-        });
-
-
     $modify_btn.click(function (event)
     {
         event.preventDefault();
         checked_screen_uuid = [];
         let screen_checkbox = $('.screen_checkbox');
         for (let checkbox of screen_checkbox)
-        {
             if ($(checkbox).is(':checked'))
-            {
                 checked_screen_uuid.push($(checkbox).parent().parent().attr('id'));
-            }
-        }
         if (checked_screen_uuid.length > 1)
         {
             $new_screen_name.removeAttr('disabled').val('');
@@ -324,4 +296,34 @@ $(function ()
 $(function ()
 {
     autoHeight('screen_info_panel_body', 90);
+});
+
+/**输入框tip**/
+$(function ()
+{
+    const $new_screen_name = $('#new_screen_name');
+    const $new_freq = $('#new_freq');
+    const $new_note = $('#new_note');
+    /**输入框弹框**/
+    $new_screen_name.tooltip(
+        {
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus hover',
+            title: '16位以内字母、数字或汉字'
+        });
+    $new_freq.tooltip(
+        {
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus hover',
+            title: '正整数，单位为分钟'
+        });
+    $new_note.tooltip(
+        {
+            container: 'body',
+            placement: 'left',
+            trigger: 'focus hover',
+            title: '32位以内字母、数字或汉字'
+        });
 });

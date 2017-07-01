@@ -7,11 +7,11 @@
     margin: auto 2em;
 }
 
-.add_modal_row {
+.modal_row {
     display: table-row;
 }
 
-.add_modal_cell {
+.modal_cell {
     display: table-cell;
     padding-left: 3.25em;
     padding-right: 3.25em;
@@ -35,22 +35,38 @@
     display: inline-block;
     width: 18em;
     margin-bottom: 0;
+    float: left;
+    margin-left: 3.5em;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
 }
 
-.input {
+.pack_info_input {
     display: inline-block;
-    width: 17em;
     height: 3em;
-    margin-top: 0.5em;
-    margin-left: 4em;
-    margin-right: 5em;
+}
+
+.pack_name_input {
+    width: 18em;
+}
+
+.pack_note_input {
+    width: 34em;
+}
+
+.pack_info_input_div {
+    text-align: center;
+}
+
+#pack_note_input, #new_pack_note_input {
+    margin-left: 2em;
 }
 
 #package_management_table {
     font-size: 0.75em;
 }
 
-.add_modal_cell .picture_time_input {
+.modal_cell .picture_time_input {
     width: 5em;
     text-align: center;
     height: 2em;
@@ -106,4 +122,8 @@
 
 #screen_modal_body .alert {
     font-size: 0.9em;
+}
+
+#modify_multiple_modal_content {
+    width: 71em;
 }

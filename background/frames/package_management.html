@@ -25,6 +25,28 @@
                     <th id="screen_col">关联屏幕</th>
                     <th></th>
                 </tr>
+                <tr id="12345">
+                    <td>1</td>
+                    <td>aaa</td>
+                    <td>aaa</td>
+                    <td>
+                        <button class="plus_screen btn btn-primary btn-sm">+</button>
+                        <span class="screens">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊……</span>
+                        <button class="minus_screen btn btn-primary btn-sm">-</button>
+                    </td>
+                    <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
+                </tr>
+                <tr id="123456">
+                    <td>1</td>
+                    <td>aaa</td>
+                    <td>aaa</td>
+                    <td>
+                        <button class="plus_screen btn btn-primary btn-sm">+</button>
+                        <span class="screens">啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊……</span>
+                        <button class="minus_screen btn btn-primary btn-sm">-</button>
+                    </td>
+                    <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
+                </tr>
             </table>
         </div>
     </div>
@@ -47,9 +69,14 @@
             </div>
             <div class="modal-body" id="add_modal_body">
                 <div id="add_modal_table"></div>
+                <div class="pack_info_input_div">
+                    <input type="text" class="form-control pack_info_input pack_name_input" id="pack_name_input"
+                           placeholder="新包名" maxlength="16">
+                    <input type="text" class="form-control pack_info_input pack_note_input" id="pack_note_input"
+                           placeholder="备注" maxlength="32">
+                </div>
             </div>
             <div class="modal-footer" id="add_modal_footer">
-                <input type="text" class="form-control input" id="pack_name_input" placeholder="新包名" maxlength="16">
                 <button type="button" class="btn btn-primary btn-lg" id="add_modal_btn"><span
                         class="glyphicon glyphicon-ok">增加</span></button>
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
@@ -60,7 +87,7 @@
     </div>
 </div>
 
-<!--修改-->
+<!--修改单个-->
 <div class="modal fade" tabindex="-1" role="dialog" id="modify_modal">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -71,9 +98,14 @@
             </div>
             <div class="modal-body" id="modify_modal_body">
                 <div id="modify_modal_table"></div>
+                <div class="pack_info_input_div">
+                    <input type="text" class="form-control pack_info_input pack_name_input" id="new_pack_name_input"
+                           placeholder="新包名" maxlength="16">
+                    <input type="text" class="form-control pack_info_input pack_note_input" id="new_pack_note_input"
+                           placeholder="备注" maxlength="32">
+                </div>
             </div>
             <div class="modal-footer" id="modify_modal_footer">
-                <input type="text" class="form-control input" id="new_pack_name_input" placeholder="新包名" maxlength="16">
                 <button type="button" class="btn btn-primary btn-lg" id="modify_modal_btn"><span
                         class="glyphicon glyphicon-ok">确定</span></button>
                 <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
@@ -82,6 +114,32 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!--修改多个-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modify_multiple_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="modify_multiple_modal_content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改包</h4>
+            </div>
+            <div class="modal-body" id="modify_multiple_modal_body">
+                <input type="text" class="form-control modal_input" id="multiple_new_pack_note_input" placeholder="备注"
+                       maxlength="32">
+                <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> 多选时仅能修改备注
+                </div>
+            </div>
+            <div class="modal-footer" id="modify_multiple_modal_footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modify_multiple_modal_btn"><span
+                        class="glyphicon glyphicon-ok">增加</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 

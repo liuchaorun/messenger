@@ -47,7 +47,7 @@ $(function ()
  <td>${packs[i].note}</td>
  <td>
  <button class="plus_screen btn btn-primary btn-sm">+</button>
- <span class="screens">${packs[i].screen}</span>
+ <span class="screens">${packs[i].screen.length > 1 ? packs[i].screen[0].name + '……' : packs[i].screen.length === 0 ? '无' : packs[i].screen[0].name}</span>
  <button class="minus_screen btn btn-primary btn-sm">-</button>
  </td>
  <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
@@ -58,7 +58,7 @@ $(function ()
         function (error)
         {
             console.log(error);
-            $error_modal.modal('show');
+            //$error_modal.modal('show');
         });
     activate_button();
 });
@@ -70,24 +70,12 @@ $(function ()
     $add_btn.click(function ()
     {
         prepend_warning('add_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
-        image_AJAX('add_modal_table', 'add_modal_btn', 'add_modal_footer');
+        image_AJAX('add', 'add_modal_table', 'add_modal_btn', 'add_modal_footer');
     });
 
 });
 
-/**修改按钮**/
-/**TODO:根据选择数量修改修改、删除框的内容**/
-$(function ()
-{
-    const $modify_btn = $('#modify_btn');
-    $modify_btn.click(function ()
-    {
-        prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
-        image_AJAX('modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
-    });
-});
-
-/**增加modal按钮**/
+/**增加提交按钮**/
 $(function ()
 {
     const $add_modal_btn = $('#add_modal_btn');
@@ -97,20 +85,153 @@ $(function ()
     });
 });
 
+/**修改以及修改提交按钮**/
+$(function ()
+{
+    const $modify_btn = $('#modify_btn');
+    const $modify_modal = $('#modify_modal');
+    const $modify_modal_table = $('#modify_modal_table');
+    const $modify_multiple_modal = $('#modify_multiple_modal');
+    const $modify_error_modal = $('#modify_error_modal');
+    const $modify_modal_btn = $('#modify_modal_btn');
+    const $new_pack_name_input = $('#new_pack_name_input');
+    const $new_pack_note_input = $('#new_pack_note_input');
+    const $modify_multiple_modal_btn = $('#modify_multiple_modal_btn');
+    const $multiple_new_pack_note_input = $('#multiple_new_pack_note_input');
+    let data = {};
+    $modify_btn.click(function (event)
+    {
+        event.preventDefault();
+        let checked_pack = [];
+        let checked_checkboxes = $('input:checked');
+        if (checked_checkboxes.length === 0)
+        {
+            $modify_error_modal.modal('show');
+            return false;
+        }
+        else if (checked_checkboxes.length === 1)
+        {
+            $modify_modal.modal('show');
+            prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
+            image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
+        }
+        else
+            $modify_multiple_modal.modal('show');
+        for (let checkbox of checked_checkboxes)
+            checked_pack.push($(checkbox).parent().parent().attr('id'));
+        data.pack = checked_pack;
+
+        $modify_modal_btn.click(function (event)
+        {
+            event.preventDefault();
+            let picture_id = [], picture_time = [];
+            let picture_checked_checkboxes = $modify_modal_table.find('input:checked');
+            if (picture_checked_checkboxes.length === 0)
+            {
+                prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '至少选择一幅图片', 'tip');
+                return false;
+            }
+            for (let checkbox of picture_checked_checkboxes)
+            {
+                picture_id.push($(checkbox).parent().parent().attr('class'));
+                picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
+            }
+            if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($new_pack_name_input.val()))
+            {
+                prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '包名不合法', 'tip');
+                border_color_by_id('new_pack_name_input');
+                return false;
+            }
+            if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($new_pack_note_input.val()))
+            {
+                prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+                border_color_by_id('new_pack_note_input');
+                return false;
+            }
+            data.picture_id = picture_id;
+            data.picture_time = picture_time;
+            data.new_pack_name = $new_pack_name_input.val();
+            data.new_pack_note = $new_pack_note_input.val();
+            data.mutiple = false;
+            modify_AJAX(false, data);
+        });
+
+        $modify_multiple_modal_btn.click(function (event)
+        {
+            event.preventDefault();
+            if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($multiple_new_pack_note_input.val()))
+            {
+                prepend_warning('modify_multiple_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+                border_color_by_id('multiple_new_pack_note_input');
+                return false;
+            }
+            data.new_pack_note = $multiple_new_pack_note_input.val();
+            data.mutiple = true;
+            modify_AJAX(true, data);
+        });
+    });
+});
+
+/**删除按钮**/
+$(function ()
+{
+    const $del_btn = $('#del_btn');
+    const $del_modal = $('#del_modal');
+    const $del_error_modal = $('#del_error_modal');
+    $del_btn.click(function ()
+    {
+        event.preventDefault();
+        let checked_pack = [];
+        let checked_checkboxes = $('input:checked');
+        if (checked_checkboxes.length === 0)
+        {
+            $del_error_modal.modal('show');
+            return false;
+        }
+        else
+        {
+            let data = {};
+            $del_modal.modal('show');
+            for (let checkbox of checked_checkboxes)
+                checked_pack.push($(checkbox).parent().parent().attr('id'));
+            data.pack = checked_pack;
+            AJAX('del_pack', data,
+                function (response)
+                {
+                    if (response.status.code === 0)
+                        prepend_warning('del_modal_body', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                    else
+                    {
+                        prepend_warning('del_modal_body', 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                        setTimeout(function ()
+                        {
+                            location.reload(true);
+                        }, 3000);
+                    }
+                },
+                function (error)
+                {
+                    console.log(error);
+                    prepend_warning(`del_modal_body`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                })
+        }
+    })
+});
+
 /**自适应高度**/
 $(function ()
 {
     autoHeight('package_management_panel_body', 90);
-    autoHeight('add_modal_body', 225);
-    autoHeight('modify_modal_body', 225);
+    autoHeight('add_modal_table', 300);
+    autoHeight('modify_modal_table', 300);
     autoMaxHeight('screen_modal_body', 225);
 });
 
-/**输入弹框**/
+/**输入tip**/
 $(function ()
 {
-    tip_by_id('pack_name_input', '16位以内字母、数字与汉字', 'top');
-    tip_by_id('new_pack_name_input', '16位以内字母、数字与汉字', 'top');
+    tip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
+    tip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
 });
 
 /**
@@ -133,13 +254,10 @@ $(function ()
  *
  * <input type="text" class="form-control" id=${}.id_time>
  * **/
-function image_AJAX(table_id, button_id, footer_id)
+function image_AJAX(type, table_id, button_id, footer_id)
 {
-    if ($(`#${table_id}`).find('.add_modal_row').length)
-    {
+    if ($(`#${table_id}`).find('.modal_cell').length)
         activate_checkbox();
-        return false;
-    }
     else
     {
         AJAX('get_picture', {},
@@ -159,19 +277,19 @@ function image_AJAX(table_id, button_id, footer_id)
                     {
                         for (let i = 0; i < 5; i++)
                         {
-                            $(`#${table_id}`).append(` <div class="add_modal_row">
- <div class="add_modal_cell">
- <label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label>
+                            $(`#${table_id}`).append(` <div class="modal_row">
+ <div class="modal_cell">
+ <label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label>
  </div>
  </div>`);
                         }
                     }
-                    if (pictures.length - row * 5 > 0)
+                    if (pictures.length - row * 5 > 0 && !$('#modify_modal_table_last_row').length)
                     {
-                        $(`#${table_id}`).append(`<div class="add_modal_row" id="${table_id}_last_row"></div>`);
+                        $(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
                         for (let i = 0; i < pictures.length - row * 5; i++)
                         {
-                            $(`#${table_id}_last_row`).append(`<div class="add_modal_cell"><label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="add_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label></div></div>`)
+                            $(`#${table_id}_last_row`).append(`<div class="modal_cell"><label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label></div></div>`)
                         }
                     }
                     activate_checkbox();
@@ -209,7 +327,7 @@ function package_AJAX(table_id, name_input_id, footer_id, action)
     let picture = {};
     data.pack_name = $(`#${name_input_id}`).val();
     data.picture = [];
-    if (!/^[0-9A-z\u4e00-\u9fa5]]{1,16}$/.test(data.pack_name))
+    if (!/^[0-9A-z\u4e00-\u9fa5]]{1,8}$/.test(data.pack_name))
     {
         prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
         border_color_by_id(name_input_id);
@@ -254,6 +372,50 @@ function package_AJAX(table_id, name_input_id, footer_id, action)
 
 }
 
+/**修改ajax**/
+/**
+ * data格式
+ * 单选情况
+ * {
+ *      pack:[],
+  *     picture_id = [],
+  *     picture_time = [],
+  *     new_pack_name = '',
+  *     new_pack_note = '',
+  *     multiple:false
+ * }
+ *
+ * 多选情况
+ * {
+ *      pack:[],
+  *     new_pack_note = '',
+  *     multiple:true
+ * }
+ * **/
+function modify_AJAX(multiple_bool, data)
+{
+    let type = multiple_bool === false ? 'modify_modal' : 'modify_multiple_modal';
+    AJAX('modify_pack', data,
+        function (response)
+        {
+            if (response.status.code === 0)
+                prepend_warning(`${type}_body`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+            else
+            {
+                prepend_warning(`${type}_body`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                setTimeout(function ()
+                {
+                    location.reload(true);
+                }, 3000);
+            }
+        },
+        function (error)
+        {
+            console.log(error);
+            prepend_warning(`${type}_body`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+        })
+}
+
 /**checkbox特效**/
 function activate_checkbox()
 {
@@ -278,6 +440,7 @@ function activate_checkbox()
 }
 
 /**按钮自动显示、挂载click事件、为按钮增加tip**/
+/**TODO:表格中+-按钮的功能**/
 function activate_button()
 {
     $('tr').hover(
@@ -317,7 +480,7 @@ function get_screen_modal(pack_this)
         function (response)
         {
             if (response.status.code === 0)
-                append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
             else
             {
                 for (let screen_name of response.data)
@@ -327,6 +490,6 @@ function get_screen_modal(pack_this)
         function (error)
         {
             console.log(error);
-            append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+            append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
         })
 }
