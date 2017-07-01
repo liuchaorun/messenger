@@ -31,7 +31,7 @@ $(function ()
 {
     const $package_management_table = $('#package_management_table');
     const $error_modal = $('#error_modal');
-    AJAX('get_resource', {},
+    AJAX('get_pack', {},
         function (response)
         {
             if (response.status.code === 0)
@@ -349,16 +349,17 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     for (let checkbox of checkboxes)
     {
         picture_id.push($(checkbox).parent().attr('class'));
-        picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
-        if (!/^[\d]+$/.test(picture.time) || picture.time === 0)
+        if (!/^[\d]+$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
         {
             prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
             border_color_by_id($(checkbox).next().attr('id'));
             return false;
         }
+        picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
         data.picture_id = picture_id;
         data.picture_time = picture_time;
     }
+
     AJAX(action, data,
         function (response)
         {
@@ -378,7 +379,6 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
             console.log(error);
             prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
         })
-
 }
 
 /**修改ajax**/
