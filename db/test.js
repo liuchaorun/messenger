@@ -39,10 +39,3 @@
 // d = JSON.parse(d);
 // console.log(d.i);
 //fs.unlinkSync('/home/lcr/1.json');
-let a = new Array(),b= new Array();
-a[0]=1;
-b[0]=2;
-b[1]=1;
-
-console.log(b.minus(a));
-

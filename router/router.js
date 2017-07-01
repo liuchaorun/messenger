@@ -268,9 +268,9 @@ router.post('/action=add_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let picture_id = ctx.request.body.picture_id;
     let picture_time = ctx.request.body.picture_time;
-    let md5 = md5(Date.now());
+    let md = md5(Date.now());
     let main = {},picture_name=new Array();
-    main.md5 = md5;
+    main.md5 = md;
     let resource_new = await resource.create({
         name:ctx.request.body.pack_name,
         remark:ctx.request.body.pack_note
@@ -282,8 +282,9 @@ router.post('/action=add_pack', async (ctx, next) => {
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
-    zip(picture_name,JSON.stringify(main),resource_new.name);
-    fs.writeFileSync('/home/ubuntu/file/'+resource_new.resource_id+'.json',main.toString());
+    let main = JSON.stringify(main);
+    zip(picture_name,main,resource_new.name);
+    fs.writeFileSync('/home/ubuntu/file/'+resource_new.resource_id+'.json',main);
     ctx.api(200,{},{code:10000,msg:'创建资源包成功！'});
     await next();
 });
@@ -361,6 +362,7 @@ router.post('/action=modify_pack',async (ctx,next)=>{
             let resource_new = await resource.findOne({where:{resource_id:i}});
             resource_new.update({remark:ctx.request.body.new_pack_note})
         }
+        ctx.api(200,{},{code:10000,msg:'批量修改备注成功！'});
     }
     else{
         let resource_new = await resource.findOne({where:{resource_id:ctx.request.body.pack[0]}});
@@ -389,9 +391,10 @@ router.post('/action=modify_pack',async (ctx,next)=>{
         fs.writeFileSync('/home/ubuntu/file/'+resource_new.resource_id+'.json',main.toString());
         ctx.api(200,{},{code:10000,msg:'创建资源包成功！'});
     }
+    await next();
 });
 router.post('/action=del_pack',async (ctx,next)=>{
-    for(let i=0;i<ctx.request.body.pack;++i){
+    for(let i=0;i<ctx.request.body.pack.length;++i){
         let del_resource = await resource.findOne({where:{resource_id:ctx.request.body.pack[i]}});
         fs.unlinkSync(upDir+del_resource.name+'.zip');
         fs.unlinkSync(upDir+del_resource.resource_id+'.json');
