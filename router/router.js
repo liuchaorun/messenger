@@ -286,7 +286,8 @@ router.post('/action=add_pack', async (ctx, next) => {
     main.md5 = md;
     let resource_new = await resource.create({
         name: ctx.request.body.pack_name,
-        remark: ctx.request.body.pack_note
+        remark: ctx.request.body.pack_note,
+        md5:md
     });
     await user_person.addResource(resource_new);
     for (let i = 0; i < picture_id.length; ++i) {
@@ -321,7 +322,7 @@ router.post('/action=get_pack', async (ctx, next) => {
 });
 
 router.post('/action=get_pack_screen', async (ctx, next) => {
-    let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.pack_id}});
+    let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
     let resource_now_screen = await resource_now.getScreens();
     let data = {};
     data.screen = new Array();
@@ -417,16 +418,17 @@ router.post('/action=modify_pack', async (ctx, next) => {
         let resource_new = await resource.findOne({where: {resource_id: ctx.request.body.pack[0]}});
         fs.unlinkSync(upDir + 'resource/' + resource_new.name + '.zip');
         fs.unlinkSync(upDir + resource_new.resource_id + '.json');
+        let md = md5(Date.now());
         await resource_new.update({
             name: ctx.request.body.new_pack_name,
-            remark: ctx.request.body.new_pack_note
+            remark: ctx.request.body.new_pack_note,
+            md5:md
         });
         let del_pictures = await resource_new.getPictures();
         await resource_new.removePicture(del_pictures);
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let picture_id = ctx.request.body.picture_id;
         let picture_time = ctx.request.body.picture_time;
-        let md = md5(Date.now());
         let main = {}, picture_name = new Array();
         main.md5 = md;
         await user_person.addResource(resource_new);
