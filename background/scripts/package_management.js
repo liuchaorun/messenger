@@ -391,7 +391,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     for (let checkbox of checkboxes)
     {
         picture_id.push($(checkbox).parent().attr('class'));
-        picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
+        picture_time.push($(checkbox).next().val() === '' ? 10 : parseInt($(checkbox).next().val()));
         if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
         {
             prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
@@ -399,7 +399,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
             return false;
         }
         data.picture_id = picture_id;
-        data.picture_time = parseInt(picture_time);
+        data.picture_time = picture_time;
     }
 
     AJAX(action, data,
