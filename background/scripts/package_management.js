@@ -41,7 +41,7 @@ $(function ()
                 let packs = response.data.resources;
                 for (let i = 0; i < packs.length; i++)
                 {
-                    $package_management_table.append(`<tr id=${packs[i].id}>
+                    $package_management_table.append(`<tr id=${packs[i].resource_id}>
  <td>${i + 1}</td>
  <td>${packs[i].name}</td>
  <td>${packs[i].note}</td>
