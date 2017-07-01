@@ -11,7 +11,7 @@ function AJAX(action, data, success_function, error_function, async)
                 withCredentials: true
             },
             contentType: 'application/json',
-            timeout: 5000,
+            timeout: 2500,
             async: async,
             dataType: 'json',
             url: `http://118.89.197.156:3000/action=${action}`,
