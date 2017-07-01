@@ -40,6 +40,7 @@ let transporter = nodemailer.createTransport({
         pass: 'pobooks126'
     }
 });
+
 router.post('/action=signup', async (ctx, next) => {
     let user_num = user.count({where: {email: ctx.request.body.email}});
     let n = Math.floor(Math.random() * 9000 + 1000);
@@ -64,6 +65,7 @@ router.post('/action=signup', async (ctx, next) => {
     }
     await next();
 });
+
 router.post('/action=verify', async (ctx, next) => {
     if (ctx.session.verify === ctx.request.body.verify) {
         await user.create({
@@ -76,6 +78,7 @@ router.post('/action=verify', async (ctx, next) => {
     else ctx.api(200, {}, {code: 0, msg: '验证码错误！'});
     await next();
 });
+
 router.post('/action=login', async (ctx, next) => {
     let user_num = await user.count({where: {email: ctx.request.body.email}});
     if (user_num === 0) ctx.api(200, {}, {code: 0, msg: '该用户不存在！'});
@@ -133,6 +136,7 @@ router.post('/action=login', async (ctx, next) => {
     }
     await next();
 });
+
 router.post('/action=forget', async (ctx, next) => {
     let user_num = await user.count({where: {email: ctx.request.body.email}});
     if (user_num === 0) ctx.api(200, {}, {code: 0, msg: '不存在该用户！'});
@@ -148,6 +152,7 @@ router.post('/action=forget', async (ctx, next) => {
     }
     await next();
 });
+
 router.post('/action=new_password', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.forget_email}});
     await user_person.update({
@@ -156,6 +161,7 @@ router.post('/action=new_password', async (ctx, next) => {
     ctx.api(200, {}, {code: 10000, msg: '修改密码成功！'});
     await next();
 });
+
 router.post('/action=get_info', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_picture = await user_person.getPictures();
@@ -170,13 +176,14 @@ router.post('/action=get_info', async (ctx, next) => {
     ctx.api(200, data, {code: 1, msg: '获取信息成功'});
     await next();
 });
+
 router.post('/action=get_screen', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_screen = await user_person.getScreens();
     let data = {};
     data.info = new Array();
     for (let i = 0; i < user_screen.length; ++i) {
-        let resource_name = await user_screen[i].getResources();
+        let resource_name = await resource.findOne({where:{resource_id:user_screen[i].resource_id}});
         data.info[i] = {
             uuid: user_screen[i].uuid,
             status: isOnline(user_screen[i].updated_at, user_screen[i].time),
@@ -190,6 +197,7 @@ router.post('/action=get_screen', async (ctx, next) => {
     ctx.api(200, data, {code: 10000, msg: "获取成功！"});
     await next();
 });
+
 router.post('/action=add_screen', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let screen_num = await screen.count({where: {uuid: ctx.request.body.uuid}});
@@ -203,6 +211,7 @@ router.post('/action=add_screen', async (ctx, next) => {
     }
     await next();
 });
+
 router.post('/action=modify_screen', async (ctx, next) => {
     let screen_uuid = ctx.request.body.uuid;
     for (let i of screen_uuid) {
@@ -214,6 +223,7 @@ router.post('/action=modify_screen', async (ctx, next) => {
     ctx.api(200, {}, {code: 10000, msg: '修改成功！'});
     await next();
 });
+
 router.post('/action=del_screen', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let uuid = ctx.request.body.uuid;
@@ -225,6 +235,7 @@ router.post('/action=del_screen', async (ctx, next) => {
     ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
     await next();
 });
+
 router.post('/action=upload', koaBody({
     multipart: true,
     formidable: {
@@ -251,6 +262,7 @@ router.post('/action=upload', koaBody({
     ctx.api(200, {}, {code: 10000, msg: '上传成功'});
     await next();
 });
+
 router.post('/action=get_picture', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_person_picture = await user_person.getPictures();
@@ -264,6 +276,7 @@ router.post('/action=get_picture', async (ctx, next) => {
     ctx.api(200, data, {code: 10000, msg: '获取图片成功！'});
     await next()
 });
+
 router.post('/action=add_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let picture_id = ctx.request.body.picture_id;
@@ -288,6 +301,7 @@ router.post('/action=add_pack', async (ctx, next) => {
     ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     await next();
 });
+
 router.post('/action=get_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let person_resource = await user_person.getResources();
@@ -305,6 +319,7 @@ router.post('/action=get_pack', async (ctx, next) => {
     ctx.api(200, data, {code: 10000, msg: '获取资源包成功！'});
     await next();
 });
+
 router.post('/action=get_pack_screen', async (ctx, next) => {
     let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.pack_id}});
     let resource_now_screen = await resource_now.getScreens();
@@ -314,12 +329,13 @@ router.post('/action=get_pack_screen', async (ctx, next) => {
         data.screen[i] = {
             name: resource_now_screen[i].name,
             screen_id: resource_now_screen[i].screen_id,
-            note:resource_now_screen[i].remark
+            note: resource_now_screen[i].remark
         }
     }
     ctx.api(200, data, {code: 10000, msg: '获取关联屏幕成功！'});
     await next();
 });
+
 router.post('/action=get_pack_no_screen', async (ctx, next) => {
     let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
     let resource_now_screen = await resource_now.getScreens();
@@ -346,34 +362,37 @@ router.post('/action=get_pack_no_screen', async (ctx, next) => {
         data.screen[i] = {
             name: pack_no_screen[i].name,
             screen_id: pack_no_screen[i].screen_id,
-            note:pack_no_screen[i].remark
+            note: pack_no_screen[i].remark
         }
     }
     ctx.api(200, data, {code: 10000, msg: '获取未添加屏幕成功！'});
     await next();
 });
-router.post('/action=add_pack_screen',async (ctx,next)=>{
+
+router.post('/action=add_pack_screen', async (ctx, next) => {
     let screen_add = ctx.request.body.screen_id;
-    let resource_add = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
-    for(let i of screen_add){
-        let screen_new = await screen.findOne({where:{screen_id:i}});
+    let resource_add = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+    for (let i of screen_add) {
+        let screen_new = await screen.findOne({where: {screen_id: i}});
         let resource_old = await screen_new.getResources();
         await screen_new.removeResources(resource_old);
         await screen_new.addResources(resource_add);
     }
-    ctx.api(200,{},{code:10000,msg:'添加屏幕成功！'});
+    ctx.api(200, {}, {code: 10000, msg: '添加屏幕成功！'});
     await next();
 });
-router.post('/action=del_pack_screen',async(ctx,next)=>{
+
+router.post('/action=del_pack_screen', async (ctx, next) => {
     let screen_del = ctx.request.body.screen_id;
-    let resource_del = await resource.findOne({where:{resource_id:ctx.request.body.resource_id}});
-    for(let i of screen_del){
-        let screen_w = await screen.findOne({where:{screen_id:i}});
+    let resource_del = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+    for (let i of screen_del) {
+        let screen_w = await screen.findOne({where: {screen_id: i}});
         screen_w.removeResources(resource_del);
     }
-    ctx.api(200,{},{code:10000,msg:'删除屏幕成功！'});
+    ctx.api(200, {}, {code: 10000, msg: '删除屏幕成功！'});
     await next();
 });
+
 router.post('/action=get_pack_info', async (ctx, next) => {
     let resource_get = await resource.findOne({where: {resource_id: ctx.request.body.pack_id}});
     let resource_settings = JSON.parse(fs.readFileSync(upDir + resource_get.resource_id + '.json'));
@@ -384,6 +403,7 @@ router.post('/action=get_pack_info', async (ctx, next) => {
     ctx.api(200, data, {code: 10000, msg: '获取资源包图片成功！'});
     await next();
 });
+
 router.post('/action=modify_pack', async (ctx, next) => {
     if (ctx.request.body.multiple === true) {
         let pack = ctx.request.body.pack;
@@ -422,6 +442,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
     }
     await next();
 });
+
 router.post('/action=del_pack', async (ctx, next) => {
     for (let i = 0; i < ctx.request.body.pack.length; ++i) {
         let del_resource = await resource.findOne({where: {resource_id: ctx.request.body.pack[i]}});
@@ -434,6 +455,7 @@ router.post('/action=del_pack', async (ctx, next) => {
     ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
     await next();
 });
+
 router.post('/action=modify_user', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     if (ctx.request.body.new_username !== undefined) await user_person.update({username: ctx.request.body.new_username});
@@ -441,4 +463,5 @@ router.post('/action=modify_user', async (ctx, next) => {
     ctx.api(200, {}, {code: 10000, msg: '修改信息成功！'});
     await next();
 });
+
 module.exports = router;
