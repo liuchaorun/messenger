@@ -380,14 +380,20 @@ function image_AJAX(type, table_id, button_id, footer_id)
                     let row = 0;
                     for (; row < Math.floor(pictures.length / 5); row++)
                     {
-                        for (let i = 0; i < 5; i++)
-                        {
-                            $(`#${table_id}`).append(` <div class="modal_row">
+
+                        $(`#${table_id}`).append(` <div class="modal_row">
  <div class="modal_cell">
- <label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label>
+ <label class=${pictures[row * 5].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5].id}_time maxlength="6" disabled placeholder="10"></label>
+ </div><div class="modal_cell">
+ <label class=${pictures[row * 5 + 1].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 1].id}_time maxlength="6" disabled placeholder="10"></label>
+ </div><div class="modal_cell">
+ <label class=${pictures[row * 5 + 2].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 2].id}_time maxlength="6" disabled placeholder="10"></label>
+ </div><div class="modal_cell">
+ <label class=${pictures[row * 5 + 3].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 3].id}_time maxlength="6" disabled placeholder="10"></label>
+ </div><div class="modal_cell">
+ <label class=${pictures[row * 5 + 4].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 4].id}_time maxlength="6" disabled placeholder="10"></label>
  </div>
  </div>`);
-                        }
                     }
                     if (pictures.length - row * 5 > 0 && !$('#modify_modal_table_last_row').length)
                     {
@@ -613,7 +619,7 @@ function get_screen_modal(pack_this)
         {
             console.log(error);
             append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-        })
+        }, false);
 }
 
 /****/
