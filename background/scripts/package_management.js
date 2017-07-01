@@ -595,7 +595,7 @@ function get_screen_modal(pack_this)
     $screen_modal_body.html('');
     $screen_modal.modal('show');
     let data = {};
-    data.pack_id = pack_id;
+    data.resource_id = pack_id;
     AJAX('get_pack_screen', data,
         function (response)
         {
