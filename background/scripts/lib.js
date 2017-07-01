@@ -52,7 +52,7 @@ function append_warning(modal_body_id, alert_type, icon_class, warn_text, classN
     }, 3000);
 }
 
-function prepend_warning(modal_body_id, alert_type, icon_class, warn_text, className)
+function prepend_warning(modal_footer_id, alert_type, icon_class, warn_text, className)
 {
     if (className === undefined)
         className = '';
@@ -64,7 +64,7 @@ function prepend_warning(modal_body_id, alert_type, icon_class, warn_text, class
     let id = new Date().getTime();
     last_one = id;
 
-    $(`#${modal_body_id}`).prepend(`<div class="alert alert-${alert_type} alert-dismissible fade in ${className}" role="alert" id=${id}>
+    $(`#${modal_footer_id}`).prepend(`<div class="alert alert-${alert_type} alert-dismissible fade in ${className}" role="alert" id=${id}>
  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="glyphicon ${icon_class}"></span><span> ${warn_text}</span></div>`);
     setTimeout(function ()
     {
