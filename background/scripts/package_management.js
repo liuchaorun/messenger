@@ -59,7 +59,7 @@ $(function ()
         function (error)
         {
             console.log(error);
-            //$error_modal.modal('show');
+            $error_modal.modal('show');
         });
 });
 
@@ -285,6 +285,59 @@ $(function ()
     tip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
     tip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
 });
+
+/**plus/minus_modal按钮**/
+$(function ()
+{
+    const $plus_modal_btn = $('#plus_modal_btn');
+    const $minus_modal_btn = $('#minus_modal_btn');
+    $plus_modal_btn.click(function (event)
+    {
+        event.preventDefault();
+        screen_AJAX('plus', 'add_pack_screen');
+    });
+    $minus_modal_btn.click(function (event)
+    {
+        event.preventDefault();
+        screen_AJAX('minus', 'del_pack_screen');
+    })
+});
+
+/**修改屏幕AJAX**/
+function screen_AJAX(type, action)
+{
+    let data = {};
+    data.screen = [];
+    data.pack_id = $(`#${type}_head_row`).attr('class');
+    let checked_checkboxes = $(`${type}_modal_table`).find('input:checked');
+    if (checked_checkboxes.length === 0)
+    {
+        prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '至少选择一个屏幕', 'tip');
+        return false;
+    }
+    for (let checkbox of checked_checkboxes)
+        data.screen.push($(checkbox).parent().parent().attr('class'));
+    AJAX(action, data,
+        function (response)
+        {
+            if (response.status.code === 0)
+                prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+            else
+            {
+                prepend_warning(`${type}_modal_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                setTimeout(function ()
+                {
+                    location.reload(true);
+                }, 1000);
+            }
+        },
+        function (error)
+        {
+
+            console.log(error);
+            prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+        })
+}
 
 /**
  *DOM结构
@@ -576,6 +629,7 @@ function btn_AJAX(btn_this, type, action)
     $(`#${type}_modal`).modal('show');
     let data = {};
     data.resource_id = $(btn_this).parent().parent().attr('id');
+    $(`#${type}_head_row`).attr('class', data.resource_id);
     AJAX(action, data,
         function (response)
         {
