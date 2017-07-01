@@ -316,7 +316,7 @@ function screen_AJAX(type, action)
         return false;
     }
     for (let checkbox of checked_checkboxes)
-        data.screen.push($(checkbox).parent().parent().attr('class'));
+        data.screen.push(parseInt($(checkbox).parent().parent().attr('class')));
     AJAX(action, data,
         function (response)
         {
