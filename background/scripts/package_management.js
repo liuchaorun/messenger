@@ -139,6 +139,7 @@ $(function ()
                                 $(checked_picture).children().first().children().css('opacity', 0.25);
                                 $(checked_picture).find('input[type=text]').css('opacity', 1);
                                 $(checked_picture).find('input[type=text]').val(checked_pictures.picture_id);
+                                $(checked_picture).find('input[type=text]').removeAttr('disabled');
                                 $(checked_picture).find('input[type=checkbox]').attr('checked', 'checked');
                             }
                         }
