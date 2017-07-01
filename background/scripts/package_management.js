@@ -54,13 +54,13 @@ $(function ()
  </tr>`)
                 }
             }
+            activate_button();
         },
         function (error)
         {
             console.log(error);
             //$error_modal.modal('show');
         });
-    activate_button();
 });
 
 /**增加按钮**/
