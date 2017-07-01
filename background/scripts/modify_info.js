@@ -86,7 +86,7 @@ function modify_AJAX(data, modal_body_id)
                 setTimeout(function ()
                 {
                     location.reload(true);
-                }, 3000);
+                }, 1000);
             }
         },
         function (error)

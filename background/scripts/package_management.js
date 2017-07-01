@@ -113,7 +113,6 @@ $(function ()
         {
             $modify_modal.modal('show');
             prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
-            image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
             AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0]).parent().parent().attr('id')},
                 function (response)
                 {
@@ -124,6 +123,7 @@ $(function ()
                     }
                     else
                     {
+                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
                         $modify_modal_btn.removeAttr('disabled');
                         let pack_info = response.data;
                         $new_pack_name_input.val(pack_info.name);
@@ -415,7 +415,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
                 setTimeout(function ()
                 {
                     location.reload(true);
-                }, 3000);
+                }, 1000);
             }
         },
         function (error)
@@ -459,7 +459,7 @@ function modify_AJAX(multiple_bool, data)
                 setTimeout(function ()
                 {
                     location.reload(true);
-                }, 3000);
+                }, 1000);
             }
         },
         function (error)

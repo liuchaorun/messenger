@@ -9,7 +9,7 @@ function AJAX(action, data, success_function, error_function)
                 withCredentials: true
             },
             contentType: 'application/json',
-            timeout: 10000,
+            timeout: 5000,
             dataType: 'json',
             url: `http://118.89.197.156:3000/action=${action}`,
             // url: `http://127.0.0.1:3000/action=${action}`,
@@ -49,7 +49,7 @@ function append_warning(modal_body_id, alert_type, icon_class, warn_text, classN
     setTimeout(function ()
     {
         $(`#${id}`).alert('close');
-    }, 3000);
+    }, 2000);
 }
 
 function prepend_warning(modal_footer_id, alert_type, icon_class, warn_text, className)
@@ -69,7 +69,7 @@ function prepend_warning(modal_footer_id, alert_type, icon_class, warn_text, cla
     setTimeout(function ()
     {
         $(`#${id}`).alert('close');
-    }, 3000);
+    }, 2000);
 }
 
 /**把时间串解析为中文**/
