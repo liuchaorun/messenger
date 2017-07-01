@@ -342,28 +342,18 @@ router.post('/action=get_pack_no_screen', async (ctx, next) => {
     let resource_now_screen = await resource_now.getScreens();
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_person_screen = await user_person.getScreens();
-    Array.prototype.minus = function (arr) {
-        let result = new Array();
-        let obj = {};
-        for (let i = 0; i < arr.length; i++) {
-            obj[arr[i]] = 1;
-        }
-        for (let j = 0; j < this.length; j++) {
-            if (!obj[this[j]]) {
-                obj[this[j]] = 1;
-                result.push(this[j]);
-            }
-        }
-        return result;
-    };
-    let data = {};
+    let data = {},n=0;
     data.screen = new Array();
-    let pack_no_screen = user_person_screen.minus(resource_now_screen);
-    for (let i = 0; i < pack_no_screen.length; ++i) {
-        data.screen[i] = {
-            name: pack_no_screen[i].name,
-            screen_id: pack_no_screen[i].screen_id,
-            note: pack_no_screen[i].remark
+    for(let i of user_person_screen){
+        let flag=0;
+        for(let j of resource_now_screen) if(i.screen_id===j.screen_id) flag=1;
+        if(flag===0){
+            data.screen[n]={
+                name:i.name,
+                screen_id:i.screen_id,
+                note:i.remark
+            };
+            n++;
         }
     }
     ctx.api(200, data, {code: 10000, msg: '获取未添加屏幕成功！'});
