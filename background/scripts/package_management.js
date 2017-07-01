@@ -114,7 +114,7 @@ $(function ()
             $modify_modal.modal('show');
             prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
             image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
-            AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0].parent().parent().attr('id'))},
+            AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0]).parent().parent().attr('id')},
                 function (response)
                 {
                     if (response.status.code === 0)
