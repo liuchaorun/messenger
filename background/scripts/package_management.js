@@ -619,7 +619,7 @@ function get_screen_modal(pack_this)
 /****/
 function btn_AJAX(btn_this, type, action)
 {
-    $(`#${type}_modal_table`).html(`<tbody><tr>
+    $(`#${type}_modal_table`).html(`<tbody><tr id=${type}_head_row>
                         <th>序号</th>
                         <th>屏幕名</th>
                         <th>备注</th>
