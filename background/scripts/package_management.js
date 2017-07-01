@@ -598,7 +598,6 @@ function get_screen_modal(pack_this)
     let pack_id = $(pack_this).parent().parent().attr('id');
     const $screen_modal_body = $('#screen_modal_body');
     const $screen_modal = $('#screen_modal');
-    $screen_modal_body.html('');
     $screen_modal.modal('show');
     let data = {};
     data.resource_id = pack_id;
@@ -609,6 +608,7 @@ function get_screen_modal(pack_this)
                 append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
             else
             {
+                $screen_modal_body.html('');
                 if (response.data.screen.length === 0)
                     append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '该包没有关联屏幕');
                 for (let screen of response.data.screen)
@@ -619,7 +619,7 @@ function get_screen_modal(pack_this)
         {
             console.log(error);
             append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-        }, false);
+        });
 }
 
 /****/
