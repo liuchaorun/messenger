@@ -536,7 +536,7 @@ function get_screen_modal(pack_this)
                 append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
             else
             {
-                for (let screen_name of response.data)
+                for (let screen_name of response.data.screen)
                     $screen_modal_body.append(`<div class="screen_list_row">${screen_name}</div>`);
             }
         },
