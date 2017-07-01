@@ -365,7 +365,7 @@ router.post('/action=add_pack_screen', async (ctx, next) => {
     let resource_add = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
     for (let i of screen_add) {
         let screen_new = await screen.findOne({where: {screen_id: i}});
-        await screen_new.addResources(resource_add);
+        await resource_add.addScreens(screen_new);
     }
     ctx.api(200, {}, {code: 10000, msg: '添加屏幕成功！'});
     await next();
@@ -376,7 +376,7 @@ router.post('/action=del_pack_screen', async (ctx, next) => {
     let resource_del = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
     for (let i of screen_del) {
         let screen_w = await screen.findOne({where: {screen_id: i}});
-        screen_w.removeResources(resource_del);
+        resource_del.removeScreens(screen_w);
     }
     ctx.api(200, {}, {code: 10000, msg: '删除屏幕成功！'});
     await next();
