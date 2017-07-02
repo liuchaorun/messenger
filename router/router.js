@@ -11,6 +11,7 @@ const Sequelize = require('sequelize');
 const images = require("image-size");
 const isOnline = require('./isOnlie');
 const fs = require('fs');
+const gm = require('gm');
 const zip = require('./zip');
 const upDir = '/home/ubuntu/file/';
 let user = model.user;
@@ -253,8 +254,10 @@ router.post('/action=upload', koaBody({
             size: files.file[i].size,
             image_size: image.width.toString() + '×' + image.height.toString(),
             image_type: files.file[i].type,
-            url: 'http://118.89.197.156:8000/' + file_name
+            url: 'http://118.89.197.156:8000/' + file_name,
+            thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
         });
+        gm.resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
         fs.rename(files.file[i].path, upDir + file_name, (err) => {
             console.log(err);
         })
@@ -271,7 +274,7 @@ router.post('/action=get_picture', async (ctx, next) => {
     for (let i = 0; i < user_person_picture.length; ++i) {
         data.pictures[i] = {};
         data.pictures[i].id = user_person_picture[i].picture_id;
-        data.pictures[i].src = user_person_picture[i].url;
+        data.pictures[i].src = user_person_picture[i].thumbnails_url;
     }
     ctx.api(200, data, {code: 10000, msg: '获取图片成功！'});
     await next()
