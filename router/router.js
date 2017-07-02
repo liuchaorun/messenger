@@ -257,10 +257,10 @@ router.post('/action=upload', koaBody({
             url: 'http://118.89.197.156:8000/' + file_name,
             thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
         });
-        gm.resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
         fs.rename(files.file[i].path, upDir + file_name, (err) => {
             console.log(err);
-        })
+        });
+        gm(upDir + file_name).resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
     }
     ctx.api(200, {}, {code: 10000, msg: '上传成功'});
     await next();
