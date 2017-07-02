@@ -249,7 +249,7 @@ router.post('/action=upload', koaBody({
         let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let image = images(files.file[i].path);
-        await user_person.createPicture({
+        let picture_add = await picture.createPicture({
             name: file_name,
             size: files.file[i].size,
             image_size: image.width.toString() + '×' + image.height.toString(),
@@ -257,6 +257,7 @@ router.post('/action=upload', koaBody({
             url: 'http://118.89.197.156:8000/' + file_name,
             thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
         });
+        await user_person.addPictures(picture_add);
         fs.rename(files.file[i].path, upDir + file_name, (err) => {
             console.log(err);
         });
