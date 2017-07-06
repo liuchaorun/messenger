@@ -34,6 +34,7 @@ $(function ()
     const $resource_management_icon = $('#resource_management_icon');
     const $collapse = $('#collapse');
     const $upload = $('#upload');
+    const $del_picture = $('#del_picture');
     const $package_management = $('#package_management');
     const $modify_info = $('#modify_info');
     $user_info.click(function (event)
@@ -72,6 +73,13 @@ $(function ()
         $resource_management.addClass('active');
         $upload.addClass('active');
         $frame.attr('src', 'frames/upload.html');
+    });
+    $del_picture.click(function (event)
+    {
+        event.preventDefault();
+        $('.active').removeClass('active');
+        $del_picture.addClass('active');
+        $frame.attr('src', 'frames/del_picture.html');
     });
     $package_management.click(function (event)
     {

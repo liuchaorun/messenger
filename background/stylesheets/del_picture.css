@@ -1,0 +1,58 @@
+#buttons {
+    position: fixed;
+    right: 0;
+    padding: 1em 2.5em;
+    bottom: 5em;
+    background-color: rgba(255, 255, 255, 0.4);
+    opacity: 0.6;
+    border-top-left-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+    transition: 0.5s;
+    box-shadow: #444 0.2em 0.2em 0.5em;
+}
+
+#buttons:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+}
+
+#buttons > button {
+    font-size: 2em;
+    padding: 0.5em 1.5em;
+    margin-left: 0.5em;
+}
+
+#del_picture_panel_body {
+    overflow-y: auto;
+}
+
+#del_picture_table {
+    display: table;
+    margin: 0 auto;
+}
+
+.del_picture_row {
+    display: table-row;
+}
+
+.del_picture_div {
+    display: table-cell;
+    width: 11.5em;
+    text-align: center;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.del_picture {
+    width: 7.5em;
+}
+
+.del_picture_label {
+    display: inline-block;
+    margin: 1em 0;
+}
+
+input[type=checkbox] {
+    display: none;
+}

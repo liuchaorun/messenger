@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../stylesheets/frame_common.css">
+    <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/del_picture.css">
+    <title>删除图片 - Messenger</title>
+</head>
+<body>
+<div class="container">
+    <div class="panel panel-default" id="del_picture_panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">删除图片</h3>
+        </div>
+        <div class="panel-body" id="del_picture_panel_body">
+            <div id="del_picture_table" class="picture_table"></div>
+        </div>
+    </div>
+</div>
+<div id="buttons">
+    <button class="btn btn-danger btn-lg" id="del_btn">删除</button>
+</div>
+
+<!--删除-->
+<div class="modal fade" tabindex="-1" role="dialog" id="del_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除图片</h4>
+            </div>
+            <div class="modal-body" id="del_modal_body">
+                <div class="alert alert-danger" role="alert" id="del_warning"><span
+                        class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除图片<span
+                        id="del_screen"></span>，删除后你将丢失这些图片的所有设置，请仔细确认。
+                </div>
+                <div class="modal-footer" id="del_modal_footer">
+                    <button type="button" class="btn btn-danger btn-lg" id="del_modal_btn"><span
+                            class="glyphicon glyphicon-ok">确认</span></button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span>关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--没有选择删除-->
+<div class="modal fade" tabindex="-1" role="dialog" id="del_error_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除图片</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert" id="del_error_warning"><span
+                        class="glyphicon glyphicon-exclamation-sign"></span> 至少选择一个图片
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../lib/jquery-3.2.1.min.js"></script>
+<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../scripts/lib.js"></script>
+<script src="../scripts/frame_common.js"></script>
+<script src="../scripts/del_picture.js"></script>
+</body>
+</html>

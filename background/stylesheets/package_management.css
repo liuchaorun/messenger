@@ -4,7 +4,7 @@
 
 #add_modal_table, #modify_modal_table {
     display: table;
-    margin: auto auto;
+    margin: 1em auto;
 }
 
 .modal_row {
