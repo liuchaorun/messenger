@@ -56,3 +56,34 @@
 input[type=checkbox] {
     display: none;
 }
+
+#del_error_2_modal .alert {
+    font-size: 2.2em;
+}
+
+#del_picture_with_pack_table {
+    font-size: 1.5em !important;
+}
+
+#del_error_2_modal_body {
+    overflow-y: auto;
+}
+
+.preview {
+    width: 7.5em;
+}
+
+.modal .alert {
+    font-size: 2.2em;
+}
+
+.tip {
+    text-align: left;
+    display: inline-block;
+    width: 18em;
+    margin-bottom: 0;
+    float: left;
+    margin-left: 3.5em;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+}
