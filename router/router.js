@@ -218,7 +218,12 @@ router.post('/action=modify_screen', async (ctx, next) => {
     for (let i of screen_uuid) {
         let screen_new = await screen.findOne({where: {uuid: i}});
         if (ctx.request.body.new_name !== undefined) await screen_new.update({name: ctx.request.body.new_name});
-        if (ctx.request.body.new_freq !== undefined) await screen_new.update({time: ctx.request.body.new_freq});
+        if (ctx.request.body.new_freq !== undefined) {
+            await screen_new.update({
+                time: ctx.request.body.new_freq,
+                md5:md5(Date.now())
+            });
+        }
         if (ctx.request.body.new_note !== undefined) await screen_new.update({remark: ctx.request.body.new_note});
     }
     ctx.api(200, {}, {code: 10000, msg: '修改成功！'});
@@ -243,6 +248,8 @@ router.post('/action=upload', koaBody({
         uploadDir: upDir
     }
 }), async (ctx, next) => {
+    console.log(ctx.request.body.file);
+    console.log(ctx.request.body.files);
     let files = ctx.request.body.files;
     for (let i = 0; i < files.file.length; ++i) {
         let fileFormat = (files.file[i].name).split(".");
@@ -285,9 +292,7 @@ router.post('/action=add_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let picture_id = ctx.request.body.picture_id;
     let picture_time = ctx.request.body.picture_time;
-    let md = md5(Date.now());
     let main = {}, picture_name = new Array();
-    main.md5 = md;
     let resource_new = await resource.create({
         name: ctx.request.body.pack_name,
         remark: ctx.request.body.pack_note,
@@ -296,12 +301,15 @@ router.post('/action=add_pack', async (ctx, next) => {
     await user_person.addResource(resource_new);
     for (let i = 0; i < picture_id.length; ++i) {
         let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
+        await resource_new.addPictures(picture_add);
         main[picture_add.picture_id] = picture_time[i];
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
+    let md = zip(picture_name, resource_new.name);
+    main.md5 = md;
+    await resource_new.update({md5:md});
     main = JSON.stringify(main);
-    zip(picture_name, main, resource_new.name);
     fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main);
     ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     await next();
@@ -370,6 +378,7 @@ router.post('/action=add_pack_screen', async (ctx, next) => {
     for (let i of screen_add) {
         let screen_new = await screen.findOne({where: {screen_id: i}});
         await resource_add.addScreens(screen_new);
+        screen_new.update({md5:md5(Date.now())});
     }
     ctx.api(200, {}, {code: 10000, msg: '添加屏幕成功！'});
     await next();
@@ -381,6 +390,7 @@ router.post('/action=del_pack_screen', async (ctx, next) => {
     for (let i of screen_del) {
         let screen_w = await screen.findOne({where: {screen_id: i}});
         resource_del.removeScreens(screen_w);
+        screen_w.update({md5:md5(Date.now())});
     }
     ctx.api(200, {}, {code: 10000, msg: '删除屏幕成功！'});
     await next();
@@ -410,28 +420,29 @@ router.post('/action=modify_pack', async (ctx, next) => {
         let resource_new = await resource.findOne({where: {resource_id: ctx.request.body.pack[0]}});
         fs.unlinkSync(upDir + 'resource/' + resource_new.name + '.zip');
         fs.unlinkSync(upDir + resource_new.resource_id + '.json');
-        let md = md5(Date.now());
         await resource_new.update({
             name: ctx.request.body.new_pack_name,
-            remark: ctx.request.body.new_pack_note,
-            md5:md
+            remark: ctx.request.body.new_pack_note
         });
         let del_pictures = await resource_new.getPictures();
-        await resource_new.removePicture(del_pictures);
+        await resource_new.removePictures(del_pictures);
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let picture_id = ctx.request.body.picture_id;
         let picture_time = ctx.request.body.picture_time;
         let main = {}, picture_name = new Array();
-        main.md5 = md;
         await user_person.addResource(resource_new);
         for (let i = 0; i < picture_id.length; ++i) {
             let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
+            await resource_new.addPictures(picture_add);
             main[picture_add.picture_id] = picture_time[i];
             main[picture_add.name] = picture_time[i];
             picture_name[i] = picture_add.name;
         }
-        zip(picture_name, JSON.stringify(main), resource_new.name);
-        fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', JSON.stringify(main));
+        let md = zip(picture_name, resource_new.name);
+        main.md5 = md;
+        await resource_new.update({md5:md});
+        main = JSON.stringify(main);
+        fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main);
         ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     }
     await next();
@@ -444,6 +455,8 @@ router.post('/action=del_pack', async (ctx, next) => {
         fs.unlinkSync(upDir + del_resource.resource_id + '.json');
         let del_resource_picture = await del_resource.getPictures();
         await del_resource.removePictures(del_resource_picture);
+        let screen_now = await del_resource.getScreens();
+        for(let i of screen_now) i.update({md5:md5(Date.now())});
         await del_resource.destroy();
     }
     ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
@@ -455,6 +468,116 @@ router.post('/action=modify_user', async (ctx, next) => {
     if (ctx.request.body.new_username !== undefined) await user_person.update({username: ctx.request.body.new_username});
     if (ctx.request.body.new_work_place !== undefined) await user_person.update({work_place: ctx.request.body.new_work_place});
     ctx.api(200, {}, {code: 10000, msg: '修改信息成功！'});
+    await next();
+});
+
+router.post('/action=get_picture_for_del',async(ctx,next)=>{
+    let data={};
+    let user_person = await user.findOne({email:ctx.session.custom_email});
+    let pictures_all = await user_person.getPictures();
+    data.pictures = new Array();
+    for(let i =0;i<pictures_all.length;++i){
+        data.pictures[i].picture_id = pictures_all[i].picture_id;
+        data.pictures[i].url = pictures_all[i].thumbnails_url;
+        let pack_all = await pictures_all[i].getResources();
+        data.pictures[i].pack = new Array();
+        for(let j =0;j<pack_all.length;++j){
+            data.pictures[i].pack[j] = pack_all.name;
+        }
+    }
+    ctx.api(200,data,{code:10000,msg:'获取待图片成功！'});
+    await next();
+});
+
+router.post('/action=del_picture',async(ctx,next)=>{
+    let picture_ids = ctx.request.body.picture_id;
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    for(let i of picture_ids){
+        let pic = await picture.findOne({where:{picture_id:i}});
+        await user_person.removePictures(pic);
+        fs.unlinkSync(upDir+pic.name);
+        fs.unlinkSync(upDir+'thumbnails_'+pic.name);
+    }
+    ctx.api(200,{},{code:10000,msg:'删除成功！'});
+});
+
+router.post('/action=create_screen',async(ctx,next)=>{
+    let uuid = ctx.request.body.uuid;
+    await screen.create({
+        uuid:uuid,
+        md5:md5(Date.now()),
+        name:uuid
+    });
+    ctx.api(200,{},{code:10000,msg:'创建屏幕成功！'});
+    await next();
+});
+
+router.post('/action=verify_screen',async(ctx,next)=>{
+    let data = {};
+    if(screen.count({where:{uuid:ctx.request.body.uuid}})===0){
+        data.is_user = 2;
+    }
+    else{
+        let screen_now = await screen.findOne({where:{uuid:ctx.request.body.uuid}});
+        if(screen_now.user_id===null){
+            data.is_user = 0;
+        }
+        else{
+            data.is_user = 1;
+        }
+    }
+    ctx.api(200,data,{code:10000,msg:'验证完成！'});
+    await next();
+});
+
+router.post('/action=all',async(ctx,next)=>{
+    let uuid = ctx.request.body.uuid;
+    let data = {};
+    let screen_now = await screen.findOne({where:{uuid:uuid}});
+    data.screen_time = screen_now.time;
+    data.screen_md5 = screen_now.md5;
+    if(screen_now.resource_id){
+        let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
+        data.pack={
+            resource_url : 'http://118.89.197.156:8000/resource/'+resource_now.name+'.zip',
+            json_url:'http://118.89.197.156:8000/'+resource_now.resource_id+'.json'
+        }
+    }
+    ctx.api(200,data,{code:10000,msg:'获取成功！'});
+});
+
+router.post('/action=request',async(ctx,next)=>{
+    let uuid = ctx.request.body.uuid;
+    let screen_now = await screen.findOne({where:{uuid:uuid}});
+    let data = {};
+    data.screen_md5= screen_now.md5;
+    if(screen_now.resource_id){
+        let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
+        data.resource_md5 = resource_now.md5;
+    }
+    ctx.api(200,data,{code:10000,msg:'轮训成功！'});
+    await next();
+});
+
+router.post('/action=request_setting',async(ctx,next)=>{
+    let uuid = ctx.request.body.uuid;
+    let screen_now = await screen.findOne({where:{uuid:uuid}});
+    let data={};
+    data.time=screen_now.time;
+    ctx.api(200,data,{code:10000,msg:'获取成功！'});
+    await next();
+});
+
+router.post('/action=request_resource',async(ctx,next)=>{
+    let uuid = ctx.request.body.uuid;
+    let screen_now = await screen.findOne({where:{uuid:uuid}});
+    let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
+    let data={};
+    data.pack={
+        resource_url : 'http://118.89.197.156:8000/resource/'+resource_now.name+'.zip',
+        json_url:'http://118.89.197.156:8000/'+resource_now.resource_id+'.json'
+    };
+    ctx.api(200,data,{code:10000,msg:'获取成功！'});
     await next();
 });
 
