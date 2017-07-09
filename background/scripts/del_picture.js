@@ -44,7 +44,7 @@ $(function ()
  * data结构
  * {
  *      pictures: [
- *                  {id=XXX,url=XXX,pack=[XXX,XXX]},
+ *                  {id=XXX,src=XXX,pack=[XXX,XXX]},
  *                 ]
  * }
  * **/

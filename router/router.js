@@ -476,8 +476,8 @@ router.post('/action=get_picture_for_del',async(ctx,next)=>{
     data.pictures = new Array();
     for(let i =0;i<pictures_all.length;++i){
         data.pictures[i]={
-            picture_id : pictures_all[i].picture_id,
-            url : pictures_all[i].thumbnails_url
+            id : pictures_all[i].picture_id,
+            src : pictures_all[i].thumbnails_url
         };
         let pack_all = await pictures_all[i].getResources();
         data.pictures[i].pack = new Array();
