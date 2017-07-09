@@ -43,7 +43,7 @@ $(function ()
                 for (let picture of response.data.pictures)
                 {
                     picture_pack_info[picture.id] = {};
-                    picture_pack_info[picture.id].url = picture.url;
+                    picture_pack_info[picture.id].src = picture.src;
                     picture_pack_info[picture.id].pack = picture.pack;
                 }
                 let pictures = response.data.pictures;
@@ -168,8 +168,8 @@ function activate()
             {
                 let packs = "";
                 for (let pack of picture_pack_info[id].pack)
-                    packs = pack + ' pack';
-                $del_picture_with_pack_table.append(`<tr><td><img class="preview" src=${picture_pack_info[id].url} alt=${id}></td><td>${packs}</td></tr>`)
+                    packs = pack + ' ';
+                $del_picture_with_pack_table.append(`<tr><td><img class="preview" src=${picture_pack_info[id].src} alt=${id}></td><td>${packs}</td></tr>`)
             }
             $del_error_2_modal.modal('show');
         }
