@@ -135,9 +135,9 @@ function activate()
         data.picture_id = [];
         for (let checkbox of checked_checkboxes)
         {
-            data.picture_id.push(parseInt((checkbox).parent().attr('id')));
-            if (picture_pack_info[(checkbox).parent().attr('id')].pack.length !== 0)
-                picture_with_pack.push(parseInt((checkbox).parent().attr('id')))
+            data.picture_id.push(parseInt($(checkbox).parent().attr('id')));
+            if (picture_pack_info[$(checkbox).parent().attr('id')].pack.length !== 0)
+                picture_with_pack.push(parseInt($(checkbox).parent().attr('id')))
         }
         if (picture_with_pack.length === 0)
         {
