@@ -294,8 +294,7 @@ router.post('/action=add_pack', async (ctx, next) => {
     let main = {}, picture_name = new Array();
     let resource_new = await resource.create({
         name: ctx.request.body.pack_name,
-        remark: ctx.request.body.pack_note,
-        md5:md
+        remark: ctx.request.body.pack_note
     });
     await user_person.addResource(resource_new);
     for (let i = 0; i < picture_id.length; ++i) {
