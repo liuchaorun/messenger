@@ -482,7 +482,7 @@ router.post('/action=get_picture_for_del',async(ctx,next)=>{
         let pack_all = await pictures_all[i].getResources();
         data.pictures[i].pack = new Array();
         for(let j =0;j<pack_all.length;++j){
-            data.pictures[i].pack[j] = pack_all.name;
+            data.pictures[i].pack[j] = pack_all[j].name;
         }
     }
     ctx.api(200,data,{code:10000,msg:'获取待图片成功！'});

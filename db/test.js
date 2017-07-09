@@ -27,9 +27,22 @@ resource.hasMany(screen, {foreignKey: 'resource_id'});
 resource.belongsToMany(picture,{through:resource_picture,foreignKey:'resource_id'});
 picture.belongsToMany(resource,{through:resource_picture,foreignKey:'picture_id'});
 async function a() {
-    let resource_now = await resource.findOne({where:{resource_id:18}});
-    let screen_now = await resource_now.getScreens();
-    console.log(screen_now);
+    let data={};
+    let user_person = await user.findOne({where:{email:'1558531230@qq.com'}});
+    let pictures_all = await user_person.getPictures();
+    data.pictures = new Array();
+    for(let i =0;i<pictures_all.length;++i){
+        data.pictures[i]={
+            picture_id : pictures_all[i].picture_id,
+            url : pictures_all[i].thumbnails_url
+        };
+        let pack_all = await pictures_all[i].getResources();
+        data.pictures[i].pack = new Array();
+        for(let j =0;j<pack_all.length;++j){
+            data.pictures[i].pack[j] = pack_all[j].name;
+        }
+    }
+    console.log(data);
 }
 a();
 //const fs = require('fs');
