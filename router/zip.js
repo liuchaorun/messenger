@@ -25,7 +25,7 @@ module.exports=(name,zip_name)=>{
                 });
                 stream.on('end', function() {
                     str = md5sum.digest('hex').toUpperCase();
-                    console.log('文件:'+path+',MD5签名为:'+str);
+                    console.log('文件:'+zip_name+".zip"+',MD5签名为:'+str);
                 });
             });
         });
