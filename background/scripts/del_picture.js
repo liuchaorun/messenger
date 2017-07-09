@@ -10,25 +10,6 @@ $(function ()
     autoHeight('del_error_2_modal_body', 225);
 });
 
-/**checkbox切换效果**/
-$(function ()
-{
-    const $checkbox = $('.checkbox');
-    $checkbox.click(function ()
-    {
-        if ($(this).is(':checked'))
-        {
-            $(this).parent().parent().css('backgroundImage', 'url("../images/selected.png")');
-            $(this).parent().css('opacity', 0.25);
-        }
-        else
-        {
-            $(this).parent().removeAttr('style');
-            $(this).parent().parent().removeAttr('style');
-        }
-    });
-});
-
 /**拉取图片**/
 /**DOM结构
  * <div class="del_picture_row">
@@ -98,7 +79,7 @@ $(function ()
         function (error)
         {
             console.log(error);
-            //$error_modal.modal('show');
+            $error_modal.modal('show');
         })
 });
 
@@ -122,6 +103,24 @@ function activate()
     const $del_error_modal = $('#del_error_modal');
     const $del_error_2_modal = $('#del_error_2_modal');
     const $del_picture_with_pack_table = $('#del_picture_with_pack_table');
+
+    const $checkbox = $('.checkbox');
+
+    /**checkbox效果**/
+    $checkbox.click(function ()
+    {
+        if ($(this).is(':checked'))
+        {
+            $(this).parent().parent().css('backgroundImage', 'url("../images/selected.png")');
+            $(this).parent().css('opacity', 0.25);
+        }
+        else
+        {
+            $(this).parent().removeAttr('style');
+            $(this).parent().parent().removeAttr('style');
+        }
+    });
+
     $del_picture_btn.click(function (event)
     {
         event.preventDefault();
