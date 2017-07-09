@@ -503,12 +503,15 @@ router.post('/action=del_picture',async(ctx,next)=>{
 
 router.post('/action=create_screen',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
-    await screen.create({
-        uuid:uuid,
-        md5:md5(Date.now()),
-        name:uuid
-    });
-    ctx.api(200,{},{code:10000,msg:'创建屏幕成功！'});
+    if(screen.count({where:{uuid:uuid}})===0){
+        await screen.create({
+            uuid:uuid,
+            md5:md5(Date.now()),
+            name:uuid
+        });
+        ctx.api(200,{},{code:10000,msg:'创建屏幕成功！'});
+    }
+    else ctx.api(200,{},{code:10000,msg:'该屏幕已存在！'});
     await next();
 });
 
@@ -544,6 +547,7 @@ router.post('/action=all',async(ctx,next)=>{
         }
     }
     ctx.api(200,data,{code:10000,msg:'获取成功！'});
+    await next();
 });
 
 router.post('/action=request',async(ctx,next)=>{
