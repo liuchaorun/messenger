@@ -471,12 +471,14 @@ router.post('/action=modify_user', async (ctx, next) => {
 
 router.post('/action=get_picture_for_del',async(ctx,next)=>{
     let data={};
-    let user_person = await user.findOne({email:ctx.session.custom_email});
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let pictures_all = await user_person.getPictures();
     data.pictures = new Array();
     for(let i =0;i<pictures_all.length;++i){
-        data.pictures[i].picture_id = pictures_all[i].picture_id;
-        data.pictures[i].url = pictures_all[i].thumbnails_url;
+        data.pictures[i]={
+            picture_id : pictures_all[i].picture_id,
+            url : pictures_all[i].thumbnails_url
+        };
         let pack_all = await pictures_all[i].getResources();
         data.pictures[i].pack = new Array();
         for(let j =0;j<pack_all.length;++j){
