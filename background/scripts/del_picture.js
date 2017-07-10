@@ -102,6 +102,8 @@ function activate()
     const $del_picture_btn = $('#del_picture_btn');
     const $del_error_modal = $('#del_error_modal');
     const $del_error_2_modal = $('#del_error_2_modal');
+    const $del_picture_modal = $('#del_picture_modal');
+    const $del_picture_modal_btn = $('#del_picture_modal_btn');
     const $del_picture_with_pack_table = $('#del_picture_with_pack_table');
 
     const $checkbox = $('.checkbox');
@@ -141,25 +143,31 @@ function activate()
         }
         if (picture_with_pack.length === 0)
         {
-            AJAX('del_picture', data,
-                function (response)
-                {
-                    if (response.status.code === 0)
-                        prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
-                    else
+            $del_picture_modal.modal('show');
+
+            $del_picture_modal_btn.click(function ()
+            {
+                AJAX('del_picture', data,
+                    function (response)
                     {
-                        prepend_warning('del_picture_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
-                        setTimeout(function ()
+                        if (response.status.code === 0)
+                            prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                        else
                         {
-                            location.reload(true);
-                        }, 2000)
-                    }
-                },
-                function (error)
-                {
-                    console.log(error);
-                    prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
-                })
+                            prepend_warning('del_picture_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                            setTimeout(function ()
+                            {
+                                location.reload(true);
+                            }, 2000)
+                        }
+                    },
+                    function (error)
+                    {
+                        console.log(error);
+                        prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                    })
+            });
+
         }
         else
         {
