@@ -304,11 +304,7 @@ router.post('/action=add_pack', async (ctx, next) => {
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
-    let md = zip(picture_name, resource_new.name);
-    main.md5 = md;
-    await resource_new.update({md5:md});
-    main = JSON.stringify(main);
-    fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main);
+    zip(picture_name, main, resource_new.name,resource_new);
     ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     await next();
 });
@@ -436,11 +432,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
             main[picture_add.name] = picture_time[i];
             picture_name[i] = picture_add.name;
         }
-        let md = zip(picture_name, resource_new.name);
-        main.md5 = md;
-        await resource_new.update({md5:md});
-        main = JSON.stringify(main);
-        fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main);
+        let md = zip(picture_name,main, resource_new.name,resource_new);
         ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     }
     await next();

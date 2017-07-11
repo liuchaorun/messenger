@@ -1,50 +1,50 @@
 /**
  * Created by lcr on 17-5-16.
  */
-const model = require('./model');
-const config = require('./config');
-const Sequelize = require('sequelize');
-const md5 =require('md5');
-let sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: 'postgres',
-    timezone:'+08:00',
-    pool: {
-        max: 5,
-        min: 0,
-        idle: 3000
-    }
-});
-let user = model.user;
-let screen = model.screen;
-let picture = model.picture;
-let resource = model.resource;
-let resource_picture = model.resource_picture;
-user.hasMany(picture,{foreignKey:'user_id'});
-user.hasMany(screen,{foreignKey:'user_id'});
-user.hasMany(resource,{foreignKey:'user_id'});
-resource.hasMany(screen, {foreignKey: 'resource_id'});
-resource.belongsToMany(picture,{through:resource_picture,foreignKey:'resource_id'});
-picture.belongsToMany(resource,{through:resource_picture,foreignKey:'picture_id'});
-async function a() {
-    let data={};
-    let user_person = await user.findOne({where:{email:'1558531230@qq.com'}});
-    let pictures_all = await user_person.getPictures();
-    data.pictures = new Array();
-    for(let i =0;i<pictures_all.length;++i){
-        data.pictures[i]={
-            picture_id : pictures_all[i].picture_id,
-            url : pictures_all[i].thumbnails_url
-        };
-        let pack_all = await pictures_all[i].getResources();
-        data.pictures[i].pack = new Array();
-        for(let j =0;j<pack_all.length;++j){
-            data.pictures[i].pack[j] = pack_all[j].name;
-        }
-    }
-    console.log(data);
-}
-a();
+// const model = require('./model');
+// const config = require('./config');
+// const Sequelize = require('sequelize');
+// const md5 =require('md5');
+// let sequelize = new Sequelize(config.database, config.username, config.password, {
+//     host: config.host,
+//     dialect: 'postgres',
+//     timezone:'+08:00',
+//     pool: {
+//         max: 5,
+//         min: 0,
+//         idle: 3000
+//     }
+// });
+// let user = model.user;
+// let screen = model.screen;
+// let picture = model.picture;
+// let resource = model.resource;
+// let resource_picture = model.resource_picture;
+// user.hasMany(picture,{foreignKey:'user_id'});
+// user.hasMany(screen,{foreignKey:'user_id'});
+// user.hasMany(resource,{foreignKey:'user_id'});
+// resource.hasMany(screen, {foreignKey: 'resource_id'});
+// resource.belongsToMany(picture,{through:resource_picture,foreignKey:'resource_id'});
+// picture.belongsToMany(resource,{through:resource_picture,foreignKey:'picture_id'});
+// async function a() {
+//     let data={};
+//     let user_person = await user.findOne({where:{email:'1558531230@qq.com'}});
+//     let pictures_all = await user_person.getPictures();
+//     data.pictures = new Array();
+//     for(let i =0;i<pictures_all.length;++i){
+//         data.pictures[i]={
+//             picture_id : pictures_all[i].picture_id,
+//             url : pictures_all[i].thumbnails_url
+//         };
+//         let pack_all = await pictures_all[i].getResources();
+//         data.pictures[i].pack = new Array();
+//         for(let j =0;j<pack_all.length;++j){
+//             data.pictures[i].pack[j] = pack_all[j].name;
+//         }
+//     }
+//     console.log(data);
+// }
+// a();
 //const fs = require('fs');
 // let data = {};
 // data.i = "qwe";
@@ -90,3 +90,34 @@ a();
 // let a = "ab.c";
 // let q = a.split('.');
 // console.log(q);
+const md5 = require('md5');
+const js_zip = require('jszip');
+const fs =require('fs');
+const crypto = require('crypto');
+const picture_dir = '/home/lcr/';
+const zip_dir = '/home/lcr/';
+let md5sum = crypto.createHash('md5');
+function a(name,zip_name){
+    let zip = new js_zip();
+    let img = zip.folder("/images/");
+    for(let i of name) {
+        let data = fs.readFileSync(picture_dir+i);
+        img.file(i,data, {base64: true});
+    }
+    zip.generateAsync({type:"nodebuffer"})
+        .then(function(content) {
+            fs.writeFileSync(zip_dir+zip_name+".zip", content);
+        });
+}
+let name = new Array();
+let str;
+name[0]='1.jpg';
+a(name,'test');
+let stream = fs.createReadStream(zip_dir+"test.zip");
+stream.on('data', function(chunk) {
+    md5sum.update(chunk);
+});
+stream.on('end', function() {
+    str = md5sum.digest('hex').toUpperCase();
+    console.log('文件:.zip'+',MD5签名为:'+str);
+});
