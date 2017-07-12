@@ -495,7 +495,7 @@ router.post('/action=del_picture',async(ctx,next)=>{
 
 router.post('/action=create_screen',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
-    if(screen.count({where:{uuid:uuid}})===0){
+    if(await screen.count({where:{uuid:uuid}})===0){
         await screen.create({
             uuid:uuid,
             md5:md5(Date.now()),
@@ -509,7 +509,7 @@ router.post('/action=create_screen',async(ctx,next)=>{
 
 router.post('/action=verify_screen',async(ctx,next)=>{
     let data = {};
-    if(screen.count({where:{uuid:ctx.request.body.uuid}})===0){
+    if(await screen.count({where:{uuid:ctx.request.body.uuid}})===0){
         data.is_user = 2;
     }
     else{
