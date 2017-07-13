@@ -103,7 +103,7 @@ $(function ()
     {
         event.preventDefault();
         let checked_pack = [];
-        let checked_checkboxes = $('input:checked');
+        let checked_checkboxes = $('.screen_checkbox:checked');
         if (checked_checkboxes.length === 0)
         {
             $modify_error_modal.modal('show');
