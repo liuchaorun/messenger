@@ -504,9 +504,9 @@ router.post('/action=del_picture',async(ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     for(let i of picture_ids){
         let pic = await picture.findOne({where:{picture_id:i}});
-        await user_person.removePictures(pic);
-        fs.unlinkSync(upDir+pic.name);
-        fs.unlinkSync(upDir+'thumbnails_'+pic.name);
+        fs.unlinkSync(upDir + pic.name);
+        fs.unlinkSync(upDir + 'thumbnails_'+pic.name);
+        pic.destroy();
     }
     ctx.api(200,{},{code:10000,msg:'删除成功！'});
     await next();
