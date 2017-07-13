@@ -13,7 +13,7 @@ const isOnline = require('./isOnlie');
 const fs = require('fs');
 const gm = require('gm');
 const zip = require('./zip');
-const upDir = '/home/ubuntu/file/';
+const upDir = '/home/lcr/';
 let user = model.user;
 let screen = model.screen;
 let picture = model.picture;
@@ -248,23 +248,41 @@ router.post('/action=upload', koaBody({
         uploadDir: upDir
     }
 }), async (ctx, next) => {
-    console.log(ctx.request.body.file);
-    console.log(ctx.request.body.files);
     let files = ctx.request.body.files;
-    for (let i = 0; i < files.file.length; ++i) {
-        let fileFormat = (files.file[i].name).split(".");
+    if(files.file.name === undefined){
+        for (let i = 0; i < files.file.length; ++i) {
+            let fileFormat = (files.file[i].name).split(".");
+            let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
+            let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+            let image = images(files.file[i].path);
+            await user_person.createPicture({
+                name: file_name,
+                size: files.file[i].size,
+                image_size: image.width.toString() + '×' + image.height.toString(),
+                image_type: files.file[i].type,
+                url: 'http://118.89.197.156:8000/' + file_name,
+                thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
+            });
+            fs.rename(files.file[i].path, upDir + file_name, (err) => {
+                console.log(err);
+            });
+            gm(upDir + file_name).resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
+        }
+    }
+    else{
+        let fileFormat = (files.file.name).split(".");
         let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-        let image = images(files.file[i].path);
+        let image = images(files.file.path);
         await user_person.createPicture({
             name: file_name,
-            size: files.file[i].size,
+            size: files.file.size,
             image_size: image.width.toString() + '×' + image.height.toString(),
-            image_type: files.file[i].type,
+            image_type: files.file.type,
             url: 'http://118.89.197.156:8000/' + file_name,
             thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
         });
-        fs.rename(files.file[i].path, upDir + file_name, (err) => {
+        fs.rename(files.file.path, upDir + file_name, (err) => {
             console.log(err);
         });
         gm(upDir + file_name).resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
@@ -546,6 +564,7 @@ router.post('/action=request',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
     let screen_now = await screen.findOne({where:{uuid:uuid}});
     let data = {};
+    await screen_now.update({updated_at:Date.now()});
     data.screen_md5= screen_now.md5;
     if(screen_now.resource_id){
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
