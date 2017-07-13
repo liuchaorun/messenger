@@ -266,7 +266,7 @@ router.post('/action=upload', koaBody({
             fs.rename(files.file[i].path, upDir + file_name, (err) => {
                 console.log(err);
             });
-            gm(upDir + file_name).resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
+            gm(upDir + file_name).resize(null,200).write(upDir+'thumbnails_'+file_name,()=>{});
         }
     }
     else{
@@ -401,7 +401,7 @@ router.post('/action=del_pack_screen', async (ctx, next) => {
     let resource_del = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
     for (let i of screen_del) {
         let screen_w = await screen.findOne({where: {screen_id: i}});
-        resource_del.removeScreens(screen_w);
+        await resource_del.removeScreens(screen_w);
         screen_w.update({md5:md5(Date.now())});
     }
     ctx.api(200, {}, {code: 10000, msg: '删除屏幕成功！'});
@@ -509,6 +509,7 @@ router.post('/action=del_picture',async(ctx,next)=>{
         fs.unlinkSync(upDir+'thumbnails_'+pic.name);
     }
     ctx.api(200,{},{code:10000,msg:'删除成功！'});
+    await next();
 });
 
 router.post('/action=create_screen',async(ctx,next)=>{
