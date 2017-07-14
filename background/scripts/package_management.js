@@ -271,8 +271,8 @@ $(function ()
 $(function ()
 {
     autoHeight('package_management_panel_body', 90);
-    autoHeight('add_modal_table', 300);
-    autoHeight('modify_modal_table', 300);
+    autoHeight('add_modal_table_div', 300);
+    autoHeight('modify_modal_table_div', 300);
     autoMaxHeight('screen_modal_body', 225);
     autoHeight('plus_modal_body', 225);
     autoHeight('minus_modal_body', 225);

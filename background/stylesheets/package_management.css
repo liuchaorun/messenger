@@ -7,6 +7,10 @@
     margin: 1em auto;
 }
 
+.modal_table_div {
+    overflow-y: auto;
+}
+
 .modal_row {
     display: table-row;
 }
