@@ -322,7 +322,14 @@ router.post('/action=add_pack', async (ctx, next) => {
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
-    zip(picture_name, main, resource_new.name,resource_new);
+    zip(picture_name, resource_new.name);
+    let buf = await fs.readFileSync('/home/ubuntu/resource/'+resource_new.name+".zip");
+    let str = md5(buf);
+    console.log('文件:'+resource_new.name+".zip"+',MD5签名为:'+str);
+    main.md5 = str;
+    await resource_new.update({md5:str});
+    main = JSON.stringify(main);
+    await fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main);
     ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     await next();
 });
@@ -450,7 +457,14 @@ router.post('/action=modify_pack', async (ctx, next) => {
             main[picture_add.name] = picture_time[i];
             picture_name[i] = picture_add.name;
         }
-        zip(picture_name,main, resource_new.name,resource_new);
+        zip(picture_name, resource_new.name);
+        let buf = await fs.readFileSync('/home/ubuntu/resource/'+resource_new.name+".zip");
+        let str = md5(buf);
+        console.log('文件:'+resource_new.name+".zip"+',MD5签名为:'+str);
+        main.md5 = str;
+        await resource_new.update({md5:str});
+        main = JSON.stringify(main);
+        await fs.writeFileSync('/home/ubuntu/file/' + resource_new.resource_id + '.json', main);
         ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     }
     await next();
