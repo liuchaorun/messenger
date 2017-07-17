@@ -322,7 +322,7 @@ router.post('/action=add_pack', async (ctx, next) => {
         main[picture_add.name] = picture_time[i];
         picture_name[i] = picture_add.name;
     }
-    zip(picture_name, resource_new.name);
+    await zip(picture_name, resource_new.name);
     let buf = await fs.readFileSync('/home/ubuntu/resource/'+resource_new.name+".zip");
     let str = md5(buf);
     console.log('文件:'+resource_new.name+".zip"+',MD5签名为:'+str);
@@ -457,7 +457,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
             main[picture_add.name] = picture_time[i];
             picture_name[i] = picture_add.name;
         }
-        zip(picture_name, resource_new.name);
+        await zip(picture_name, resource_new.name);
         let buf = await fs.readFileSync('/home/ubuntu/resource/'+resource_new.name+".zip");
         let str = md5(buf);
         console.log('文件:'+resource_new.name+".zip"+',MD5签名为:'+str);
