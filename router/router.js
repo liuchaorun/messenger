@@ -236,7 +236,7 @@ router.post('/action=del_screen', async (ctx, next) => {
     for (let i of uuid) {
         let screen_del = await screen.findOne({where: {uuid: i}});
         await user_person.removeScreen(screen_del);
-        await screen.destroy({where: {uuid: i}});
+        await screen_del.destroy();
     }
     ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
     await next();
@@ -450,7 +450,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
             main[picture_add.name] = picture_time[i];
             picture_name[i] = picture_add.name;
         }
-        let md = zip(picture_name,main, resource_new.name,resource_new);
+        zip(picture_name,main, resource_new.name,resource_new);
         ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     }
     await next();

@@ -22,6 +22,7 @@ module.exports= (name,main,zip_name,resource_new)=>{
     zip.generateAsync({type:"nodebuffer"})
         .then(function(content) {
             fs.writeFile(zip_dir+zip_name+".zip", content, function(err){
+                console.log(err);
                 let stream = fs.createReadStream(zip_dir+zip_name+".zip");
                 stream.on('data', function(chunk) {
                     md5sum.update(chunk);
