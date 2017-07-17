@@ -430,8 +430,8 @@ router.post('/action=modify_pack', async (ctx, next) => {
     }
     else {
         let resource_new = await resource.findOne({where: {resource_id: ctx.request.body.pack[0]}});
-        fs.unlinkSync(upDir + 'resource/' + resource_new.name + '.zip');
-        fs.unlinkSync(upDir + resource_new.resource_id + '.json');
+        await fs.unlinkSync(upDir + 'resource/' + resource_new.name + '.zip');
+        await fs.unlinkSync(upDir + resource_new.resource_id + '.json');
         await resource_new.update({
             name: ctx.request.body.new_pack_name,
             remark: ctx.request.body.new_pack_note
@@ -459,8 +459,8 @@ router.post('/action=modify_pack', async (ctx, next) => {
 router.post('/action=del_pack', async (ctx, next) => {
     for (let i = 0; i < ctx.request.body.pack.length; ++i) {
         let del_resource = await resource.findOne({where: {resource_id: ctx.request.body.pack[i]}});
-        fs.unlinkSync(upDir + 'resource/' + del_resource.name + '.zip');
-        fs.unlinkSync(upDir + del_resource.resource_id + '.json');
+        await fs.unlinkSync(upDir + 'resource/' + del_resource.name + '.zip');
+        await fs.unlinkSync(upDir + del_resource.resource_id + '.json');
         let del_resource_picture = await del_resource.getPictures();
         await del_resource.removePictures(del_resource_picture);
         let screen_now = await del_resource.getScreens();
@@ -504,8 +504,8 @@ router.post('/action=del_picture',async(ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     for(let i of picture_ids){
         let pic = await picture.findOne({where:{picture_id:i}});
-        fs.unlinkSync(upDir + pic.name);
-        fs.unlinkSync(upDir + 'thumbnails_'+pic.name);
+        await fs.unlinkSync(upDir + pic.name);
+        await fs.unlinkSync(upDir + 'thumbnails_'+pic.name);
         pic.destroy();
     }
     ctx.api(200,{},{code:10000,msg:'删除成功！'});
