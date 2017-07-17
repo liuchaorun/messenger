@@ -16,7 +16,7 @@ module.exports= (name,zip_name)=>{
         .then(function(content) {
             fs.writeFile(zip_dir+zip_name+".zip", content, function(err){
                 console.log(err);
+                return true;
             });
         });
-    return str;
 };
