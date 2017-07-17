@@ -4,13 +4,11 @@
 const md5 = require('md5');
 const js_zip = require('jszip');
 const fs =require('fs');
-const crypto = require('crypto');
 const Sequelize = require('sequelize');
 const picture_dir = '/home/ubuntu/file/';
 const model = require('../db/model');
 const zip_dir = '/home/ubuntu/file/resource/';
 let resource = model.resource;
-let md5sum = crypto.createHash('md5');
 let str;
 module.exports= (name,main,zip_name,resource_new)=>{
     let zip = new js_zip();
@@ -23,12 +21,8 @@ module.exports= (name,main,zip_name,resource_new)=>{
         .then(function(content) {
             fs.writeFile(zip_dir+zip_name+".zip", content, function(err){
                 console.log(err);
-                let stream = fs.createReadStream(zip_dir+zip_name+".zip");
-                stream.on('data', function(chunk) {
-                    md5sum.update(chunk);
-                });
-                stream.on('end', function() {
-                    str = md5sum.digest('hex').toUpperCase();
+                fs.readFile(zip_dir+zip_name+".zip", function(err, buf) {
+                    str = md5(buf);
                     console.log('文件:'+zip_name+".zip"+',MD5签名为:'+str);
                     main.md5 = str;
                     resource_new.update({md5:str});
