@@ -11,324 +11,324 @@ const $login_email = $('#login_email');
 const $login_password = $('#login_password');
 const $remember_me_checkbox = $('#remember_me_checkbox');
 
-/**输入框弹框**/
+/**Input tips**/
 $(function ()
 {
-    tip_by_id('register_username', '请输入你的用户名。16个字符以内');
-    tip_by_id('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
-    tip_by_id('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
-    tip_by_id('register_password_again', '请再次输入你的密码');
-    tip_by_id('verification_code', '请输入接收到的验证码');
+	tip_by_id('register_username', '请输入你的用户名。16个字符以内');
+	tip_by_id('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
+	tip_by_id('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
+	tip_by_id('register_password_again', '请再次输入你的密码');
+	tip_by_id('verification_code', '请输入接收到的验证码');
 });
 
-/**获取验证码**/
+/**get verification code**/
 $(function ()
 {
-    const $verification_code_btn = $('#verification_code_btn');
-    $verification_code_btn.click(
-        function (event)
-        {
-            event.preventDefault();
-            let status = true;
-            if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
-            {
-                $register_username.css('borderColor', 'red');
-                status = false;
-            }
-            if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($register_email.val()))
-            {
-                $register_email.css('borderColor', 'red');
-                status = false;
-            }
-            if (!/^[A-z0-9_]{1,32}$/.test($register_password.val()))
-            {
-                $register_password.css('borderColor', 'red');
-                status = false;
-            }
-            else if ($register_password.val() !== $register_password_again.val())
-            {
-                $register_password_again.css('borderColor', 'red');
-                status = false;
-            }
-            if (status === false)
-            {
-                append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
-                return false;
-            }
+	const $verification_code_btn = $('#verification_code_btn');
+	$verification_code_btn.click(
+		function (event)
+		{
+			event.preventDefault();
+			let status = true;
+			if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
+			{
+				$register_username.css('borderColor', 'red');
+				status = false;
+			}
+			if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($register_email.val()))
+			{
+				$register_email.css('borderColor', 'red');
+				status = false;
+			}
+			if (!/^[A-z0-9_]{1,32}$/.test($register_password.val()))
+			{
+				$register_password.css('borderColor', 'red');
+				status = false;
+			}
+			else if ($register_password.val() !== $register_password_again.val())
+			{
+				$register_password_again.css('borderColor', 'red');
+				status = false;
+			}
+			if (status === false)
+			{
+				append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+				return false;
+			}
 
-            $verification_code_btn.attr('disabled', 'disabled');
-            let sec = 60;
-            let interval = setInterval(function ()
-            {
-                sec--;
-                $verification_code_btn.text(`${sec}秒后再获取`);
-            }, 1000);
-            let timeout = setTimeout(function ()
-            {
-                clearInterval(interval);
-                $verification_code_btn.removeAttr('disabled');
-                $verification_code_btn.text('获取验证码');
-                sec = 60;
-            }, 60000);
+			$verification_code_btn.attr('disabled', 'disabled');
+			let sec = 60;
+			let interval = setInterval(function ()
+			{
+				sec--;
+				$verification_code_btn.text(`${sec}秒后再获取`);
+			}, 1000);
+			let timeout = setTimeout(function ()
+			{
+				clearInterval(interval);
+				$verification_code_btn.removeAttr('disabled');
+				$verification_code_btn.text('获取验证码');
+				sec = 60;
+			}, 60000);
 
-            let data = {};
-            data.email = $register_email.val();
+			let data = {};
+			data.email = $register_email.val();
 
-            AJAX('signup', data,
-                function (response)
-                {
-                    if (response.status.code === 0)
-                    {
-                        append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
-                        clearTimeout(timeout);
-                        clearInterval(interval);
-                        $verification_code_btn.removeAttr('disabled');
-                        $verification_code_btn.text('获取验证码');
-                    }
-                },
-                function (error)
-                {
-                    console.log(error);
-                    append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-                    clearTimeout(timeout);
-                    clearInterval(interval);
-                    $verification_code_btn.removeAttr('disabled');
-                    $verification_code_btn.text('获取验证码');
-                })
-        }
-    )
+			AJAX('signup', data,
+				function (response)
+				{
+					if (response.status.code === 0)
+					{
+						append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+						clearTimeout(timeout);
+						clearInterval(interval);
+						$verification_code_btn.removeAttr('disabled');
+						$verification_code_btn.text('获取验证码');
+					}
+				},
+				function (error)
+				{
+					console.log(error);
+					append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+					clearTimeout(timeout);
+					clearInterval(interval);
+					$verification_code_btn.removeAttr('disabled');
+					$verification_code_btn.text('获取验证码');
+				})
+		}
+	)
 });
 
-/**输入验证以及提交**/
+/**Verify and submit inputs**/
 $(function ()
 {
-    const $register_modal = $('#register_modal');
-    const $register_btn = $('#register_btn');
-    let status = true;
-    $register_btn.click(function (event)
-    {
-        event.preventDefault();
-        if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
-        {
-            $register_username.css('borderColor', 'red');
-            status = false;
-        }
-        if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($register_email.val()))
-        {
-            $register_email.css('borderColor', 'red');
-            status = false;
-        }
-        if (!/^[A-z0-9_]{1,32}$/.test($register_password.val()))
-        {
-            $register_password.css('borderColor', 'red');
-            status = false;
-        }
-        else if ($register_password.val() !== $register_password_again.val())
-        {
-            $register_password_again.css('borderColor', 'red');
-            status = false;
-        }
-        if (!$verification_code.val())
-        {
-            $verification_code.css('borderColor', 'red');
-            status = false;
-        }
-        if (status === false)
-        {
-            append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
-            return false;
-        }
+	const $register_modal = $('#register_modal');
+	const $register_btn = $('#register_btn');
+	let status = true;
+	$register_btn.click(function (event)
+	{
+		event.preventDefault();
+		if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($register_username.val()))
+		{
+			$register_username.css('borderColor', 'red');
+			status = false;
+		}
+		if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($register_email.val()))
+		{
+			$register_email.css('borderColor', 'red');
+			status = false;
+		}
+		if (!/^[A-z0-9_]{1,32}$/.test($register_password.val()))
+		{
+			$register_password.css('borderColor', 'red');
+			status = false;
+		}
+		else if ($register_password.val() !== $register_password_again.val())
+		{
+			$register_password_again.css('borderColor', 'red');
+			status = false;
+		}
+		if (!$verification_code.val())
+		{
+			$verification_code.css('borderColor', 'red');
+			status = false;
+		}
+		if (status === false)
+		{
+			append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+			return false;
+		}
 
-        /**AJAX**/
-        let data = {};
-        data.username = $register_username.val();
-        data.email = $register_email.val();
-        data.password = $register_password.val();
-        data.verify = $verification_code.val();
-        AJAX('verify', data,
-            function (response)
-            {
-                if (response.status.code === 0)
-                {
-                    append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
-                }
-                else
-                {
-                    append_warning('register_modal_body', 'success', 'glyphicon-ok', response.status.msg);
-                    setTimeout(function ()
-                    {
-                        $register_modal.modal('hide');
-                    }, 3000);
-                }
-            },
-            function (error)
-            {
-                console.log(error);
-                append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-            })
-    });
+		/**AJAX**/
+		let data = {};
+		data.username = $register_username.val();
+		data.email = $register_email.val();
+		data.password = $register_password.val();
+		data.verify = $verification_code.val();
+		AJAX('verify', data,
+			function (response)
+			{
+				if (response.status.code === 0)
+				{
+					append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+				}
+				else
+				{
+					append_warning('register_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+					setTimeout(function ()
+					{
+						$register_modal.modal('hide');
+					}, 3000);
+				}
+			},
+			function (error)
+			{
+				console.log(error);
+				append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+			})
+	});
 });
 
-/**登录**/
+/**login**/
 $(function ()
 {
-    const $login_btn = $('#login_btn');
-    let status = true;
-    $login_btn.click(function (event)
-    {
-        event.preventDefault();
-        if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($login_email.val()))
-        {
-            $login_email.css('borderColor', 'red');
-            status = false;
-        }
-        if (!/^[A-z0-9_]{1,32}$/.test($login_password.val()))
-        {
-            $login_password.css('borderColor', 'red');
-            status = false;
-        }
-        if (status === false)
-        {
-            append_warning('login_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
-            return false;
-        }
+	const $login_btn = $('#login_btn');
+	let status = true;
+	$login_btn.click(function (event)
+	{
+		event.preventDefault();
+		if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($login_email.val()))
+		{
+			$login_email.css('borderColor', 'red');
+			status = false;
+		}
+		if (!/^[A-z0-9_]{1,32}$/.test($login_password.val()))
+		{
+			$login_password.css('borderColor', 'red');
+			status = false;
+		}
+		if (status === false)
+		{
+			append_warning('login_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+			return false;
+		}
 
-        let data = {};
-        data.email = $login_email.val();
-        data.password = $login_password.val();
-        data.remember_me = $remember_me_checkbox.is(':checked');
-        AJAX('login', data,
-            function (response)
-            {
-                if (response.status.code === 0)
-                {
-                    append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
-                }
-                else
-                {
-                    append_warning('login_modal_body', 'success', 'glyphicon-ok', response.status.msg);
-                    setTimeout(function ()
-                    {
-                        location.href = 'administration.html';
-                    }, 1000);
-                }
-            },
-            function (error)
-            {
-                console.log(error);
-                append_warning('login_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-            })
-    })
+		let data = {};
+		data.email = $login_email.val();
+		data.password = $login_password.val();
+		data.remember_me = $remember_me_checkbox.is(':checked');
+		AJAX('login', data,
+			function (response)
+			{
+				if (response.status.code === 0)
+				{
+					append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+				}
+				else
+				{
+					append_warning('login_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+					setTimeout(function ()
+					{
+						location.href = 'administration.html';
+					}, 1000);
+				}
+			},
+			function (error)
+			{
+				console.log(error);
+				append_warning('login_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+			})
+	})
 });
 
-/**忘记密码**/
+/**forget password**/
 $(function ()
 {
-    const $login_modal = $('#login_modal');
-    const $forget_modal = $('#forget_modal');
-    const $forget_btn = $('#forget_btn');
-    const $forget_email = $('#forget_email');
-    const $forget_username = $('#forget_username');
-    const $new_password_modal = $('#new_password_modal');
-    const $new_password = $('#new_password');
-    const $new_password_again = $('#new_password_again');
-    const $new_password_modal_btn = $('#new_password_modal_btn');
-    const $forget = $('#forget');
-    let status;
-    $forget.click(function (event)
-    {
-        event.preventDefault();
-        $login_modal.modal('hide');
-        $forget_modal.modal('show');
-    });
+	const $login_modal = $('#login_modal');
+	const $forget_modal = $('#forget_modal');
+	const $forget_btn = $('#forget_btn');
+	const $forget_email = $('#forget_email');
+	const $forget_username = $('#forget_username');
+	const $new_password_modal = $('#new_password_modal');
+	const $new_password = $('#new_password');
+	const $new_password_again = $('#new_password_again');
+	const $new_password_modal_btn = $('#new_password_modal_btn');
+	const $forget = $('#forget');
+	let status;
+	$forget.click(function (event)
+	{
+		event.preventDefault();
+		$login_modal.modal('hide');
+		$forget_modal.modal('show');
+	});
 
-    $forget_btn.click(function (event)
-    {
-        event.preventDefault();
-        append_warning('forget_modal_body', 'info', 'glyphicon-send', "处理中，请稍后");
-        status = true;
-        if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($forget_username.val()))
-        {
-            $forget_username.css('borderColor', 'red');
-            status = false;
-        }
-        if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($forget_email.val()))
-        {
-            $forget_email.css('borderColor', 'red');
-            status = false;
-        }
-        if (status === false)
-        {
-            append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
-            return false;
-        }
+	$forget_btn.click(function (event)
+	{
+		event.preventDefault();
+		append_warning('forget_modal_body', 'info', 'glyphicon-send', "处理中，请稍后");
+		status = true;
+		if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($forget_username.val()))
+		{
+			$forget_username.css('borderColor', 'red');
+			status = false;
+		}
+		if (!/^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/.test($forget_email.val()))
+		{
+			$forget_email.css('borderColor', 'red');
+			status = false;
+		}
+		if (status === false)
+		{
+			append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+			return false;
+		}
 
-        let data = {};
-        data.username = $forget_username.val();
-        data.email = $forget_email.val();
-        AJAX('forget', data,
-            function (response)
-            {
-                if (response.status.code === 0)
-                {
-                    append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
-                }
-                else
-                {
-                    $forget_modal.modal('hide');
-                    $new_password_modal.modal('show');
-                }
-            },
-            function (error)
-            {
-                console.log(error);
-                append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-            })
-    });
+		let data = {};
+		data.username = $forget_username.val();
+		data.email = $forget_email.val();
+		AJAX('forget', data,
+			function (response)
+			{
+				if (response.status.code === 0)
+				{
+					append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+				}
+				else
+				{
+					$forget_modal.modal('hide');
+					$new_password_modal.modal('show');
+				}
+			},
+			function (error)
+			{
+				console.log(error);
+				append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+			})
+	});
 
-    $new_password_modal_btn.click(function (event)
-    {
-        event.preventDefault();
-        status = true;
-        if (!/^[A-z0-9_]{1,32}$/.test($new_password.val()))
-        {
-            $new_password.css('borderColor', 'red');
-            status = false;
-        }
-        else if ($new_password.val() !== $new_password_again.val())
-        {
-            $new_password_again.css('borderColor', 'red');
-            status = false;
-        }
-        if (status === false)
-        {
-            append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
-            return false;
-        }
+	$new_password_modal_btn.click(function (event)
+	{
+		event.preventDefault();
+		status = true;
+		if (!/^[A-z0-9_]{1,32}$/.test($new_password.val()))
+		{
+			$new_password.css('borderColor', 'red');
+			status = false;
+		}
+		else if ($new_password.val() !== $new_password_again.val())
+		{
+			$new_password_again.css('borderColor', 'red');
+			status = false;
+		}
+		if (status === false)
+		{
+			append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+			return false;
+		}
 
-        let data = {};
-        data.new_password = $new_password.val();
-        AJAX('new_password', data,
-            function (response)
-            {
-                if (response.status.code === 0)
-                {
-                    append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
-                }
-                else
-                {
-                    append_warning('new_password_modal_body', 'success', 'glyphicon-ok', response.status.msg);
-                    setTimeout(function ()
-                    {
-                        $new_password_modal.modal('hide');
-                    }, 3000)
-                }
-            },
-            function (error)
-            {
-                console.log(error);
-                append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
-            })
+		let data = {};
+		data.new_password = $new_password.val();
+		AJAX('new_password', data,
+			function (response)
+			{
+				if (response.status.code === 0)
+				{
+					append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+				}
+				else
+				{
+					append_warning('new_password_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+					setTimeout(function ()
+					{
+						$new_password_modal.modal('hide');
+					}, 3000)
+				}
+			},
+			function (error)
+			{
+				console.log(error);
+				append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+			})
 
-    })
+	})
 });

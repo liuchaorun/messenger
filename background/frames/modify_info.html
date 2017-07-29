@@ -27,6 +27,8 @@
                         data-target="#modify_work_place_modal">修改
                 </button>
             </p>
+            <p class="no_hover_effect"><button class="btn btn-danger btn-lg" id="modify_password_btn"  data-toggle="modal"
+                                               data-target="#modify_password_modal"><span class="glyphicon glyphicon-lock"></span> 修改密码</button></p>
         </div>
     </div>
 </div>
@@ -77,6 +79,30 @@
     </div>
 </div>
 
+<!--修改密码-->
+<div class="modal fade" tabindex="-1" role="dialog" id="modify_password_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body" id="modify_password_modal_body">
+                <input type="password" class="form-control modal_input" id="old_password" placeholder="旧密码" maxlength="32">
+                <input type="password" class="form-control modal_input" id="new_password" placeholder="新密码" maxlength="32">
+                <input type="password" class="form-control modal_input" id="new_password_again" placeholder="重复新密码" maxlength="32">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" id="modify_password_modal_btn"><span
+                        class="glyphicon glyphicon-ok">确定</span></button>
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--错误提示框-->
 <div class="modal fade" tabindex="-1" role="dialog" id="error_modal">

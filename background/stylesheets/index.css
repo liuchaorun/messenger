@@ -15,6 +15,7 @@ html, body {
     box-shadow: #444 0.5em 0.5em 0.75em;
     transition: 0.5s;
     padding-bottom: 5em;
+    transition-property: background-color;
 }
 
 .well:hover {
@@ -29,53 +30,51 @@ html, body {
     background: transparent;
 }
 
-h1{
+h1 {
     font-weight: bolder;
     cursor: default;
     display: inline-block;
 }
 
-
-.index_btn{
+.index_btn {
     display: inline-block;
     margin-right: 1em;
     margin-top: 1.5em;
     transition: 0.5s;
 }
 
-.modal-body>input{
-    margin-left:auto;
-    margin-right:auto;
+.modal-body > input {
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 1em;
     width: 20em !important;
     height: 3em !important;
 }
 
-.modal-body{
+.modal-body {
     font-size: 2em;
 }
 
-#verification_code_div{
+#verification_code_div {
     text-align: center;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     width: 28em !important;
     height: 3em !important;
 }
 
-#verification_code{
+#verification_code {
     width: 8em;
     height: 3em;
     display: inline-block;
     margin-right: 3.7em;
 }
 
-#verification_code_btn{
+#verification_code_btn {
     display: inline-block;
     height: 3em;
     width: 8em;
 }
-
 
 .modal .alert {
     cursor: default;
@@ -90,17 +89,17 @@ h1{
     cursor: default;
 }
 
-#download_modal{
+#download_modal {
     text-align: center;
 }
 
-#download_code{
+#download_code {
     width: 50%;
     margin-bottom: 1em;
     box-shadow: gray 0.25em 0.25em 0.5em;
 }
 
-#login_modal input{
+#login_modal input {
     font-size: 1em;
 }
 

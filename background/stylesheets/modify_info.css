@@ -9,7 +9,7 @@
     margin-top: 1em;
 }
 
-#modify_username_btn, #modify_work_place_btn {
+#modify_username_btn, #modify_work_place_btn, #modify_password_btn {
     float: right;
     margin-top: -0.25em;
 }
@@ -17,4 +17,12 @@
 #user_info p {
     padding: 0.5em 1em;
     line-height: 2em;
+}
+
+.no_hover_effect:hover{
+    background: transparent !important;
+}
+
+#modify_password_modal_body>input{
+    margin-top: 1em;
 }
