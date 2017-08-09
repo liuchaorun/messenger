@@ -471,6 +471,20 @@ router.post('/action=del_pack', async (ctx, next) => {
     await next();
 });
 
+router.post('/action=modify_password',async(ctx,next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    if(user_person.password===ctx.request.body.old_password){
+        user_person.update({
+            password:ctx.request.body.new_password
+        });
+        ctx.api(200,{},{code:10000,msg:'修改密码成功！'});
+    }
+    else{
+        ctx.api(200,{},{code:0,msg:'密码错误！'});
+    }
+    await next();
+});
+
 router.post('/action=modify_user', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     if (ctx.request.body.new_username !== undefined) await user_person.update({username: ctx.request.body.new_username});

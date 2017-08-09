@@ -13,11 +13,8 @@
     <orderEntry type="library" name="koa-bodyparser-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="koa-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="koa-router-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="koa-static-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="md5-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="nodemailer-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="pg-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="sequelize-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="socket.io-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="koa-static-DefinitelyTyped" level="application" />
   </component>
 </module>
