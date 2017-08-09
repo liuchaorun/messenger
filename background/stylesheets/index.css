@@ -1,5 +1,5 @@
 html, body {
-    background: url("../images/background_index.jpg");
+    background: url("../images/index/background_index.jpg");
     background-size: cover;
     overflow: hidden;
 }
@@ -114,7 +114,7 @@ h1 {
     vertical-align: text-top;
 }
 
-#forget {
+#forget_link {
     font-size: 0.75em;
     margin-left: 44.5em;
     cursor: pointer;

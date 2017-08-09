@@ -13,12 +13,12 @@ $(function ()
 		event.preventDefault();
 		if ($upload_input[0].files.length === 0)
 		{
-			append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "请选择文件");
+			modal_append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "请选择文件");
 			return false;
 		}
 		else
 		{
-			append_warning('upload_panel_body', 'success', 'glyphicon-ok', "上传中，请稍等");
+			modal_append_warning('upload_panel_body', 'success', 'glyphicon-ok', "上传中，请稍等");
 		}
 		let formData = new FormData;
 		for (let i = 0; i < $upload_input[0].files.length; i++)
@@ -39,14 +39,14 @@ $(function ()
 				success: function (response)
 				{
 					if (response.status.code === 0)
-						append_warning('upload_panel_body', 'danger', 'glyphicon-remove', response.status.msg);
+						modal_append_warning('upload_panel_body', 'danger', 'glyphicon-remove', response.status.msg);
 					else
-						append_warning('upload_panel_body', 'success', 'glyphicon-ok', response.status.msg);
+						modal_append_warning('upload_panel_body', 'success', 'glyphicon-ok', response.status.msg);
 				},
 				error: function (error)
 				{
 					console.log(error);
-					append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "出现错误，请重试");
+					modal_append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "出现错误，请重试");
 				},
 				xhr: function ()
 				{ //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
@@ -89,7 +89,7 @@ $(function ()
 /**Set height and activate form changing listener**/
 $(function ()
 {
-	autoHeight('file_info_modal_body', 320);
+	auto_height('file_info_modal_body', 320);
 	update_table();
 });
 

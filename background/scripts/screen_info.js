@@ -46,7 +46,7 @@ $(function ()
 				let update_time = '';
 				for (let i = 0; i < screen_info.length; i++)
 				{
-					update_time = parseTimeString(screen_info[i].update_time);
+					update_time = parse_time_string(screen_info[i].update_time);
 					$screen_table.append(
 						`<tr id=${screen_info[i].uuid} class="screen">
                             <td>${i + 1}</td>
@@ -96,10 +96,10 @@ $(function ()
 				function (response)
 				{
 					if (response.status.code === 0)
-						append_warning('add_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+						modal_append_warning('add_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
 					else
 					{
-						append_warning('add_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+						modal_append_warning('add_modal_body', 'success', 'glyphicon-ok', response.status.msg);
 						setTimeout(function ()
 						{
 							location.reload(true);
@@ -109,12 +109,12 @@ $(function ()
 				function (error)
 				{
 					console.log(error);
-					append_warning('add_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+					modal_append_warning('add_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
 				});
 		}
 		else//不合要求
 		{
-			append_warning('add_modal_body', 'danger', 'glyphicon-remove', 'UUID非法');
+			modal_append_warning('add_modal_body', 'danger', 'glyphicon-remove', 'UUID非法');
 		}
 	})
 });
@@ -151,7 +151,7 @@ $(function ()
 			$new_freq.attr('disabled', 'disabled');
 			$new_note.attr('disabled', 'disabled');
 			$modify_modal_btn.attr('disabled', 'disabled');
-			append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少选择一个屏幕');
+			modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少选择一个屏幕');
 		}
 		else
 		{
@@ -200,22 +200,22 @@ $(function ()
 		}
 		if (status === false)
 		{
-			append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '信息填写有误');
+			modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '信息填写有误');
 			return false;
 		}
 		if (!data)
 		{
-			append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少修改一项');
+			modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少修改一项');
 			return false;
 		}
 		AJAX('modify_screen', data,
 			function (response)
 			{
 				if (response.status.code === 0)
-					append_warning('modify_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+					modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
 				else
 				{
-					append_warning('modify_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+					modal_append_warning('modify_modal_body', 'success', 'glyphicon-ok', response.status.msg);
 					setTimeout(function ()
 					{
 						location.reload(true);
@@ -225,7 +225,7 @@ $(function ()
 			function (error)
 			{
 				console.log(error);
-				append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+				modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
 			})
 	});
 });
@@ -273,10 +273,10 @@ $(function ()
 			function (response)
 			{
 				if (response.status.code === 0)
-					append_warning('del_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+					modal_append_warning('del_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
 				else
 				{
-					append_warning('del_modal_body', 'success', 'glyphicon-remove', response.status.msg);
+					modal_append_warning('del_modal_body', 'success', 'glyphicon-remove', response.status.msg);
 					setTimeout(function ()
 					{
 						location.reload(true);
@@ -286,7 +286,7 @@ $(function ()
 			function (error)
 			{
 				console.log(error);
-				append_warning('del_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+				modal_append_warning('del_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
 			})
 	})
 });
@@ -294,7 +294,7 @@ $(function ()
 /**Set height**/
 $(function ()
 {
-	autoHeight('screen_info_panel_body', 90);
+	auto_height('screen_info_panel_body', 90);
 });
 
 /**Tips**/

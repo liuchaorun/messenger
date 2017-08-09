@@ -5,7 +5,7 @@
 const $error_modal = $('#error_modal');
 $(function ()
 {
-	$error_modal.on('hidden.bs.modal', function (e)
+	$error_modal.on('hidden.bs.modal', function ()
 	{
 		location.reload(true);
 	})

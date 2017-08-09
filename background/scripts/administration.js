@@ -4,9 +4,9 @@
 /**Set height**/
 $(function ()
 {
-	autoHeight('sidebar', 0);
-	autoHeight('frame_div', 0);
-	autoHeight('frame', 0);
+	auto_height('sidebar', 0);
+	auto_height('frame_div', 0);
+	auto_height('frame', 0);
 });
 
 /**Exit button**/
@@ -16,9 +16,6 @@ $(function ()
 	$exit_btn.click(function (event)
 	{
 		event.preventDefault();
-		localStorage.clear();
-		sessionStorage.clear();
-		clearCookie();
 		location.href = 'index.html';
 	})
 });
@@ -27,16 +24,10 @@ $(function ()
 $(function ()
 {
 	const $frame = $('#frame');
-	const $user_info = $('#user_info');
-	const $screen_info = $('#screen_info');
-	const $resource_management = $('#resource_management');
-	const $resource_management_icon_front = $('#resource_management_icon_front');
-	const $resource_management_icon = $('#resource_management_icon');
-	const $collapse = $('#collapse');
-	const $upload = $('#upload');
-	const $del_picture = $('#del_picture');
-	const $package_management = $('#package_management');
-	const $modify_info = $('#modify_info');
+	const [$user_info, $screen_info, $resource_management, $upload, $del_picture, $package_management, $modify_info] =
+		[$('#user_info'), $('#screen_info'), $('#resource_management'), $('#upload'), $('#del_picture'), $('#package_management'), $('#modify_info')];
+	const [$resource_management_icon_front, $resource_management_icon, $collapse] =
+		[$('#resource_management_icon_front'), $('#resource_management_icon'), $('#collapse')];
 	$user_info.click(function (event)
 	{
 		event.preventDefault();

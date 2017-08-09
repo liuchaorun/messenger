@@ -70,7 +70,7 @@ $(function ()
 	const $add_btn = $('#add_btn');
 	$add_btn.click(function ()
 	{
-		prepend_warning('add_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
+		modal_prepend_warning('add_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
 		image_AJAX('add', 'add_modal_table', 'add_modal_btn', 'add_modal_footer');
 	});
 
@@ -90,15 +90,11 @@ $(function ()
 $(function ()
 {
 	const $modify_btn = $('#modify_btn');
-	const $modify_modal = $('#modify_modal');
-	const $modify_modal_table = $('#modify_modal_table');
-	const $modify_multiple_modal = $('#modify_multiple_modal');
 	const $modify_error_modal = $('#modify_error_modal');
-	const $modify_modal_btn = $('#modify_modal_btn');
-	const $new_pack_name_input = $('#new_pack_name_input');
-	const $new_pack_note_input = $('#new_pack_note_input');
-	const $modify_multiple_modal_btn = $('#modify_multiple_modal_btn');
-	const $multiple_new_pack_note_input = $('#multiple_new_pack_note_input');
+	const [$modify_modal, $modify_modal_table, $modify_modal_btn, $new_pack_name_input, $new_pack_note_input] =
+		[$('#modify_modal'), $('#modify_modal_table'), $('#modify_modal_btn'), $('#new_pack_name_input'), $('#new_pack_note_input')];
+	const [$modify_multiple_modal, $modify_multiple_modal_btn, $multiple_new_pack_note_input] =
+		[$('#modify_multiple_modal'), $('#modify_multiple_modal_btn'), $('#multiple_new_pack_note_input')];
 	let data = {};
 	$modify_btn.click(function (event)
 	{
@@ -113,13 +109,13 @@ $(function ()
 		else if (checked_checkboxes.length === 1)
 		{
 			$modify_modal.modal('show');
-			prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
+			modal_prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
 			AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0]).parent().parent().attr('id')},
 				function (response)
 				{
 					if (response.status.code === 0)
 					{
-						prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+						modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 						$modify_modal_btn.attr('disabled', 'disabled');
 					}
 					else
@@ -131,7 +127,7 @@ $(function ()
 						$new_pack_note_input.val(pack_info.note);
 						let checked_pictures = pack_info.used_pictures;
 						let checked_picture;
-						for (let picture_id in checked_pictures)
+						for (let [picture_id,time] of checked_pictures)
 						{
 							if (!/.+\..+/.test(picture_id))
 							{
@@ -141,7 +137,7 @@ $(function ()
 								$(checked_picture).find('input[type=text]')
 									.css('opacity', 1)
 									.removeAttr('disabled')
-									.val(checked_pictures[picture_id]);
+									.val(time);
 								$(checked_picture).find('input[type=checkbox]').attr('checked', true);
 							}
 						}
@@ -150,7 +146,7 @@ $(function ()
 				function (error)
 				{
 					console.log(error);
-					prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+					modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
 					$modify_modal_btn.attr('disabled', 'disabled');
 				})
 		}
@@ -167,7 +163,7 @@ $(function ()
 			let picture_checked_checkboxes = $modify_modal_table.find('input:checked');
 			if (picture_checked_checkboxes.length === 0)
 			{
-				prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '至少选择一幅图片', 'tip');
+				modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '至少选择一幅图片', 'tip');
 				return false;
 			}
 			for (let checkbox of picture_checked_checkboxes)
@@ -175,7 +171,7 @@ $(function ()
 				picture_id.push($(checkbox).parent().attr('class'));
 				if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
 				{
-					prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
+					modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
 					border_color_by_id($(checkbox).next().attr('id'));
 					return false;
 				}
@@ -183,13 +179,13 @@ $(function ()
 			}
 			if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($new_pack_name_input.val()))
 			{
-				prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '包名不合法', 'tip');
+				modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '包名不合法', 'tip');
 				border_color_by_id('new_pack_name_input');
 				return false;
 			}
 			if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($new_pack_note_input.val()))
 			{
-				prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+				modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
 				border_color_by_id('new_pack_note_input');
 				return false;
 			}
@@ -206,7 +202,7 @@ $(function ()
 			event.preventDefault();
 			if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($multiple_new_pack_note_input.val()))
 			{
-				prepend_warning('modify_multiple_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+				modal_prepend_warning('modify_multiple_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
 				border_color_by_id('multiple_new_pack_note_input');
 				return false;
 			}
@@ -248,10 +244,10 @@ $(function ()
 					function (response)
 					{
 						if (response.status.code === 0)
-							prepend_warning('del_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+							modal_prepend_warning('del_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 						else
 						{
-							prepend_warning('del_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
+							modal_prepend_warning('del_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
 							setTimeout(function ()
 							{
 								location.reload(true);
@@ -261,7 +257,7 @@ $(function ()
 					function (error)
 					{
 						console.log(error);
-						prepend_warning('del_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+						modal_prepend_warning('del_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
 					})
 			});
 		}
@@ -271,12 +267,12 @@ $(function ()
 /**Set height**/
 $(function ()
 {
-	autoHeight('package_management_panel_body', 90);
-	autoHeight('add_modal_table_div', 300);
-	autoHeight('modify_modal_table_div', 300);
-	autoMaxHeight('screen_modal_body', 225);
-	autoHeight('plus_modal_body', 225);
-	autoHeight('minus_modal_body', 225);
+	auto_height('package_management_panel_body', 90);
+	auto_height('add_modal_table_div', 300);
+	auto_height('modify_modal_table_div', 300);
+	auto_max_height('screen_modal_body', 225);
+	auto_height('plus_modal_body', 225);
+	auto_height('minus_modal_body', 225);
 
 });
 
@@ -312,7 +308,7 @@ function screen_AJAX(type, action)
 	let checked_checkboxes = $(`#${type}_modal_table`).find('input:checked');
 	if (checked_checkboxes.length === 0)
 	{
-		prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '至少选择一个屏幕', 'tip');
+		modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '至少选择一个屏幕', 'tip');
 		return false;
 	}
 	for (let checkbox of checked_checkboxes)
@@ -321,10 +317,10 @@ function screen_AJAX(type, action)
 		function (response)
 		{
 			if (response.status.code === 0)
-				prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+				modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 			else
 			{
-				prepend_warning(`${type}_modal_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+				modal_prepend_warning(`${type}_modal_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
 				setTimeout(function ()
 				{
 					location.reload(true);
@@ -335,7 +331,7 @@ function screen_AJAX(type, action)
 		{
 
 			console.log(error);
-			prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+			modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
 		})
 }
 
@@ -370,7 +366,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
 			{
 				if (response.status.code === 0)
 				{
-					prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+					modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 					$(`#${button_id}`).attr('disabled', 'disabled');
 				}
 				else
@@ -410,7 +406,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
 			function (error)
 			{
 				console.log(error);
-				prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+				modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
 				$(`#${button_id}`).attr('disabled', 'disabled');
 			}, false)
 	}
@@ -437,19 +433,19 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 	data.pack_note = $(`#${note_input_id}`).val();
 	if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test(data.pack_name))
 	{
-		prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
+		modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
 		border_color_by_id(name_input_id);
 		return false;
 	}
 	if (!/^[A-z0-9\u4e00-\u9fa5]{0,32}$/.test(data.pack_note))
 	{
-		prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+		modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
 		border_color_by_id(note_input_id);
 		return false;
 	}
 	if (checkboxes.length === 0)
 	{
-		prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '至少选择一个图片', 'tip');
+		modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '至少选择一个图片', 'tip');
 		return false;
 	}
 	for (let checkbox of checkboxes)
@@ -458,7 +454,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 		picture_time.push($(checkbox).next().val() === '' ? 10 : parseInt($(checkbox).next().val()));
 		if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
 		{
-			prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
+			modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
 			border_color_by_id($(checkbox).next().attr('id'));
 			return false;
 		}
@@ -470,10 +466,10 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 		function (response)
 		{
 			if (response.status.code === 0)
-				prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+				modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 			else
 			{
-				prepend_warning(`${footer_id}`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+				modal_prepend_warning(`${footer_id}`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
 				setTimeout(function ()
 				{
 					location.reload(true);
@@ -483,7 +479,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 		function (error)
 		{
 			console.log(error);
-			prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+			modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
 		})
 }
 
@@ -514,10 +510,10 @@ function modify_AJAX(multiple_bool, data)
 		function (response)
 		{
 			if (response.status.code === 0)
-				prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+				modal_prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 			else
 			{
-				prepend_warning(`${type}_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+				modal_prepend_warning(`${type}_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
 				setTimeout(function ()
 				{
 					location.reload(true);
@@ -527,7 +523,7 @@ function modify_AJAX(multiple_bool, data)
 		function (error)
 		{
 			console.log(error);
-			prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+			modal_prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
 		})
 }
 
@@ -604,12 +600,12 @@ function get_screen_modal(pack_this)
 		function (response)
 		{
 			if (response.status.code === 0)
-				append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+				modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
 			else
 			{
 				$screen_modal_body.html('');
 				if (response.data.screen.length === 0)
-					append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '该包没有关联屏幕');
+					modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '该包没有关联屏幕');
 				for (let screen of response.data.screen)
 					$screen_modal_body.append(`<div class="screen_list_row">${screen.name}</div>`);
 			}
@@ -617,7 +613,7 @@ function get_screen_modal(pack_this)
 		function (error)
 		{
 			console.log(error);
-			append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+			modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
 		});
 }
 
@@ -639,10 +635,10 @@ function btn_AJAX(btn_this, type, action)
 		function (response)
 		{
 			if (response.status.code === 0)
-				prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+				modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
 			else
 			{
-				prepend_warning(`${type}_modal_footer`, 'info', 'glyphicon-refresh', '加载中', 'tip');
+				modal_prepend_warning(`${type}_modal_footer`, 'info', 'glyphicon-refresh', '加载中', 'tip');
 				let screens = response.data.screen;
 				for (let i = 0; i < screens.length; i++)
 				{
@@ -658,7 +654,7 @@ function btn_AJAX(btn_this, type, action)
 		function (error)
 		{
 			console.log(error);
-			append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+			modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
 		})
 
 }

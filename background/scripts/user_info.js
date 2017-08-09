@@ -31,7 +31,7 @@ $(function ()
 				$work_place.text(info.work_place);
 				$screen_num.text(info.screen_num);
 				$picture_num.text(info.picture_num);
-				$last_login_time.text(parseTimeString(info.last_login_time));
+				$last_login_time.text(parse_time_string(info.last_login_time));
 			}
 		},
 		function (error)
