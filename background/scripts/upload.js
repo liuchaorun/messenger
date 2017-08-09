@@ -31,7 +31,6 @@ $(function ()
 					withCredentials: true
 				},
 				url: 'http://118.89.197.156:3000/action=upload',
-				//url: 'http://127.0.0.1:3000/action=upload',
 				method: 'post',
 				data: formData,
 				processData: false,
@@ -53,12 +52,11 @@ $(function ()
 					let myXhr = $.ajaxSettings.xhr();
 					if (myXhr.upload)
 					{ //检查upload属性是否存在
-//绑定progress事件的回调函数
-						myXhr.upload.addEventListener('progress', function (e)
+						myXhr.upload.addEventListener('progress', function (event)//绑定progress事件的回调函数
 						{
-							if (e.lengthComputable)
+							if (event.lengthComputable)
 							{
-								let percent = e.loaded / e.total * 100;
+								let percent = event.loaded / event.total * 100;
 								$upload_progress_bar.css('width', percent + '%');
 								if (percent === 100)
 								{
@@ -111,7 +109,7 @@ function initialize_upload()
 	$upload_input.after($upload_input.clone().val(""));
 	$upload_input.remove();
 	$upload_input = $('#upload_input');
-	/**删除原本的上传控件，换上克隆的上传控件以起到清空效果**/
+	/**Delete original upload control**/
 	reset_file_table();
 	update_table();
 }

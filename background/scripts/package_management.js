@@ -127,9 +127,9 @@ $(function ()
 						$new_pack_note_input.val(pack_info.note);
 						let checked_pictures = pack_info.used_pictures;
 						let checked_picture;
-						for (let [picture_id,time] of checked_pictures)
+						for (let picture_id in checked_pictures)
 						{
-							if (!/.+\..+/.test(picture_id))
+							if (checked_pictures.hasOwnProperty(picture_id) && !/.+\..+/.test(picture_id))
 							{
 								checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
 								$(checked_picture).children().first().css('backgroundImage', 'url("../images/selected.png")');
@@ -137,7 +137,7 @@ $(function ()
 								$(checked_picture).find('input[type=text]')
 									.css('opacity', 1)
 									.removeAttr('disabled')
-									.val(time);
+									.val(checked_pictures[picture_id]);
 								$(checked_picture).find('input[type=checkbox]').attr('checked', true);
 							}
 						}
@@ -166,7 +166,7 @@ $(function ()
 				modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '至少选择一幅图片', 'tip');
 				return false;
 			}
-			for (let checkbox of picture_checked_checkboxes)
+			for (const checkbox of picture_checked_checkboxes)
 			{
 				picture_id.push($(checkbox).parent().attr('class'));
 				if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
@@ -177,23 +177,20 @@ $(function ()
 				}
 				picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
 			}
-			if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test($new_pack_name_input.val()))
+			if (!PACK_NAME_REG.test($new_pack_name_input.val()))
 			{
 				modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '包名不合法', 'tip');
 				border_color_by_id('new_pack_name_input');
 				return false;
 			}
-			if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($new_pack_note_input.val()))
+			if (!PACK_NOTE_REG.test($new_pack_note_input.val()))
 			{
 				modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
 				border_color_by_id('new_pack_note_input');
 				return false;
 			}
-			data.picture_id = picture_id;
-			data.picture_time = picture_time;
-			data.new_pack_name = $new_pack_name_input.val();
-			data.new_pack_note = $new_pack_note_input.val();
-			data.mutiple = false;
+			[data.picture_id, data.picture_time, data.new_pack_name, data.new_pack_note, data.mutiple] =
+				[picture_id, picture_time, $new_pack_name_input.val(), $new_pack_note_input.val(), false];
 			modify_AJAX(false, data);
 		});
 
@@ -206,8 +203,7 @@ $(function ()
 				border_color_by_id('multiple_new_pack_note_input');
 				return false;
 			}
-			data.new_pack_note = $multiple_new_pack_note_input.val();
-			data.mutiple = true;
+			[data.new_pack_note, data.mutiple] = [$multiple_new_pack_note_input.val(), true];
 			modify_AJAX(true, data);
 		});
 	});
@@ -216,10 +212,9 @@ $(function ()
 /**Delete button**/
 $(function ()
 {
-	const $del_btn = $('#del_btn');
-	const $del_modal = $('#del_modal');
-	const $del_modal_btn = $('#del_modal_btn');
-	const $del_error_modal = $('#del_error_modal');
+	const [$del_btn, $del_modal, $del_modal_btn, $del_error_modal] =
+		[$('#del_btn'), $('#del_modal'), $('#del_modal_btn'), $('#del_error_modal')];
+
 	$del_btn.click(function ()
 	{
 		event.preventDefault();
@@ -234,7 +229,7 @@ $(function ()
 		{
 			let data = {};
 			$del_modal.modal('show');
-			for (let checkbox of checked_checkboxes)
+			for (const checkbox of checked_checkboxes)
 				checked_pack.push($(checkbox).parent().parent().attr('id'));
 			data.pack = checked_pack;
 			$del_modal_btn.click(function (event)
@@ -286,8 +281,7 @@ $(function ()
 /**plus/minus_modal button**/
 $(function ()
 {
-	const $plus_modal_btn = $('#plus_modal_btn');
-	const $minus_modal_btn = $('#minus_modal_btn');
+	const [$plus_modal_btn, $minus_modal_btn] = [$('#plus_modal_btn'), $('#minus_modal_btn')];
 	$plus_modal_btn.click(function (event)
 	{
 		event.preventDefault();
@@ -357,6 +351,7 @@ function screen_AJAX(type, action)
  * **/
 function image_AJAX(type, table_id, button_id, footer_id)
 {
+	const PICTURES_PER_ROW = 5;
 	if ($(`#${table_id}`).find('.modal_cell').length)
 		activate_checkbox(type);
 	else
@@ -374,24 +369,17 @@ function image_AJAX(type, table_id, button_id, footer_id)
 					$(`#${button_id}`).removeAttr('disabled');
 					let pictures = response.data.pictures;
 					let row = 0;
-					for (; row < Math.floor(pictures.length / 5); row++)
+					let $row_node = $(`<div class="modal_row"></div>`);
+					for (; row < Math.floor(pictures.length / PICTURES_PER_ROW); row++)
 					{
-
-						$(`#${table_id}`).append(` <div class="modal_row">
- <div class="modal_cell">
- <label class=${pictures[row * 5].id}><div class="picture_div"><img src=${pictures[row * 5].src} alt=${pictures[row * 5].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5].id}_time maxlength="6" disabled placeholder="10"></label>
- </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 1].id}><div class="picture_div"><img src=${pictures[row * 5 + 1].src} alt=${pictures[row * 5 + 1].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 1].id}_time maxlength="6" disabled placeholder="10"></label>
- </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 2].id}><div class="picture_div"><img src=${pictures[row * 5 + 2].src} alt=${pictures[row * 5 + 2].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 2].id}_time maxlength="6" disabled placeholder="10"></label>
- </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 3].id}><div class="picture_div"><img src=${pictures[row * 5 + 3].src} alt=${pictures[row * 5 + 3].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 3].id}_time maxlength="6" disabled placeholder="10"></label>
- </div><div class="modal_cell">
- <label class=${pictures[row * 5 + 4].id}><div class="picture_div"><img src=${pictures[row * 5 + 4].src} alt=${pictures[row * 5 + 4].id} class="image img-responsive"></div><input type="checkbox"        class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + 4].id}_time maxlength="6" disabled placeholder="10"></label>
- </div>
- </div>`);
+						for (let i = 0; i < PICTURES_PER_ROW; i++)
+						{
+							$row_node.append(`<div class="modal_cell"><label class=${pictures[row * PICTURES_PER_ROW + i].id}><div class="picture_div"><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * PICTURES_PER_ROW + i].id}_time maxlength="6" disabled placeholder="10"></label></div>`)
+						}
+						$(`#${table_id}`).append($row_node);
+						$row_node = $(`<div class="modal_row"></div>`);
 					}
-					if (pictures.length - row * 5 > 0 && !$('#modify_modal_table_last_row').length)
+					if (pictures.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
 					{
 						$(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
 						for (let i = 0; i < pictures.length - row * 5; i++)
@@ -429,15 +417,14 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 	let data = {};
 	let picture_id = [];
 	let picture_time = [];
-	data.pack_name = $(`#${name_input_id}`).val();
-	data.pack_note = $(`#${note_input_id}`).val();
-	if (!/^[A-z0-9\u4e00-\u9fa5]{1,16}$/.test(data.pack_name))
+	[data.pack_name, data.pack_note] = [$(`#${name_input_id}`).val(), $(`#${note_input_id}`).val()];
+	if (!PACK_NAME_REG.test(data.pack_name))
 	{
 		modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
 		border_color_by_id(name_input_id);
 		return false;
 	}
-	if (!/^[A-z0-9\u4e00-\u9fa5]{0,32}$/.test(data.pack_note))
+	if (!PACK_NOTE_REG.test(data.pack_note))
 	{
 		modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
 		border_color_by_id(note_input_id);
@@ -458,8 +445,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
 			border_color_by_id($(checkbox).next().attr('id'));
 			return false;
 		}
-		data.picture_id = picture_id;
-		data.picture_time = picture_time;
+		[data.picture_id, data.picture_time] = [picture_id, picture_time];
 	}
 
 	AJAX(action, data,
@@ -532,20 +518,20 @@ function activate_checkbox(type)
 {
 	const $checkbox = $(`.${type}_checkbox`);
 	$checkbox.attr('checked', false);
-	$checkbox.click(function ()
+	$checkbox.click(function (event)
 	{
-		if ($(this).is(':checked'))
+		if ($(event.target).is(':checked'))
 		{
-			$(this).prev().css('backgroundImage', 'url("../images/selected.png")');
-			$(this).prev().children().css('opacity', 0.25);
-			$(this).next().removeAttr('disabled').css('opacity', 1);
-			$(this).next().val('');
+			$(event.target).prev().css('backgroundImage', 'url("../images/selected.png")');
+			$(event.target).prev().children().css('opacity', 0.25);
+			$(event.target).next().removeAttr('disabled').css('opacity', 1);
+			$(event.target).next().val('');
 		}
 		else
 		{
-			$(this).prev().removeAttr('style');
-			$(this).prev().children().removeAttr('style');
-			$(this).next().attr('disabled', 'disabled').css('opacity', 0);
+			$(event.target).prev().removeAttr('style');
+			$(event.target).prev().children().removeAttr('style');
+			$(event.target).next().attr('disabled', 'disabled').css('opacity', 0);
 		}
 	});
 }
@@ -554,29 +540,29 @@ function activate_checkbox(type)
 function activate_button()
 {
 	$('tr').hover(
-		function ()
+		function (event)
 		{
-			$(this).find('button').css('opacity', 1);
+			$(event.target).find('button').css('opacity', 1);
 		},
-		function ()
+		function (event)
 		{
-			$(this).find('button').removeAttr('style');
+			$(event.target).find('button').removeAttr('style');
 		});
 	$('.screens').click(function (event)
 	{
 		event.preventDefault();
-		get_screen_modal(this);
+		get_screen_modal(event.target);
 	});
 
 	$('.plus_screen').click(function (event)
 	{
 		event.preventDefault();
-		btn_AJAX(this, 'plus', 'get_pack_no_screen');
+		table_btn_AJAX(event.target, 'plus', 'get_pack_no_screen');
 	});
 	$('.minus_screen').click(function (event)
 	{
 		event.preventDefault();
-		btn_AJAX(this, 'minus', 'get_pack_screen');
+		table_btn_AJAX(event.target, 'minus', 'get_pack_screen');
 	});
 	tip_by_className('plus_screen', '增加屏幕', 'left');
 	tip_by_className('minus_screen', '减少屏幕', 'right');
@@ -588,11 +574,10 @@ function activate_button()
  * data
  * [name,name,name……]
  * **/
-function get_screen_modal(pack_this)
+function get_screen_modal(pack_dom_obj)
 {
-	let pack_id = $(pack_this).parent().parent().attr('id');
-	const $screen_modal_body = $('#screen_modal_body');
-	const $screen_modal = $('#screen_modal');
+	let pack_id = $(pack_dom_obj).parent().parent().attr('id');
+	const [$screen_modal, $screen_modal_body] = [$('#screen_modal'), $('#screen_modal_body')];
 	$screen_modal.modal('show');
 	let data = {};
 	data.resource_id = pack_id;
@@ -617,8 +602,8 @@ function get_screen_modal(pack_this)
 		});
 }
 
-/****/
-function btn_AJAX(btn_this, type, action)
+/**AJAX for + and - buttons in table**/
+function table_btn_AJAX(btn_html_obj, type, action)
 {
 	$(`#${type}_modal_table`).html(`<tbody><tr id=${type}_head_row>
                         <th>序号</th>
@@ -629,7 +614,7 @@ function btn_AJAX(btn_this, type, action)
                    </tbody>`);
 	$(`#${type}_modal`).modal('show');
 	let data = {};
-	data.resource_id = $(btn_this).parent().parent().attr('id');
+	data.resource_id = $(btn_html_obj).parent().parent().attr('id');
 	$(`#${type}_head_row`).attr('class', data.resource_id);
 	AJAX(action, data,
 		function (response)
@@ -645,7 +630,7 @@ function btn_AJAX(btn_this, type, action)
 					$(`#${type}_modal_table`).append(`<tr class=${screens[i].screen_id}>
                         <td>${i + 1}</td>
                         <td>${screens[i].name}</td>
-                        <td>${screens[i].note}</td>
+                        <td>${screens[i].note === null ? '无' : screens[i].note}</td>
                         <td><input type="checkbox"></td>
                     </tr>`)
 				}

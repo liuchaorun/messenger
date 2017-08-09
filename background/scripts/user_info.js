@@ -12,12 +12,8 @@
 /**Get and fill info**/
 $(function ()
 {
-	const $username = $('#username');
-	const $email = $('#email');
-	const $work_place = $('#work_place');
-	const $screen_num = $('#screen_num');
-	const $picture_num = $('#picture_num');
-	const $last_login_time = $('#last_login_time');
+	const [$username, $email, $work_place, $screen_num, $picture_num, $last_login_time] =
+		[$('#username'), $('#email'), $('#work_place'), $('#screen_num'), $('#picture_num'), $('#last_login_time')];
 	AJAX('get_info', {},
 		function (response)
 		{

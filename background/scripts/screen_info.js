@@ -55,7 +55,7 @@ $(function ()
                             <td>${update_time}</td>
                             <td>${screen_info[i].freq}</td>
                             <td>${screen_info[i].pack === undefined ? '无' : screen_info[i].pack}</td>
-                            <td>${screen_info[i].note}</td>
+                            <td>${screen_info[i].note === null ? '无' : screen_info[i].note}</td>
                             <td>${screen_info[i].uuid}</td>
                             <td><input type="checkbox" aria-label="checkbox" class="checkbox-inline screen_checkbox"></td>
                         </tr>
@@ -71,19 +71,13 @@ $(function ()
 });
 
 /**Add screen**/
-/**Refresh if success**/
+/**Refresh if successful**/
 $(function ()
 {
 	const $uuid = $('#uuid');
 	const $add_modal_btn = $('#add_modal_btn');
 
-	$uuid.tooltip(
-		{
-			container: 'body',
-			placement: 'left',
-			trigger: 'focus hover',
-			title: '8位字母、数字'
-		});
+	tip_by_id('uuid', '8位字母、数字');
 
 	$add_modal_btn.click(function (event)
 	{
@@ -123,11 +117,8 @@ $(function ()
 /**Only single selection allows modifying name.**/
 $(function ()
 {
-	const $new_screen_name = $('#new_screen_name');
-	const $new_freq = $('#new_freq');
-	const $new_note = $('#new_note');
-	const $modify_btn = $('#modify_btn');
-	const $modify_modal_btn = $('#modify_modal_btn');
+	const [$new_screen_name, $new_freq, $new_note] = [$('#new_screen_name'), $('#new_freq'), $('#new_note')];
+	const [$modify_btn, $modify_modal_btn] = [$('#modify_btn'), $('#modify_modal_btn')];
 	let checked_screen_uuid = [];//存储被选屏幕的UUID
 	$modify_btn.click(function (event)
 	{
@@ -170,7 +161,7 @@ $(function ()
 		data.uuid = checked_screen_uuid;
 		if ($new_screen_name.val())
 		{
-			if (!/^[0-9A-z\u4e00-\u9fa5]{1,16}$/.test($new_screen_name.val()))
+			if (!SCREEN_NAME_REG.test($new_screen_name.val()))
 			{
 				$new_screen_name.css('borderColor', 'red');
 				status = false;
@@ -180,7 +171,7 @@ $(function ()
 		}
 		if ($new_freq.val())
 		{
-			if (!/^[0-9]+$/.test($new_freq.val()) || parseInt($new_freq) <= 0)
+			if (!/^\d+$/.test($new_freq.val()) || parseInt($new_freq) <= 0)
 			{
 				$new_freq.css('borderColor', 'red');
 				status = false;
@@ -190,7 +181,7 @@ $(function ()
 		}
 		if ($new_note.val())
 		{
-			if (!/^[0-9A-z\u4e00-\u9fa5]{1,32}$/.test($new_note.val()))
+			if (!SCREEN_NOTE_REG.test($new_note.val()))
 			{
 				$new_note.css('borderColor', 'red');
 				status = false;
@@ -233,11 +224,8 @@ $(function ()
 /**Show corresponding delete modal**/
 $(function ()
 {
-	const $del_btn = $('#del_btn');
-	const $del_modal = $('#del_modal');
-	const $del_modal_btn = $('#del_modal_btn');
-	const $del_error_modal = $('#del_error_modal');
-	const $del_screen = $('#del_screen');
+	const [$del_btn, $del_modal, $del_modal_btn, $del_error_modal, $del_screen] =
+		[$('#del_btn'), $('#del_modal'), $('#del_modal_btn'), $('#del_error_modal'), $('#del_screen')];
 	let checked_screen_uuid = [];
 	$del_btn.click(function (event)
 	{
@@ -300,7 +288,7 @@ $(function ()
 /**Tips**/
 $(function ()
 {
-	tip_by_id('new_screen_name','16位以内字母、数字或汉字');
-	tip_by_id('new_freq','正整数，单位为分钟');
-	tip_by_id('new_note','32位以内字母、数字或汉字');
+	tip_by_id('new_screen_name', '16位以内字母、数字或汉字');
+	tip_by_id('new_freq', '正整数，单位为分钟');
+	tip_by_id('new_note', '32位以内字母、数字或汉字');
 });
