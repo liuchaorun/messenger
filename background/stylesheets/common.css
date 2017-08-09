@@ -2,10 +2,11 @@
     font-family: "Noto Sans", "思源黑体", "微软雅黑", sans-serif;
 }
 
-html, body {
+body {
     font-size: 8px;
     background: transparent;
     overflow: hidden;
+    display: none;
 }
 
 .modal-title {

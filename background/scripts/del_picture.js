@@ -163,12 +163,15 @@ function activate()
 		else
 		{
 			$del_picture_with_pack_table.html(`<table class="table table-responsive" id="del_picture_with_pack_table"><tbody><tr><th class="preview">预览</th><th>资源包</th></tr></tbody></table>`);
+
 			for (let id of picture_with_pack)
 			{
 				let packs = '';
 				for (const pack of picture_pack_info[id].pack)
-					packs = pack + ' ';
-				$del_picture_with_pack_table.append(`<tr><td><img class="preview" src=${picture_pack_info[id].src} alt=${id}></td><td>${packs}</td></tr>`)
+				{
+					packs+=(pack + ',');
+				}
+				$del_picture_with_pack_table.append(`<tr><td><img class="preview" src=${picture_pack_info[id].src} alt=${id}></td><td>${packs.slice(0,packs.length-1)}</td></tr>`)
 			}
 			$del_error_2_modal.modal('show');
 		}

@@ -42,10 +42,10 @@ $(function ()
 				let packs = response.data.resources;
 				for (let i = 0; i < packs.length; i++)
 				{
-					$package_management_table.append(`<tr id=${packs[i].resource_id}>
+					$package_management_table.append(`<tr id=${packs[i].resource_id}> 
  <td>${i + 1}</td>
  <td>${packs[i].name}</td>
- <td>${packs[i].note}</td>
+ <td>${packs[i].note === '' ? '无' : packs[i].note}</td>
  <td>
  <button class="plus_screen btn btn-primary btn-sm">+</button>
  <span class="screens">${packs[i].screen.length > 1 ? packs[i].screen[0].name + '……' : packs[i].screen.length === 0 ? '无' : packs[i].screen[0].name}</span>
