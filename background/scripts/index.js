@@ -7,6 +7,17 @@ const [$register_username, $register_email, $register_password, $register_passwo
 const [$login_email, $login_password] = [$('#login_email'), $('#login_password')];
 //const $remember_me_checkbox = $('#remember_me_checkbox');
 
+/**IE detection**/
+$(function ()
+{
+	let parser = new UAParser();
+	const $ie_warning = $('#ie_warning');
+	if(parser.getBrowser().name === 'IE')
+	{
+		$ie_warning.fadeIn(500);
+	}
+});
+
 /**Input tips**/
 $(function ()
 {

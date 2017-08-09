@@ -123,3 +123,11 @@ h1 {
 #login_email {
     margin-bottom: 0.5em;
 }
+
+#ie_warning{
+    position: absolute;
+    top:0;
+    width: 100%;
+    font-size: 2em;
+    display: none;
+}

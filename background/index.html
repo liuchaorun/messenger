@@ -37,6 +37,12 @@
     </div>
 </div>
 
+<!--IE 警告-->
+<div class="alert alert-warning alert-dismissible" role="alert" id="ie_warning">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <span class="glyphicon glyphicon-exclamation-sign"></span> 您正在使用 Internet Explorer，在 Internet Explorer 下部分视觉元素可能无法正确显示。推荐使用 Google Chrome 或 Mozilla Firefox 访问本页。
+</div>
+
 <!-- 注册框 -->
 <div class="modal fade" tabindex="-1" role="dialog" id="register_modal">
     <div class="modal-dialog modal-lg" role="document">
@@ -177,6 +183,7 @@
 <script src="lib/jquery-3.2.1.min.js"></script>
 <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="scripts/compiled/lib.js"></script>
+<script src="lib/ua-parser.min.js"></script>
 <script src="scripts/compiled/index.js"></script>
 </body>
 </html>
