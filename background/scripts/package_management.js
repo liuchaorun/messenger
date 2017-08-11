@@ -230,7 +230,7 @@ $(function ()
 			let data = {};
 			$del_modal.modal('show');
 			for (const checkbox of checked_checkboxes)
-				checked_pack.push($(checkbox).parent().parent().attr('id'));
+				checked_pack.push(parseInt($(checkbox).parent().parent().attr('id')));
 			data.pack = checked_pack;
 			$del_modal_btn.click(function (event)
 			{
