@@ -132,7 +132,7 @@ $(function ()
 							if (checked_pictures.hasOwnProperty(picture_id) && !/.+\..+/.test(picture_id))
 							{
 								checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
-								$(checked_picture).children().first().css('backgroundImage', 'url("../images/selected.png")');
+								$(checked_picture).children().first().css('backgroundImage', 'url("../images/share/selected.png")');
 								$(checked_picture).children().first().children().css('opacity', 0.25);
 								$(checked_picture).find('input[type=text]')
 									.css('opacity', 1)
