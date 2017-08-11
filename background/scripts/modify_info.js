@@ -14,7 +14,7 @@ $(function ()
 			{
 				let info = response.data;
 				$username.text(info.username);
-				$work_place.text(info.work_place);
+				$work_place.text(info.work_place === '' ? '无' : info.work_place);
 			}
 		},
 		function (error)

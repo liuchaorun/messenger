@@ -24,7 +24,7 @@ $(function ()
 				let info = response.data;
 				$username.text(info.username);
 				$email.text(info.email);
-				$work_place.text(info.work_place);
+				$work_place.text(info.work_place === '' ? '无' : info.work_place);
 				$screen_num.text(info.screen_num);
 				$picture_num.text(info.picture_num);
 				$last_login_time.text(parse_time_string(info.last_login_time));
