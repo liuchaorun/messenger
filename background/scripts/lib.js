@@ -3,7 +3,7 @@
  */
 /**Public constants**/
 const [USERNAME_REG, EMAIL_REG, PASSWORD_REG, PACK_NAME_REG, PACK_NOTE_REG, SCREEN_NAME_REG, SCREEN_NOTE_REG] =
-	[/^[A-z0-9\u4e00-\u9fa5]{1,16}$/, /^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/, /^[A-z0-9_]{1,32}$/, /^[A-z0-9\u4e00-\u9fa5]{1,16}$/, /^[A-z0-9\u4e00-\u9fa5]{1,32}$/, /^[0-9A-z\u4e00-\u9fa5]{1,16}$/, /^[0-9A-z\u4e00-\u9fa5]{1,32}$/];
+	[/^[A-z0-9\u4e00-\u9fa5]{1,16}$/, /^[A-z0-9]+@([A-z0-9]+\.[a-z]+)+$/, /^[A-z0-9_]{1,32}$/, /^[A-z0-9\u4e00-\u9fa5]{1,16}$/, /^[A-z0-9\u4e00-\u9fa5]{0,32}$/, /^[0-9A-z\u4e00-\u9fa5]{1,16}$/, /^[0-9A-z\u4e00-\u9fa5]{1,32}$/];
 
 function AJAX(action, data_object, success_function, error_function, async = true)
 {

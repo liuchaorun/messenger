@@ -132,7 +132,7 @@ $(function ()
 							if (checked_pictures.hasOwnProperty(picture_id) && !/.+\..+/.test(picture_id))
 							{
 								checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
-								$(checked_picture).children().first().css('backgroundImage', 'url("../images/share/selected.png")');
+								$(checked_picture).children().first().css('backgroundImage', 'url("../images/admin/selected.png")');
 								$(checked_picture).children().first().children().css('opacity', 0.25);
 								$(checked_picture).find('input[type=text]')
 									.css('opacity', 1)
@@ -276,6 +276,7 @@ $(function ()
 {
 	tip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
 	tip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
+	tip_by_className('multiple_new_pack_note_input','32位以内字母、数字与汉字','top');
 });
 
 /**plus/minus_modal button**/
@@ -522,7 +523,7 @@ function activate_checkbox(type)
 	{
 		if ($(event.target).is(':checked'))
 		{
-			$(event.target).prev().css('backgroundImage', 'url("../images/share/selected.png")');
+			$(event.target).prev().css('backgroundImage', 'url("../images/admin/selected.png")');
 			$(event.target).prev().children().css('opacity', 0.25);
 			$(event.target).next().removeAttr('disabled').css('opacity', 1);
 			$(event.target).next().val('');
