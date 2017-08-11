@@ -10,11 +10,18 @@ const [$login_email, $login_password] = [$('#login_email'), $('#login_password')
 /**IE detection**/
 $(function ()
 {
-	let parser = new UAParser();
-	const $ie_warning = $('#ie_warning');
-	if(parser.getBrowser().name === 'IE')
+	const parser = new UAParser();
+	const $ie9_warning = $('#ie9_warning');
+	if (parser.getBrowser().name === 'IE')
 	{
-		$ie_warning.fadeIn(500);
+		if (parseInt(parser.getBrowser().version) === 9)
+		{
+			$ie9_warning.fadeIn(500);
+		}
+		else if (parseInt(parser.getBrowser().version) < 9)
+		{
+			window.location = 'ie_refuse.html';
+		}
 	}
 });
 
@@ -234,8 +241,8 @@ $(function ()
 	const $login_modal = $('#login_modal');
 	const [$forget_modal, $forget_btn, $forget_email, $forget_username] =
 		[$('#forget_modal'), $('#forget_btn'), $('#forget_email'), $('#forget_username')];
-	const [$new_password_modal,$new_password,$new_password_again,$new_password_modal_btn] =
-		[$('#new_password_modal'),$('#new_password'),$('#new_password_again'),$('#new_password_modal_btn')];
+	const [$new_password_modal, $new_password, $new_password_again, $new_password_modal_btn] =
+		[$('#new_password_modal'), $('#new_password'), $('#new_password_again'), $('#new_password_modal_btn')];
 	const $forget_link = $('#forget_link');
 	$forget_link.click(function (event)
 	{
@@ -268,7 +275,7 @@ $(function ()
 		}
 
 		let data = {};
-		[data.username,data.email] = [$forget_username.val(),$forget_email.val()];
+		[data.username, data.email] = [$forget_username.val(), $forget_email.val()];
 		AJAX('forget', data,
 			function (response)
 			{

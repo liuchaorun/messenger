@@ -93,9 +93,9 @@ $(function ()
  * **/
 function activate()
 {
-	const [$del_picture_btn,$del_picture_modal_btn] = [$('#del_picture_btn'),$('#del_picture_modal_btn')];
-	const [$del_error_modal,$del_error_2_modal,$del_picture_modal] = 
-		[$('#del_error_modal'),$('#del_error_2_modal'),$('#del_picture_modal')];
+	const [$del_picture_btn, $del_picture_modal_btn] = [$('#del_picture_btn'), $('#del_picture_modal_btn')];
+	const [$del_error_modal, $del_error_2_modal, $del_picture_modal] =
+		[$('#del_error_modal'), $('#del_error_2_modal'), $('#del_picture_modal')];
 	const $del_picture_with_pack_table = $('#del_picture_with_pack_table');
 	const $checkbox = $('.checkbox');
 
@@ -169,9 +169,9 @@ function activate()
 				let packs = '';
 				for (const pack of picture_pack_info[id].pack)
 				{
-					packs+=(pack + ',');
+					packs += (pack + ',');
 				}
-				$del_picture_with_pack_table.append(`<tr><td><img class="preview" src=${picture_pack_info[id].src} alt=${id}></td><td>${packs.slice(0,packs.length-1)}</td></tr>`)
+				$del_picture_with_pack_table.append(`<tr><td><img class="preview" src=${picture_pack_info[id].src} alt=${id}></td><td>${packs.slice(0, packs.length - 1)}</td></tr>`)
 			}
 			$del_error_2_modal.modal('show');
 		}

@@ -124,9 +124,9 @@ h1 {
     margin-bottom: 0.5em;
 }
 
-#ie_warning{
+#ie9_warning {
     position: absolute;
-    top:0;
+    top: 0;
     width: 100%;
     font-size: 2em;
     display: none;

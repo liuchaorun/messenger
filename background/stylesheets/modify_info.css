@@ -19,10 +19,10 @@
     line-height: 2em;
 }
 
-.no_hover_effect:hover{
+.no_hover_effect:hover {
     background: transparent !important;
 }
 
-#modify_password_modal_body>input{
+#modify_password_modal_body > input {
     margin-top: 1em;
 }
