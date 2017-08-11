@@ -43,7 +43,7 @@ let transporter = nodemailer.createTransport({
 });
 
 router.post('/action=signup', async (ctx, next) => {
-    let user_num = user.count({where: {email: ctx.request.body.email}});
+    let user_num = await user.count({where: {email: ctx.request.body.email}});
     let n = Math.floor(Math.random() * 9000 + 1000);
     ctx.session.verify = n.toString();
     if (user_num === 1) {
@@ -464,7 +464,7 @@ router.post('/action=del_pack', async (ctx, next) => {
         let del_resource_picture = await del_resource.getPictures();
         await del_resource.removePictures(del_resource_picture);
         let screen_now = await del_resource.getScreens();
-        for(let i of screen_now) i.update({md5:md5(Date.now())});
+        for(let i of screen_now) await i.update({md5:md5(Date.now())});
         await del_resource.destroy();
     }
     ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
