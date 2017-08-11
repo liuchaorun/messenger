@@ -522,7 +522,7 @@ function activate_checkbox(type)
 	{
 		if ($(event.target).is(':checked'))
 		{
-			$(event.target).prev().css('backgroundImage', 'url("../images/selected.png")');
+			$(event.target).prev().css('backgroundImage', 'url("../images/share/selected.png")');
 			$(event.target).prev().children().css('opacity', 0.25);
 			$(event.target).next().removeAttr('disabled').css('opacity', 1);
 			$(event.target).next().val('');
