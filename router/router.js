@@ -562,14 +562,12 @@ router.post('/action=all',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
     let data = {};
     let screen_now = await screen.findOne({where:{uuid:uuid}});
-    data.screen_time = screen_now.time;
-    data.screen_md5 = screen_now.md5;
+    await screen_now.update({updated_at:Date.now()});
+    data.time = screen_now.time;
     if(screen_now.resource_id){
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
-        data.pack={
-            resource_url : 'http://118.89.197.156:8000/resource/'+resource_now.name+'.zip',
-            json_url:'http://118.89.197.156:8000/'+resource_now.resource_id+'.json'
-        }
+        data.json_url='http://118.89.197.156:8000/'+resource_now.resource_id+'.json';
+        data.md5 = resource_now.md5;
     }
     ctx.api(200,data,{code:10000,msg:'获取成功！'});
     await next();
@@ -580,21 +578,12 @@ router.post('/action=request',async(ctx,next)=>{
     let screen_now = await screen.findOne({where:{uuid:uuid}});
     let data = {};
     await screen_now.update({updated_at:Date.now()});
-    data.screen_md5= screen_now.md5;
+    data.time = screen_now.time;
     if(screen_now.resource_id){
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
-        data.resource_md5 = resource_now.md5;
+        data.md5 = resource_now.md5;
     }
     ctx.api(200,data,{code:10000,msg:'轮训成功！'});
-    await next();
-});
-
-router.post('/action=request_setting',async(ctx,next)=>{
-    let uuid = ctx.request.body.uuid;
-    let screen_now = await screen.findOne({where:{uuid:uuid}});
-    let data={};
-    data.time=screen_now.time;
-    ctx.api(200,data,{code:10000,msg:'获取成功！'});
     await next();
 });
 
@@ -603,8 +592,8 @@ router.post('/action=request_resource',async(ctx,next)=>{
     let screen_now = await screen.findOne({where:{uuid:uuid}});
     let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
     let data={};
+    await screen_now.update({updated_at:Date.now()});
     data.pack={
-        resource_url : 'http://118.89.197.156:8000/resource/'+resource_now.name+'.zip',
         json_url:'http://118.89.197.156:8000/'+resource_now.resource_id+'.json'
     };
     ctx.api(200,data,{code:10000,msg:'获取成功！'});
