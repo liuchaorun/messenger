@@ -12,7 +12,6 @@ const images = require("image-size");
 const isOnline = require('./isOnlie');
 const fs = require('fs');
 const gm = require('gm');
-const zip = require('./zip');
 const upDir = '/home/ubuntu/file/';
 let user = model.user;
 let screen = model.screen;
@@ -255,7 +254,7 @@ router.post('/action=upload', koaBody({
             let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
             let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
             let image = images(files.file[i].path);
-            await user_person.createPicture({
+            let picture_now = await user_person.createPicture({
                 name: file_name,
                 size: files.file[i].size,
                 image_size: image.width.toString() + '×' + image.height.toString(),
@@ -267,6 +266,8 @@ router.post('/action=upload', koaBody({
                 console.log(err);
             });
             gm(upDir + file_name).resize(null,200).write(upDir+'thumbnails_'+file_name,()=>{});
+            let buf = await fs.readFileSync(upDir+file_name);
+            await picture_now.update({md5:md5(buf)});
         }
     }
     else{
@@ -274,7 +275,7 @@ router.post('/action=upload', koaBody({
         let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let image = images(files.file.path);
-        await user_person.createPicture({
+        let picture_now = await user_person.createPicture({
             name: file_name,
             size: files.file.size,
             image_size: image.width.toString() + '×' + image.height.toString(),
@@ -286,6 +287,8 @@ router.post('/action=upload', koaBody({
             console.log(err);
         });
         gm(upDir + file_name).resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
+        let buf = await fs.readFileSync(upDir+file_name);
+        await picture_now.update({md5:md5(buf)});
     }
     ctx.api(200, {}, {code: 10000, msg: '上传成功'});
     await next();
@@ -309,7 +312,7 @@ router.post('/action=add_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let picture_id = ctx.request.body.picture_id;
     let picture_time = ctx.request.body.picture_time;
-    let main = {}, picture_name = new Array();
+    let main = {}, picture_all = [];
     let resource_new = await resource.create({
         name: ctx.request.body.pack_name,
         remark: ctx.request.body.pack_note
@@ -318,11 +321,14 @@ router.post('/action=add_pack', async (ctx, next) => {
     for (let i = 0; i < picture_id.length; ++i) {
         let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
         await resource_new.addPictures(picture_add);
-        main[picture_add.picture_id] = picture_time[i];
-        main[picture_add.name] = picture_time[i];
-        picture_name[i] = picture_add.name;
+        picture_all[i].name = picture_add.name;
+        picture_all[i].md5 = picture_add.md5;
+        picture_all[i].time = picture_time[i];
+        picture_all[i].url = picture_add.url;
     }
-    zip(picture_name,main, resource_new.name,resource_new);
+    main.picture = picture_all;
+    let json_file = JSON.stringify(main);
+    await fs.writeFileSync(upDir+resource_new.resource_id+'.json',json_file);
     ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     await next();
 });
@@ -430,7 +436,6 @@ router.post('/action=modify_pack', async (ctx, next) => {
     }
     else {
         let resource_new = await resource.findOne({where: {resource_id: ctx.request.body.pack[0]}});
-        await fs.unlinkSync(upDir + 'resource/' + resource_new.name + '.zip');
         await fs.unlinkSync(upDir + resource_new.resource_id + '.json');
         await resource_new.update({
             name: ctx.request.body.new_pack_name,
@@ -441,16 +446,19 @@ router.post('/action=modify_pack', async (ctx, next) => {
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let picture_id = ctx.request.body.picture_id;
         let picture_time = ctx.request.body.picture_time;
-        let main = {}, picture_name = new Array();
+        let main = {}, picture_all = [];
         await user_person.addResource(resource_new);
         for (let i = 0; i < picture_id.length; ++i) {
             let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
             await resource_new.addPictures(picture_add);
-            main[picture_add.picture_id] = picture_time[i];
-            main[picture_add.name] = picture_time[i];
-            picture_name[i] = picture_add.name;
+            picture_all[i].name = picture_add.name;
+            picture_all[i].md5 = picture_add.md5;
+            picture_all[i].time = picture_time[i];
+            picture_all[i].url = picture_add.url;
         }
-        zip(picture_name,main, resource_new.name,resource_new);
+        main.picture = picture_all;
+        let json_file = JSON.stringify(main);
+        await fs.writeFileSync(upDir+resource_new.resource_id+'.json',json_file);
         ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
     }
     await next();

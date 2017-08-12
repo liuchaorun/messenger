@@ -90,34 +90,37 @@
 // let a = "ab.c";
 // let q = a.split('.');
 // console.log(q);
-const md5 = require('md5');
-const js_zip = require('jszip');
-const fs =require('fs');
-const crypto = require('crypto');
-const picture_dir = '/home/lcr/';
-const zip_dir = '/home/lcr/';
-let md5sum = crypto.createHash('md5');
-function a(name,zip_name){
-    let zip = new js_zip();
-    let img = zip.folder("/images/");
-    for(let i of name) {
-        let data = fs.readFileSync(picture_dir+i);
-        img.file(i,data, {base64: true});
-    }
-    zip.generateAsync({type:"nodebuffer"})
-        .then(function(content) {
-            fs.writeFileSync(zip_dir+zip_name+".zip", content);
-        });
-}
-let name = new Array();
-let str;
-name[0]='1.jpg';
-a(name,'test');
-let stream = fs.createReadStream(zip_dir+"test.zip");
-stream.on('data', function(chunk) {
-    md5sum.update(chunk);
-});
-stream.on('end', function() {
-    str = md5sum.digest('hex').toUpperCase();
-    console.log('文件:.zip'+',MD5签名为:'+str);
-});
+// const md5 = require('md5');
+// const js_zip = require('jszip');
+// const fs =require('fs');
+// const crypto = require('crypto');
+// const picture_dir = '/home/lcr/';
+// const zip_dir = '/home/lcr/';
+// let md5sum = crypto.createHash('md5');
+// function a(name,zip_name){
+//     let zip = new js_zip();
+//     let img = zip.folder("/images/");
+//     for(let i of name) {
+//         let data = fs.readFileSync(picture_dir+i);
+//         img.file(i,data, {base64: true});
+//     }
+//     zip.generateAsync({type:"nodebuffer"})
+//         .then(function(content) {
+//             fs.writeFileSync(zip_dir+zip_name+".zip", content);
+//         });
+// }
+// let name = new Array();
+// let str;
+// name[0]='1.jpg';
+// a(name,'test');
+// let stream = fs.createReadStream(zip_dir+"test.zip");
+// stream.on('data', function(chunk) {
+//     md5sum.update(chunk);
+// });
+// stream.on('end', function() {
+//     str = md5sum.digest('hex').toUpperCase();
+//     console.log('文件:.zip'+',MD5签名为:'+str);
+// });
+let a = [];
+a[0] = 1;
+console.log(a[0]);
