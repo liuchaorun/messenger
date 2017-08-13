@@ -321,10 +321,12 @@ router.post('/action=add_pack', async (ctx, next) => {
     for (let i = 0; i < picture_id.length; ++i) {
         let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
         await resource_new.addPictures(picture_add);
-        picture_all[i].name = picture_add.name;
-        picture_all[i].md5 = picture_add.md5;
-        picture_all[i].time = picture_time[i];
-        picture_all[i].url = picture_add.url;
+        picture_all[i]={
+            name:picture_add.name,
+            md5:picture_add.md5,
+            time:picture_time[i],
+            url:picture_add.url
+        }
     }
     main.picture = picture_all;
     let json_file = JSON.stringify(main);
@@ -467,7 +469,6 @@ router.post('/action=modify_pack', async (ctx, next) => {
 router.post('/action=del_pack', async (ctx, next) => {
     for (let i = 0; i < ctx.request.body.pack.length; ++i) {
         let del_resource = await resource.findOne({where: {resource_id: ctx.request.body.pack[i]}});
-        await fs.unlinkSync(upDir + 'resource/' + del_resource.name + '.zip');
         await fs.unlinkSync(upDir + del_resource.resource_id + '.json');
         let del_resource_picture = await del_resource.getPictures();
         await del_resource.removePictures(del_resource_picture);
