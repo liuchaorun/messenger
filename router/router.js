@@ -83,7 +83,7 @@ router.post('/action=login', async (ctx, next) => {
     let user_num = await user.count({where: {email: ctx.request.body.email}});
     if (user_num === 0) ctx.api(200, {}, {code: 0, msg: '该用户不存在！'});
     else {
-        if (ctx.cookie.get('user', {}) === undefined) {
+        if (ctx.cookies.get('user', {}) === undefined) {
             let user_person = await user.findOne({where: {email: ctx.request.body.email}});
             if (user_person.password === ctx.request.body.password) {
                 ctx.session.custom_email = user_person.email;
@@ -91,7 +91,7 @@ router.post('/action=login', async (ctx, next) => {
                 data.username = user_person.username;
                 let md = md5(ctx.session.custom_email);
                 if (ctx.request.body.remember_me === true) {
-                    ctx.cookie.set(
+                    ctx.cookies.set(
                         'user',
                         md,
                         {
@@ -104,7 +104,7 @@ router.post('/action=login', async (ctx, next) => {
                     );
                 }
                 else {
-                    ctx.cookie.set(
+                    ctx.cookies.set(
                         'user',
                         md,
                         {
