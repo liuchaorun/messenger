@@ -125,21 +125,18 @@ $(function ()
 						let pack_info = response.data;
 						$new_pack_name_input.val(pack_info.name);
 						$new_pack_note_input.val(pack_info.note);
-						let checked_pictures = pack_info.used_pictures;
+						let checked_pictures = pack_info.used_pictures.picture;
 						let checked_picture;
-						for (let picture_id in checked_pictures)
+						for (const picture of checked_pictures)
 						{
-							if (checked_pictures.hasOwnProperty(picture_id) && !/.+\..+/.test(picture_id))
-							{
-								checked_picture = $modify_modal_table.find(`label[class=${picture_id}]`);
-								$(checked_picture).children().first().css('backgroundImage', 'url("../images/admin/selected.png")');
-								$(checked_picture).children().first().children().css('opacity', 0.25);
-								$(checked_picture).find('input[type=text]')
-									.css('opacity', 1)
-									.removeAttr('disabled')
-									.val(checked_pictures[picture_id]);
-								$(checked_picture).find('input[type=checkbox]').attr('checked', true);
-							}
+							checked_picture = $modify_modal_table.find(`label[class=${picture.name}]`);
+							$(checked_picture).children().first().css('backgroundImage', 'url("../images/admin/selected.png")');
+							$(checked_picture).children().first().children().css('opacity', 0.25);
+							$(checked_picture).find('input[type=text]')
+								.css('opacity', 1)
+								.removeAttr('disabled')
+								.val(picture.time);
+							$(checked_picture).find('input[type=checkbox]').attr('checked', true);
 						}
 					}
 				},
@@ -276,7 +273,7 @@ $(function ()
 {
 	tip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
 	tip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
-	tip_by_className('multiple_new_pack_note_input','32位以内字母、数字与汉字','top');
+	tip_by_className('multiple_new_pack_note_input', '32位以内字母、数字与汉字', 'top');
 });
 
 /**plus/minus_modal button**/
