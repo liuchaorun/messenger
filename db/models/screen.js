@@ -17,5 +17,4 @@ module.exports=database.defineModel('screen',{
     },
     remark:Sequelize.STRING(255),
     resource_id:Sequelize.BIGINT,
-    md5:Sequelize.STRING(32)
 });
