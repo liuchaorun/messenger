@@ -181,7 +181,7 @@ router.post('/action=get_screen', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_screen = await user_person.getScreens();
     let data = {};
-    data.info = new Array();
+    data.info = [];
     for (let i = 0; i < user_screen.length; ++i) {
         let resource_name = await resource.findOne({where:{resource_id:user_screen[i].resource_id}});
         data.info[i] = {
@@ -505,14 +505,14 @@ router.post('/action=get_picture_for_del',async(ctx,next)=>{
     let data={};
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let pictures_all = await user_person.getPictures();
-    data.pictures = new Array();
+    data.pictures = [];
     for(let i =0;i<pictures_all.length;++i){
         data.pictures[i]={
             id : pictures_all[i].picture_id,
             src : pictures_all[i].thumbnails_url
         };
         let pack_all = await pictures_all[i].getResources();
-        data.pictures[i].pack = new Array();
+        data.pictures[i].pack = [];
         for(let j =0;j<pack_all.length;++j){
             data.pictures[i].pack[j] = pack_all[j].name;
         }
