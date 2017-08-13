@@ -83,7 +83,7 @@ router.post('/action=login', async (ctx, next) => {
     let user_num = await user.count({where: {email: ctx.request.body.email}});
     if (user_num === 0) ctx.api(200, {}, {code: 0, msg: '该用户不存在！'});
     else {
-        if (ctx.cookies.get('user', {}) === undefined) {
+        if (ctx.cookie.get('user', {}) === undefined) {
             let user_person = await user.findOne({where: {email: ctx.request.body.email}});
             if (user_person.password === ctx.request.body.password) {
                 ctx.session.custom_email = user_person.email;
@@ -91,7 +91,7 @@ router.post('/action=login', async (ctx, next) => {
                 data.username = user_person.username;
                 let md = md5(ctx.session.custom_email);
                 if (ctx.request.body.remember_me === true) {
-                    ctx.cookies.set(
+                    ctx.cookie.set(
                         'user',
                         md,
                         {
@@ -104,7 +104,7 @@ router.post('/action=login', async (ctx, next) => {
                     );
                 }
                 else {
-                    ctx.cookies.set(
+                    ctx.cookie.set(
                         'user',
                         md,
                         {
@@ -434,7 +434,9 @@ router.post('/action=modify_pack', async (ctx, next) => {
         let pack = ctx.request.body.pack;
         for (let i of pack) {
             let resource_new = await resource.findOne({where: {resource_id: i}});
-            resource_new.update({remark: ctx.request.body.new_pack_note})
+            resource_new.update({remark: ctx.request.body.new_pack_note});
+            let buf = await fs.readFileSync(upDir+resource_new.resource_id+'.json');
+            resource_new.update({md5:md5(buf)});
         }
         ctx.api(200, {}, {code: 10000, msg: '批量修改备注成功！'});
     }
