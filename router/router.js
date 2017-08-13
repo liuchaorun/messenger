@@ -298,7 +298,7 @@ router.post('/action=get_picture', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_person_picture = await user_person.getPictures();
     let data = {};
-    data.pictures = new Array();
+    data.pictures = [];
     for (let i = 0; i < user_person_picture.length; ++i) {
         data.pictures[i] = {};
         data.pictures[i].id = user_person_picture[i].picture_id;
@@ -325,7 +325,8 @@ router.post('/action=add_pack', async (ctx, next) => {
             name:picture_add.name,
             md5:picture_add.md5,
             time:picture_time[i],
-            url:picture_add.url
+            url:picture_add.url,
+            id:picture_add.picture_id
         }
     }
     main.picture = picture_all;
@@ -341,7 +342,7 @@ router.post('/action=get_pack', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let person_resource = await user_person.getResources();
     let data = {};
-    data.resources = new Array();
+    data.resources = [];
     for (let i = 0; i < person_resource.length; ++i) {
         let get_screen = await person_resource[i].getScreens();
         data.resources[i] = {
@@ -359,7 +360,7 @@ router.post('/action=get_pack_screen', async (ctx, next) => {
     let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
     let resource_now_screen = await resource_now.getScreens();
     let data = {};
-    data.screen = new Array();
+    data.screen = [];
     for (let i = 0; i < resource_now_screen.length; ++i) {
         data.screen[i] = {
             name: resource_now_screen[i].name,
@@ -377,7 +378,7 @@ router.post('/action=get_pack_no_screen', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     let user_person_screen = await user_person.getScreens();
     let data = {},n=0;
-    data.screen = new Array();
+    data.screen = [];
     for(let i of user_person_screen){
         let flag=0;
         for(let j of resource_now_screen) if(i.screen_id===j.screen_id) flag=1;
@@ -457,10 +458,13 @@ router.post('/action=modify_pack', async (ctx, next) => {
         for (let i = 0; i < picture_id.length; ++i) {
             let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
             await resource_new.addPictures(picture_add);
-            picture_all[i].name = picture_add.name;
-            picture_all[i].md5 = picture_add.md5;
-            picture_all[i].time = picture_time[i];
-            picture_all[i].url = picture_add.url;
+            picture_all[i]={
+                name:picture_add.name,
+                md5:picture_add.md5,
+                time:picture_time[i],
+                url:picture_add.url,
+                id:picture_add.picture_id
+            }
         }
         main.picture = picture_all;
         let json_file = JSON.stringify(main);
