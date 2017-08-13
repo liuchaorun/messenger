@@ -606,9 +606,7 @@ router.post('/action=request_resource',async(ctx,next)=>{
     let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
     let data={};
     await screen_now.update({updated_at:Date.now()});
-    data.pack={
-        json_url:'http://118.89.197.156:8000/'+resource_now.resource_id+'.json'
-    };
+    data.json_url = 'http://118.89.197.156:8000/'+resource_now.resource_id+'.json';
     ctx.api(200,data,{code:10000,msg:'获取成功！'});
     await next();
 });
