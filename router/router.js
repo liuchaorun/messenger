@@ -484,6 +484,7 @@ router.post('/action=del_pack', async (ctx, next) => {
         await del_resource.removePictures(del_resource_picture);
         let screen_now = await del_resource.getScreens();
         for(let i of screen_now) await i.update({md5:md5(Date.now())});
+        await del_resource.removeScreens(screen_now);
         await del_resource.destroy();
     }
     ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
