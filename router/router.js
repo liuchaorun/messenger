@@ -618,4 +618,14 @@ router.post('/action=request_resource',async(ctx,next)=>{
     await next();
 });
 
+router.post('/action=request_update',async (ctx,next)=>{
+    if(ctx.request.body.version_code===1){
+        ctx.api(200,{url:''},{code:10000,msg:''});
+    }
+    else{
+        ctx.api(200,{url:''},{code:10000,msg:''});
+    }
+    await next();
+});
+
 module.exports = router;
