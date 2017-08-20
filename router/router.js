@@ -90,31 +90,17 @@ router.post('/action=login', async (ctx, next) => {
                 let data = {};
                 data.username = user_person.username;
                 let md = md5(ctx.session.custom_email);
-                if (ctx.request.body.remember_me === true) {
-                    ctx.cookies.set(
-                        'user',
-                        md,
-                        {
-                            domain: '118.89.197.156',  // 写cookie所在的域名
-                            path: '/',       // 写cookie所在的路径
-                            maxAge: 60 * 60 * 24 * 30 * 1000, // cookie有效时长
-                            httpOnly: true,  // 是否只用于http请求中获取
-                            overwrite: true  // 是否允许重写
-                        }
-                    );
-                }
-                else {
-                    ctx.cookies.set(
-                        'user',
-                        md,
-                        {
-                            domain: '118.89.197.156',  // 写cookie所在的域名
-                            path: '/',       // 写cookie所在的路径
-                            httpOnly: true,  // 是否只用于http请求中获取
-                            overwrite: true  // 是否允许重写
-                        }
-                    );
-                }
+                ctx.cookies.set(
+                    'user',
+                    md,
+                    {
+                        domain: '118.89.197.156',  // 写cookie所在的域名
+                        path: '/',       // 写cookie所在的路径
+                        maxAge: 60 * 60 * 24 * 30 * 1000, // cookie有效时长
+                        httpOnly: true,  // 是否只用于http请求中获取
+                        overwrite: true  // 是否允许重写
+                    }
+                );
                 ctx.session.last_login_time = user_person.last_login_time;
                 await user_person.update({
                     last_login_time: Date.now(),
