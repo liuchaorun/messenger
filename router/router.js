@@ -126,7 +126,7 @@ router.post('/action=login', async (ctx, next) => {
             }
         }
         else {
-            let user_person = await user.findOne({where: {email: ctx.session.email}});
+            let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
             ctx.session.last_login_time = user_person.last_login_time;
             await user_person.update({
                 last_login_time: Date.now(),
