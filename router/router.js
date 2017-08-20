@@ -97,7 +97,7 @@ router.post('/action=login', async (ctx, next) => {
                         {
                             domain: '118.89.197.156',  // 写cookie所在的域名
                             path: '/',       // 写cookie所在的路径
-                            //maxAge: 60 * 60 * 24 * 30 * 1000, // cookie有效时长
+                            maxAge: 60 * 60 * 24 * 30 * 1000, // cookie有效时长
                             httpOnly: true,  // 是否只用于http请求中获取
                             overwrite: true  // 是否允许重写
                         }
