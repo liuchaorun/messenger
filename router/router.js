@@ -121,6 +121,9 @@ router.post('/action=login', async (ctx, next) => {
                 });
                 ctx.api(200, data, {code: 10000, msg: '登录成功！'});
             }
+            else{
+                ctx.api(200,{},{code:0,msg:'密码错误！'});
+            }
         }
         else {
             let user_person = await user.findOne({where: {email: ctx.session.email}});

@@ -121,6 +121,16 @@
 //     str = md5sum.digest('hex').toUpperCase();
 //     console.log('文件:.zip'+',MD5签名为:'+str);
 // });
-let a = [];
-a[0] = 1;
-console.log(a[0]);
+function swap(a,b) {
+    let temp = a;
+    a=b;
+    b=temp;
+    console.log(a, b);
+}
+function test() {
+    let i={1:'a'},j={2:'b'};
+    console.log(i,j);
+    swap(i,j);
+    console.log(i, j);
+}
+test();
