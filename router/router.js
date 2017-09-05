@@ -50,10 +50,10 @@ router.post('/action=signup', async (ctx, next) => {
     }
     else {
         let mailOptions = {
-            from: '"messenger" <pobooks@126.com>',
+            from: '"Messenger" <pobooks@126.com>',
             to: ctx.request.body.email,
-            subject: '天天看图',
-            text: '天天看图验证码:' + ctx.session.verify,
+            subject: 'Messenger',
+            text: 'Messenger 注册验证码:' + ctx.session.verify,
         };
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
@@ -120,7 +120,7 @@ router.post('/action=login', async (ctx, next) => {
             let data = {};
             data.username = user_person.username;
             data.email = user_person.email;
-            ctx.api(200, data, {code: 10000, msg: '自动登录成功！'});
+            ctx.api(200, data, {code: 10000, msg: '登录成功！'});
         }
     }
     await next();
@@ -518,7 +518,7 @@ router.post('/action=get_picture_for_del',async(ctx,next)=>{
             data.pictures[i].pack[j] = pack_all[j].name;
         }
     }
-    ctx.api(200,data,{code:10000,msg:'获取待图片成功！'});
+    ctx.api(200,data,{code:10000,msg:'获取图片成功！'});
     await next();
 });
 
@@ -592,7 +592,7 @@ router.post('/action=request',async(ctx,next)=>{
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
         data.md5 = resource_now.md5;
     }
-    ctx.api(200,data,{code:10000,msg:'轮训成功！'});
+    ctx.api(200,data,{code:10000,msg:'轮询成功！'});
     await next();
 });
 
