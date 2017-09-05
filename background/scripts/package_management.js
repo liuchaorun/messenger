@@ -42,7 +42,7 @@ $(function ()
 				let packs = response.data.resources;
 				for (let i = 0; i < packs.length; i++)
 				{
-					$package_management_table.append(`<tr id=${packs[i].resource_id}> 
+					$package_management_table.append(`<tr id=${packs[i].resource_id} class="packet_row"> 
  <td>${i + 1}</td>
  <td>${packs[i].name}</td>
  <td>${packs[i].note === '' ? '无' : packs[i].note}</td>
@@ -537,14 +537,15 @@ function activate_checkbox(type)
 /**Show +,- button，tips**/
 function activate_button()
 {
-	$('tr').hover(
+	const $packet_row = $('.packet_row');
+	$packet_row.hover(
 		function (event)
 		{
-			$(event.target).find('button').css('opacity', 1);
+			$(this).find('button').css('opacity', 1);
 		},
 		function (event)
 		{
-			$(event.target).find('button').removeAttr('style');
+			$(this).find('button').removeAttr('style');
 		});
 	$('.screens').click(function (event)
 	{
