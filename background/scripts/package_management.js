@@ -539,11 +539,11 @@ function activate_button()
 {
 	const $packet_row = $('.packet_row');
 	$packet_row.hover(
-		function (event)
+		function ()
 		{
 			$(this).find('button').css('opacity', 1);
 		},
-		function (event)
+		function ()
 		{
 			$(this).find('button').removeAttr('style');
 		});
