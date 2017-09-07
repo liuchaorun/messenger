@@ -69,6 +69,7 @@ $(function ()
 	{
 		event.preventDefault();
 		$('.active').removeClass('active');
+		$resource_management.addClass('active');
 		$del_picture.addClass('active');
 		$frame.attr('src', 'frames/del_picture.html');
 	});
