@@ -94,7 +94,7 @@ router.post('/action=login', async (ctx, next) => {
                     'user',
                     md,
                     {
-                        domain: '118.89.197.156',  // 写cookie所在的域名
+                        domain: '118.89.197.156:3000',  // 写cookie所在的域名
                         path: '/',       // 写cookie所在的路径
                         maxAge: 60 * 60 * 24 * 30 * 1000, // cookie有效时长
                         httpOnly: true,  // 是否只用于http请求中获取
@@ -608,7 +608,7 @@ router.post('/action=request_resource',async(ctx,next)=>{
 });
 
 router.post('/action=request_update',async (ctx,next)=>{
-    if(ctx.request.body.version_code===1){
+    if(ctx.request.body.version_code===3){
         ctx.api(200,{url:''},{code:10000,msg:''});
     }
     else{

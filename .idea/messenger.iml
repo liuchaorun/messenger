@@ -8,12 +8,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jszip-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="image-size-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="koa-bodyparser-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="koa-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="koa-router-DefinitelyTyped" level="application" />
-    <orderEntry type="library" name="pg-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="sequelize-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="koa-static-DefinitelyTyped" level="application" />
   </component>
