@@ -162,7 +162,7 @@ $(function ()
 		/**AJAX**/
 		let data = {};
 		[data.username, data.email, data.password, data.verify] =
-			[$register_username.val(), $register_email.val(), $register_password.val(), $verification_code.val()];
+			[$register_username.val(), $register_email.val(), md5($register_password.val()), $verification_code.val()];
 		AJAX('verify', data,
 			function (response)
 			{
@@ -213,7 +213,7 @@ $(function ()
 		}
 
 		let data = {};
-		[data.email, data.password, data.remember_me] = [$login_email.val(), $login_password.val(), true];
+		[data.email, data.password, data.remember_me] = [$login_email.val(), md5($login_password.val()), true];
 		//data.remember_me = $remember_me_checkbox.is(':checked');
 		AJAX('login', data,
 			function (response)
@@ -321,7 +321,7 @@ $(function ()
 		}
 
 		let data = {};
-		data.new_password = $new_password.val();
+		data.new_password = md5($new_password.val());
 		AJAX('new_password', data,
 			function (response)
 			{
