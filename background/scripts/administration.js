@@ -113,10 +113,10 @@ $(function ()
 		},
 		function ()
 		{
+			clearTimeout(fadeOut);
 			$sidebar.removeClass('sidebar_big').addClass('sidebar_small');
 			$icon_div.removeClass('icon_div_big').addClass('icon_div_small');
 			$frame_div.removeClass('frame_div_small').addClass('frame_div_big');
-			clearTimeout(fadeOut);
 			$sidebar_label.hide();
 		})
 });
