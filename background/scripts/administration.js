@@ -97,6 +97,7 @@ $(function ()
 	const $icon_div = $('#icon_div');
 	const $sidebar_label = $('.sidebar_label');
 	const $frame_div = $('#frame_div');
+	let fadeOut;
 
 	$sidebar.hover(
 		function ()
@@ -104,7 +105,7 @@ $(function ()
 			$sidebar.removeClass('sidebar_small').addClass('sidebar_big');
 			$icon_div.removeClass('icon_div_small').addClass('icon_div_big');
 			$frame_div.removeClass('frame_div_big').addClass('frame_div_small');
-			setTimeout(function ()
+			fadeOut = setTimeout(function ()
 			{
 				$sidebar_label.fadeIn(500);
 			}, 200);
@@ -115,6 +116,7 @@ $(function ()
 			$sidebar.removeClass('sidebar_big').addClass('sidebar_small');
 			$icon_div.removeClass('icon_div_big').addClass('icon_div_small');
 			$frame_div.removeClass('frame_div_small').addClass('frame_div_big');
+			clearTimeout(fadeOut);
 			$sidebar_label.hide();
 		})
 });
