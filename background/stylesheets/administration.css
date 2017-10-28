@@ -7,32 +7,55 @@
 }
 
 #sidebar {
-    border-right: solid #337ab7 2px;
+    border-right: solid #337ab7 1px;
     display: inline-block;
     float: left;
-    width: 20%;
-    text-align: center;
     background-color: rgba(255, 255, 255, 0.4);
     transition: 0.5s;
     box-shadow: #444 0.1em 0.1em 0.25em;
     overflow: auto;
+    text-align: center;
+}
+
+.sidebar_big {
+    width: 20%;
+}
+
+.sidebar_small {
+    width: 5%;
 }
 
 #sidebar:hover {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
+.sidebar_label {
+    display: none;
+}
+
 #nav {
     display: inline-block;
-    text-align: center;
     font-size: 2.25em;
-    margin-top: 2.5em;
     width: 100%;
 }
 
 #icon {
-    display: inline-block;
-    width: 64%;
+    width: 100%;
+}
+
+#icon_div {
+    display: block;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    transition: 0.5s;
+    min-height: 30%;
+}
+
+.icon_div_small {
+    width: 0;
 }
 
 #nav > .collapse {
@@ -50,19 +73,22 @@
 
 #frame_div {
     display: inline-block;
-    width: 80%;
-    margin: 0;
+    text-align: center;
     padding: 0;
+    transition: 0.5s;
+}
+
+.frame_div_big {
+    width: 95%;
+}
+
+.frame_div_small {
+    width: 80%;
 }
 
 #frame {
     width: 100%;
-    margin: 0;
     padding: 0;
-}
-
-#resource_management {
-    text-indent: 1em;
 }
 
 .modal-body {

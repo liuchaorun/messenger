@@ -11,38 +11,43 @@
 </head>
 <body>
 <div class="container">
-    <nav id="sidebar">
-        <img src="images/share/icon.png" alt="icon" id="icon">
+    <nav id="sidebar" class="sidebar_small">
+        <div id="icon_div" class="icon_div_small">
+            <img src="images/share/icon.png" alt="icon" id="icon">
+        </div>
         <ul class="nav nav-pills nav-stacked" id="nav">
             <li role="presentation" class="active" id="user_info"><a href=""><span
-                    class="glyphicon glyphicon-tags"></span> 基本信息</a></li>
-            <li role="presentation" id="screen_info"><a href=""><span class="glyphicon glyphicon-phone"></span> 屏幕信息</a></li>
+                    class="glyphicon glyphicon-tags"></span> <span class="sidebar_label">基本信息</span></a></li>
+            <li role="presentation" id="screen_info"><a href=""><span class="glyphicon glyphicon-phone"></span> <span
+                    class="sidebar_label">屏幕信息</span></a></li>
             <li role="presentation" id="resource_management">
                 <a data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapse">
-                    <span class="glyphicon glyphicon-folder-close" id="resource_management_icon_front"></span> 资源管理<span
-                        class="glyphicon glyphicon-chevron-down" id="resource_management_icon"></span></a>
+                    <span class="glyphicon glyphicon-folder-close" id="resource_management_icon_front"></span> <span
+                        class="sidebar_label">资源管理 <span
+                        class="glyphicon glyphicon-chevron-down" id="resource_management_icon"></span></span></a>
             </li>
             <li class="collapse" id="collapse">
                 <ul class="nav nav-pills nav-stacked" id="sub_nav">
                     <li role="presentation" id="upload"><a href=""><span class="glyphicon glyphicon-upload"></span>
-                        上传图片</a></li>
+                        <span class="sidebar_label">上传图片</span></a></li>
                     <li role="presentation" id="del_picture"><a href=""><span
-                            class="glyphicon glyphicon-remove-sign"></span> 删除图片</a></li>
+                            class="glyphicon glyphicon-remove-sign"></span> <span class="sidebar_label">删除图片</span></a>
+                    </li>
                     <li role="presentation" id="package_management"><a href=""><span
-                            class="glyphicon glyphicon-th-list"></span> 包管理</a></li>
+                            class="glyphicon glyphicon-th-list"></span> <span class="sidebar_label">包管理</span></a></li>
                 </ul>
             </li>
             <li role="presentation" id="modify_info"><a href=""><span class="glyphicon glyphicon-wrench"></span>
-                修改信息</a></li>
+                <span class="sidebar_label">修改信息</span></a></li>
             <li role="presentation" id="download"><a data-toggle="modal" href="#download_modal"><span
-                    class="glyphicon glyphicon-cloud-download"></span> 下载</a>
+                    class="glyphicon glyphicon-cloud-download"></span> <span class="sidebar_label">下载</span></a>
             </li>
             <li role="presentation"><a id="logout" data-toggle="modal" href="#exit_modal"><span
                     class="glyphicon glyphicon-log-out"></span>
-                退出</a></li>
+                <span class="sidebar_label">退出</span></a></li>
         </ul>
     </nav>
-    <div id="frame_div">
+    <div id="frame_div" class="frame_div_big">
         <iframe src="frames/user_info.html" frameborder="0" id="frame"></iframe>
     </div>
 </div>

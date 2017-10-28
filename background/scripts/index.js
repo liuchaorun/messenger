@@ -35,6 +35,8 @@ $(function ()
 	tip_by_id('verification_code', '请输入接收到的验证码');
 	tip_by_id('forget_username', '请输入最后使用的用户名');
 	tip_by_id('forget_email', '请输入注册时使用的邮箱');
+	tip_by_id('login_email','请输入邮箱');
+	tip_by_id('login_password','请输入密码');
 });
 
 /**get verification code**/
@@ -121,6 +123,7 @@ $(function ()
 {
 	const $register_modal = $('#register_modal');
 	const $register_btn = $('#register_btn');
+	const $login_modal = $('#login_modal');
 	let status = true;
 	$register_btn.click(function (event)
 	{
@@ -173,6 +176,7 @@ $(function ()
 					setTimeout(function ()
 					{
 						$register_modal.modal('hide');
+						$login_modal.modal('show');
 					}, 3000);
 				}
 			},

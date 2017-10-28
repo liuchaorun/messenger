@@ -46,7 +46,7 @@ h1 {
 .modal-body > input {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 1em;
+    margin-bottom: 1.5em;
     width: 20em !important;
     height: 3em !important;
 }
@@ -118,10 +118,6 @@ h1 {
     font-size: 0.75em;
     margin-left: 44.5em;
     cursor: pointer;
-}
-
-#login_email {
-    margin-bottom: 0.5em;
 }
 
 #ie9_warning {
