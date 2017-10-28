@@ -112,7 +112,7 @@ $(function ()
 		else
 		{
 			let data = {};
-			[data.old_password, data.new_password] = [$old_password.val(), $new_password.val()];
+			[data.old_password, data.new_password] = [md5($old_password.val()), md5($new_password.val())];
 			AJAX('modify_password', data,
 				function (response)
 				{
