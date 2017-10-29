@@ -1,32 +1,36 @@
 {
-  "name": "dayDayPicture",
-  "version": "0.0.1",
-  "main": "app.js",
-  "dependencies": {
-    "gm": "^1.23.0",
-    "image-size": "^0.5.5",
-    "ioredis": "^3.1.4",
-    "koa": "^2.3.0",
-    "koa-body": "^2.3.0",
-    "koa-bodyparser": "^4.2.0",
-    "koa-generator": "^1.1.15",
-    "koa-router": "^7.2.1",
-    "koa-session2": "^2.2.4",
-    "koa-static": "^3.0.0",
-    "koa.res.api": "^2.0.0",
-    "md5": "^2.2.1",
-    "nodemailer": "^4.1.0",
-    "pg": "^6.4.2",
-    "sequelize": "^3.30.4"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-es2015": "^6.24.1"
+  "name": "messenger",
+  "version": "1.1.1",
+  "author": "daydream creator",
+  "description": "轮播器",
+  "keywords": [
+    "node.js",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liuchaorun/messenger.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "app": "node app.js"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "web"
+  "bugs": {
+    "email": "1558531230@qq.com"
+  },
+  "dependencies": {
+    "gm": "^1.23.0",
+    "image-size": "^0.6.1",
+    "ioredis": "^3.2.1",
+    "koa": "^2.3.0",
+    "koa-body": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.2.1",
+    "koa-session2": "^2.2.5",
+    "koa-static": "^4.0.1",
+    "koa.res.api": "^2.0.0",
+    "md5": "^2.2.1",
+    "nodemailer": "^4.3.1",
+    "pg": "^7.3.0",
+    "sequelize": "^4.18.0"
+  }
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$/router/router.js" libraries="{koa-bodyparser-DefinitelyTyped, koa-static-DefinitelyTyped}" />
-    <file url="PROJECT" libraries="{koa-DefinitelyTyped, koa-bodyparser-DefinitelyTyped, koa-router-DefinitelyTyped, koa-static-DefinitelyTyped, sequelize-DefinitelyTyped}" />
+    <file url="PROJECT" libraries="{gm-DefinitelyTyped, image-size-DefinitelyTyped, koa-DefinitelyTyped, koa-bodyparser-DefinitelyTyped, koa-router-DefinitelyTyped, koa-static-DefinitelyTyped, md5-DefinitelyTyped, nodemailer-DefinitelyTyped, pg-DefinitelyTyped, sequelize-DefinitelyTyped}" />
     <includedPredefinedLibrary name="Node.js Core" />
     <includedPredefinedLibrary name="WebGL" />
   </component>
