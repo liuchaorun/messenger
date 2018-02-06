@@ -149,6 +149,31 @@ function border_color_by_id(id, color = 'red')
     $(`#${id}`).css('borderColor', color);
 }
 
+function encodeSearchString(object)//根据对象生成查询字符串（包括?字符）
+{
+    let queryString = '?';
+    for (const key in object)
+    {
+        if (object.hasOwnProperty(key))
+            queryString += `${key}=${encodeURI(object[key])}&`;
+    }
+    return queryString.slice(0, -1);
+}
+
+function decodeSearchString(searchString)//根据查询字符串（包括?字符）生成对应对象
+{
+    const originSearchString = searchString.slice(1);//删除?字符
+    const items = originSearchString.split('&');
+    let object = {};
+    let separatedItem;
+    for(const item of items)
+    {
+        separatedItem = item.split('=');
+        object[separatedItem[0]] = decodeURI(separatedItem[1]);
+    }
+    return object;
+}
+
 $(function ()
 {
     const $body = $('body');
