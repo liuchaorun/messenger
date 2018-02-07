@@ -10,7 +10,7 @@
         4. 操作系统(os)
         5. IP(ip)
         6. 设备UUID(uuid) 
-        7. 精确位置(position)
+        7. 精确位置(position)(待定)
         8. 广告标签(adType)
         9. 广告ID(adId)
         10. 扫描时间(scanTime)
@@ -30,3 +30,5 @@
        target : 'https://www.example.com'//要跳转到的真实地址
    }
    </pre>
+   * 后端根据请求获得信息
+       1. IP
