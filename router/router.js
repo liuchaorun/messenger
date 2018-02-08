@@ -617,4 +617,9 @@ router.post('/action=request_update',async (ctx,next)=>{
     await next();
 });
 
+router.post('/action=get_qrcode_info', async (ctx,next)=>{
+
+    await next();
+});
+
 module.exports = router;
