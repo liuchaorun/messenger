@@ -13,12 +13,12 @@ $(function ()
         event.preventDefault();
         if ($upload_input[0].files.length === 0)
         {
-            modal_append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "请选择文件");
+            showNotification('请选择文件', FAILURE);
             return false;
         }
         else
         {
-            modal_append_warning('upload_panel_body', 'success', 'glyphicon-ok', "上传中，请稍等");
+            showNotification('上传中，请稍等', WARNING);
         }
         let formData = new FormData;
         for (let i = 0; i < $upload_input[0].files.length; i++)
@@ -38,14 +38,14 @@ $(function ()
                 success: function (response)
                 {
                     if (response.status.code === 0)
-                        modal_append_warning('upload_panel_body', 'danger', 'glyphicon-remove', response.status.msg);
+                        showNotification(response.status.msg, FAILURE);
                     else
-                        modal_append_warning('upload_panel_body', 'success', 'glyphicon-ok', response.status.msg);
+                        showNotification(response.status.msg);
                 },
                 error: function (error)
                 {
                     console.log(error);
-                    modal_append_warning('upload_panel_body', 'danger', 'glyphicon-remove', "出现错误，请重试");
+                    showNotification('出现错误，请重试', FAILURE);
                 },
                 xhr: function ()
                 { //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数

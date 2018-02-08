@@ -142,10 +142,12 @@ function activate()
                     function (response)
                     {
                         if (response.status.code === 0)
-                            modal_prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                        //modal_prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                            showNotification(response.status.msg, FAILURE);
                         else
                         {
-                            modal_prepend_warning('del_picture_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                            //modal_prepend_warning('del_picture_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                            showNotification(response.status.msg);
                             setTimeout(function ()
                             {
                                 location.reload(true);
@@ -155,7 +157,8 @@ function activate()
                     function (error)
                     {
                         console.log(error);
-                        modal_prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                        //modal_prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                        showNotification('出现错误，请重试', FAILURE);
                     })
             });
 

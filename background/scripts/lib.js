@@ -10,7 +10,6 @@ const PACK_NOTE_REG = /^[A-z0-9\u4e00-\u9fa5]{0,32}$/;
 const SCREEN_NAME_REG = /^[A-z0-9\u4e00-\u9fa5]{1,16}$/;
 const SCREEN_NOTE_REG = /^[A-z0-9\u4e00-\u9fa5]{1,32}$/;
 
-
 function AJAX(action, data_object, success_function, error_function, async = true)
 {
     $.ajax(
@@ -29,44 +28,6 @@ function AJAX(action, data_object, success_function, error_function, async = tru
             success: success_function,
             error: error_function,
         })
-}
-
-let last_one;//Remember the id of the last tip
-
-function modal_append_warning(modal_body_id, alert_type, icon_class, warn_text, className = '')
-{
-    /**删除上一个TIP**/
-    if (last_one !== undefined && $(`#${last_one}`).length)
-    {
-        $(`#${last_one}`).remove();
-    }
-    let id = new Date().getTime();
-    last_one = id;
-
-    $(`#${modal_body_id}`).append(`<div class="alert alert-${alert_type} alert-dismissible fade in ${className}" role="alert" id=${id}>
- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="glyphicon ${icon_class}"></span><span> ${warn_text}</span></div>`);
-    setTimeout(function ()
-    {
-        $(`#${id}`).alert('close');
-    }, 2000);
-}
-
-function modal_prepend_warning(modal_footer_id, alert_type, icon_class, warn_text, className = '')
-{
-    /**删除上一个TIP**/
-    if (last_one !== undefined && $(`#${last_one}`).length)
-    {
-        $(`#${last_one}`).remove();
-    }
-    let id = new Date().getTime();
-    last_one = id;
-
-    $(`#${modal_footer_id}`).prepend(`<div class="alert alert-${alert_type} alert-dismissible fade in ${className}" role="alert" id=${id}>
- <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button><span class="glyphicon ${icon_class}"></span><span> ${warn_text}</span></div>`);
-    setTimeout(function ()
-    {
-        $(`#${id}`).alert('close');
-    }, 2000);
 }
 
 /**上次登录时间裸字符串解析**/
@@ -166,7 +127,7 @@ function decodeSearchString(searchString)//根据查询字符串（包括?字符
     const items = originSearchString.split('&');
     let object = {};
     let separatedItem;
-    for(const item of items)
+    for (const item of items)
     {
         separatedItem = item.split('=');
         object[separatedItem[0]] = decodeURI(separatedItem[1]);
@@ -174,8 +135,42 @@ function decodeSearchString(searchString)//根据查询字符串（包括?字符
     return object;
 }
 
-$(function ()
+
+/*
+<div class="notification top-notification notification-success">
+    <span class="notification-inner">
+    <span class="notification-content">修改信息成功！</span>
+    </span>
+</div>
+*
+* */
+
+
+/*警告类型*/
+const SUCCESS = 0;
+const WARNING = 1;
+const FAILURE = 2;
+const DANGER = 3;
+/*位置信息*/
+const TOP = 0;
+const BOTTOM = 1;
+
+function showNotification(content, TYPE = SUCCESS, POSITION = TOP)
 {
-    const $body = $('body');
-    $body.hide().fadeIn(500);
-});
+    if (TYPE >= SUCCESS && TYPE <= DANGER)
+    {
+        const $body = $('body');
+        const NOTIFICATION_TYPES = ['notification-success', 'notification-warning', 'notification-failure', 'notification-danger'];
+        const NOTIFICATION_POSITION = ['top-notification', 'bottom-notification'];
+        const $notification = $(`<div class="notification ${NOTIFICATION_POSITION[POSITION]} ${NOTIFICATION_TYPES[TYPE]}">
+    <span class="notification-inner">
+    <span class="notification-content">${content}</span>
+    </span>
+</div>`);
+        $body.append($notification);
+        setTimeout(function ()
+        {
+            $notification.remove();
+        }, 2000);
+    }
+}

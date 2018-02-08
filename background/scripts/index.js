@@ -78,7 +78,8 @@ $(function ()
             }
             if (status === false)
             {
-                modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+                //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+                showNotification('填写信息有误', FAILURE);
                 return false;
             }
 
@@ -106,7 +107,8 @@ $(function ()
                 {
                     if (response.status.code === 0)
                     {
-                        modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                        //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                        showNotification(response.status.msg, FAILURE);
                         clearTimeout(timeout);
                         clearInterval(interval);
                         $verification_code_btn.removeAttr('disabled');
@@ -116,7 +118,8 @@ $(function ()
                 function (error)
                 {
                     console.log(error);
-                    modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                    showNotification('出现错误，请重试', FAILURE);
+                    //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
                     clearTimeout(timeout);
                     clearInterval(interval);
                     $verification_code_btn.removeAttr('disabled');
@@ -163,7 +166,8 @@ $(function ()
         }
         if (status === false)
         {
-            modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            showNotification('填写信息有误', FAILURE);
             return false;
         }
 
@@ -176,11 +180,13 @@ $(function ()
             {
                 if (response.status.code === 0)
                 {
-                    modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg, FAILURE);
                 }
                 else
                 {
-                    modal_append_warning('register_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    //modal_append_warning('register_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    showNotification(response.status.msg);
                     setTimeout(function ()
                     {
                         $register_modal.modal('hide');
@@ -191,7 +197,8 @@ $(function ()
             function (error)
             {
                 console.log(error);
-                modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                showNotification('出现错误，请重试', FAILURE);
             })
     });
 });
@@ -216,7 +223,8 @@ $(function ()
         }
         if (status === false)
         {
-            modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            //modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            showNotification('账户名或密码不正确', FAILURE);
             return false;
         }
 
@@ -228,11 +236,13 @@ $(function ()
             {
                 if (response.status.code === 0)
                 {
-                    modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    //modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg, FAILURE);
                 }
                 else
                 {
-                    modal_append_warning('login_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    //modal_append_warning('login_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    showNotification(response.status.msg);
                     setTimeout(function ()
                     {
                         location.href = 'administration.html';
@@ -242,7 +252,8 @@ $(function ()
             function (error)
             {
                 console.log(error);
-                modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                //modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                showNotification('出现错误，请重试', FAILURE);
             })
     })
 });
@@ -276,7 +287,8 @@ $(function ()
     $forget_btn.click(function (event)
     {
         event.preventDefault();
-        modal_append_warning('forget_modal_body', 'info', 'glyphicon-send', "处理中，请稍后");
+        //modal_append_warning('forget_modal_body', 'info', 'glyphicon-send', "处理中，请稍后");
+        showNotification('处理中，请稍后', WARNING);
         status = true;
         if (!USERNAME_REG.test($forget_username.val()))
         {
@@ -290,7 +302,8 @@ $(function ()
         }
         if (status === false)
         {
-            modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            //modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            showNotification('填写信息有误', FAILURE);
             return false;
         }
 
@@ -303,7 +316,8 @@ $(function ()
             {
                 if (response.status.code === 0)
                 {
-                    modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    //modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg, FAILURE);
                 }
                 else
                 {
@@ -314,7 +328,8 @@ $(function ()
             function (error)
             {
                 console.log(error);
-                modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                //modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                showNotification('出现错误，请重试', FAILURE);
             })
     });
 
@@ -334,7 +349,8 @@ $(function ()
         }
         if (status === false)
         {
-            modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            //modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
+            showNotification('填写信息有误', FAILURE);
             return false;
         }
 
@@ -345,11 +361,13 @@ $(function ()
             {
                 if (response.status.code === 0)
                 {
-                    modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    //modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg, FAILURE);
                 }
                 else
                 {
-                    modal_append_warning('new_password_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    //modal_append_warning('new_password_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    showNotification(response.status.msg);
                     setTimeout(function ()
                     {
                         $new_password_modal.modal('hide');
@@ -359,7 +377,8 @@ $(function ()
             function (error)
             {
                 console.log(error);
-                modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                //modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                showNotification('出现错误，请重试', FAILURE);
             })
 
     })

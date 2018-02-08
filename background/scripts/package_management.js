@@ -70,7 +70,6 @@ $(function ()
     const $add_btn = $('#add_btn');
     $add_btn.click(function ()
     {
-        modal_prepend_warning('add_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
         image_AJAX('add', 'add_modal_table', 'add_modal_btn', 'add_modal_footer');
     });
 
@@ -115,13 +114,12 @@ $(function ()
         else if (checked_checkboxes.length === 1)
         {
             $modify_modal.modal('show');
-            modal_prepend_warning('modify_modal_footer', 'info', 'glyphicon-refresh', '加载中……', 'tip');
             AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0]).parent().parent().attr('id')},
                 function (response)
                 {
                     if (response.status.code === 0)
                     {
-                        modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                        showNotification(response.status.msg, FAILURE);
                         $modify_modal_btn.attr('disabled', 'disabled');
                     }
                     else
@@ -149,7 +147,7 @@ $(function ()
                 function (error)
                 {
                     console.log(error);
-                    modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                    showNotification('出现错误，请重试', FAILURE);
                     $modify_modal_btn.attr('disabled', 'disabled');
                 })
         }
@@ -166,7 +164,7 @@ $(function ()
             let picture_checked_checkboxes = $modify_modal_table.find('input:checked');
             if (picture_checked_checkboxes.length === 0)
             {
-                modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '至少选择一幅图片', 'tip');
+                showNotification('至少选择一幅图片', FAILURE);
                 return false;
             }
             for (const checkbox of picture_checked_checkboxes)
@@ -174,7 +172,7 @@ $(function ()
                 picture_id.push($(checkbox).parent().attr('class'));
                 if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
                 {
-                    modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
+                    showNotification('时间必须为正整数', FAILURE);
                     border_color_by_id($(checkbox).next().attr('id'));
                     return false;
                 }
@@ -182,13 +180,13 @@ $(function ()
             }
             if (!PACK_NAME_REG.test($new_pack_name_input.val()))
             {
-                modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '包名不合法', 'tip');
+                showNotification('包名不合法', FAILURE);
                 border_color_by_id('new_pack_name_input');
                 return false;
             }
             if (!PACK_NOTE_REG.test($new_pack_note_input.val()))
             {
-                modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+                showNotification('备注不合法', FAILURE);
                 border_color_by_id('new_pack_note_input');
                 return false;
             }
@@ -202,7 +200,7 @@ $(function ()
             event.preventDefault();
             if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($multiple_new_pack_note_input.val()))
             {
-                modal_prepend_warning('modify_multiple_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+                showNotification('备注不合法', FAILURE);
                 border_color_by_id('multiple_new_pack_note_input');
                 return false;
             }
@@ -244,10 +242,10 @@ $(function ()
                     function (response)
                     {
                         if (response.status.code === 0)
-                            modal_prepend_warning('del_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                            showNotification(response.status.msg, FAILURE);
                         else
                         {
-                            modal_prepend_warning('del_modal_footer', 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                            showNotification(response.status.msg);
                             setTimeout(function ()
                             {
                                 location.reload(true);
@@ -257,7 +255,7 @@ $(function ()
                     function (error)
                     {
                         console.log(error);
-                        modal_prepend_warning('del_modal_footer', 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                        showNotification('出现错误，请重试', FAILURE);
                     })
             });
         }
@@ -308,7 +306,7 @@ function screen_AJAX(type, action)
     let checked_checkboxes = $(`#${type}_modal_table`).find('input:checked');
     if (checked_checkboxes.length === 0)
     {
-        modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '至少选择一个屏幕', 'tip');
+        showNotification('至少选择一个屏幕', FAILURE);
         return false;
     }
     for (let checkbox of checked_checkboxes)
@@ -317,10 +315,10 @@ function screen_AJAX(type, action)
         function (response)
         {
             if (response.status.code === 0)
-                modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                showNotification('response.status.msg', FAILURE);
             else
             {
-                modal_prepend_warning(`${type}_modal_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                showNotification(response.status.msg);
                 setTimeout(function ()
                 {
                     location.reload(true);
@@ -331,7 +329,7 @@ function screen_AJAX(type, action)
         {
 
             console.log(error);
-            modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+            showNotification('出现错误，请重试', FAILURE);
         })
 }
 
@@ -367,7 +365,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
             {
                 if (response.status.code === 0)
                 {
-                    modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                    showNotification(response.status.msg, FAILURE);
                     $(`#${button_id}`).attr('disabled', 'disabled');
                 }
                 else
@@ -400,7 +398,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
             function (error)
             {
                 console.log(error);
-                modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+                showNotification('出现错误，请重试', FAILURE);
                 $(`#${button_id}`).attr('disabled', 'disabled');
             }, false)
     }
@@ -426,19 +424,19 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     [data.pack_name, data.pack_note] = [$(`#${name_input_id}`).val(), $(`#${note_input_id}`).val()];
     if (!PACK_NAME_REG.test(data.pack_name))
     {
-        modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '包名不合法', 'tip');
+        showNotification('包名不合法', FAILURE);
         border_color_by_id(name_input_id);
         return false;
     }
     if (!PACK_NOTE_REG.test(data.pack_note))
     {
-        modal_prepend_warning('modify_modal_footer', 'danger', 'glyphicon-remove', '备注不合法', 'tip');
+        showNotification('备注不合法', FAILURE);
         border_color_by_id(note_input_id);
         return false;
     }
     if (checkboxes.length === 0)
     {
-        modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '至少选择一个图片', 'tip');
+        showNotification('至少选择一个图片', FAILURE);
         return false;
     }
     for (let checkbox of checkboxes)
@@ -447,7 +445,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
         picture_time.push($(checkbox).next().val() === '' ? 10 : parseInt($(checkbox).next().val()));
         if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
         {
-            modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '时间必须为正整数', 'tip');
+            showNotification('时间必须为正整数', FAILURE);
             border_color_by_id($(checkbox).next().attr('id'));
             return false;
         }
@@ -458,10 +456,10 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
         function (response)
         {
             if (response.status.code === 0)
-                modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                showNotification(response.status.msg, FAILURE);
             else
             {
-                modal_prepend_warning(`${footer_id}`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                showNotification(response.status.msg);
                 setTimeout(function ()
                 {
                     location.reload(true);
@@ -471,7 +469,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
         function (error)
         {
             console.log(error);
-            modal_prepend_warning(`${footer_id}`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+            showNotification('出现错误，请重试', FAILURE);
         })
 }
 
@@ -502,10 +500,10 @@ function modify_AJAX(multiple_bool, data)
         function (response)
         {
             if (response.status.code === 0)
-                modal_prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                showNotification(response.status.msg, FAILURE);
             else
             {
-                modal_prepend_warning(`${type}_footer`, 'success', 'glyphicon-ok', response.status.msg, 'tip');
+                showNotification(response.status.msg);
                 setTimeout(function ()
                 {
                     location.reload(true);
@@ -515,7 +513,7 @@ function modify_AJAX(multiple_bool, data)
         function (error)
         {
             console.log(error);
-            modal_prepend_warning(`${type}_footer`, 'danger', 'glyphicon-remove', '出现错误，请重试', 'tip');
+            showNotification('出现错误，请重试', FAILURE);
         })
 }
 
@@ -592,12 +590,12 @@ function get_screen_modal(pack_dom_obj)
         function (response)
         {
             if (response.status.code === 0)
-                modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                showNotification(response.status.msg, FAILURE);
             else
             {
                 $screen_modal_body.html('');
                 if (response.data.screen.length === 0)
-                    modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '该包没有关联屏幕');
+                    showNotification('该包没有关联屏幕', FAILURE);
                 for (let screen of response.data.screen)
                     $screen_modal_body.append(`<div class="screen_list_row">${screen.name}</div>`);
             }
@@ -605,7 +603,7 @@ function get_screen_modal(pack_dom_obj)
         function (error)
         {
             console.log(error);
-            modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+            showNotification('出现错误，请重试', FAILURE);
         });
 }
 
@@ -627,10 +625,9 @@ function table_btn_AJAX(btn_html_obj, type, action)
         function (response)
         {
             if (response.status.code === 0)
-                modal_prepend_warning(`${type}_modal_footer`, 'danger', 'glyphicon-remove', response.status.msg, 'tip');
+                showNotification(response.status.msg, FAILURE);
             else
             {
-                modal_prepend_warning(`${type}_modal_footer`, 'info', 'glyphicon-refresh', '加载中', 'tip');
                 let screens = response.data.screen;
                 for (let i = 0; i < screens.length; i++)
                 {
@@ -646,7 +643,7 @@ function table_btn_AJAX(btn_html_obj, type, action)
         function (error)
         {
             console.log(error);
-            modal_append_warning('screen_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+            showNotification('出现错误，请重试', FAILURE);
         })
 
 }

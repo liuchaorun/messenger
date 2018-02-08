@@ -5,9 +5,10 @@ html, body {
 }
 
 #icon {
-    width: 10em;
+    width: 15em;
     margin-bottom: 4.5em;
     margin-right: 1.5em;
+    vertical-align: middle;
 }
 
 .well {
@@ -15,11 +16,6 @@ html, body {
     box-shadow: #444 0.5em 0.5em 0.75em;
     transition: 0.5s;
     padding-bottom: 5em;
-    transition-property: background-color;
-}
-
-.well:hover {
-    background-color: rgba(255, 255, 255, 0.75);
 }
 
 .container {
@@ -30,9 +26,9 @@ html, body {
     background: transparent;
 }
 
-h1 {
+#title {
     font-weight: bolder;
-    cursor: default;
+    font-family: "Noto Serif", "思源宋体", "Source Serif", "宋体", serif;
     display: inline-block;
 }
 

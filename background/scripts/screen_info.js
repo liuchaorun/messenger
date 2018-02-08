@@ -90,10 +90,10 @@ $(function ()
                 function (response)
                 {
                     if (response.status.code === 0)
-                        modal_append_warning('add_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                        showNotification(response.status.msg, FAILURE);
                     else
                     {
-                        modal_append_warning('add_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                        showNotification(response.status.msg);
                         setTimeout(function ()
                         {
                             location.reload(true);
@@ -103,12 +103,12 @@ $(function ()
                 function (error)
                 {
                     console.log(error);
-                    modal_append_warning('add_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                    showNotification('出现错误，请重试', FAILURE);
                 });
         }
         else//不合要求
         {
-            modal_append_warning('add_modal_body', 'danger', 'glyphicon-remove', 'UUID非法');
+            showNotification('UUID 非法', FAILURE);
         }
     })
 });
@@ -121,6 +121,7 @@ $(function ()
     const $new_freq = $('#new_freq');
     const $new_note = $('#new_note');
 
+    const $modify_modal = $('#modify_modal');
     const $modify_btn = $('#modify_btn');
     const $modify_modal_btn = $('#modify_modal_btn');
 
@@ -143,11 +144,12 @@ $(function ()
         }
         else if (checked_screen_uuid.length === 0)
         {
+            $modify_modal.modal('hide');
             $new_screen_name.attr('disabled', 'disabled');
             $new_freq.attr('disabled', 'disabled');
             $new_note.attr('disabled', 'disabled');
             $modify_modal_btn.attr('disabled', 'disabled');
-            modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少选择一个屏幕');
+            showNotification('至少选择一个屏幕', FAILURE);
         }
         else
         {
@@ -196,22 +198,22 @@ $(function ()
         }
         if (status === false)
         {
-            modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '信息填写有误');
+            showNotification('信息填写有误', FAILURE);
             return false;
         }
         if (!data)
         {
-            modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '至少修改一项');
+            showNotification('至少修改一项', FAILURE);
             return false;
         }
         AJAX('modify_screen', data,
             function (response)
             {
                 if (response.status.code === 0)
-                    modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg, FAILURE);
                 else
                 {
-                    modal_append_warning('modify_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                    showNotification(response.status.msg);
                     setTimeout(function ()
                     {
                         location.reload(true);
@@ -221,7 +223,7 @@ $(function ()
             function (error)
             {
                 console.log(error);
-                modal_append_warning('modify_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                showNotification('出现错误，请重试', FAILURE);
             })
     });
 });
@@ -271,10 +273,10 @@ $(function ()
             function (response)
             {
                 if (response.status.code === 0)
-                    modal_append_warning('del_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg, FAILURE);
                 else
                 {
-                    modal_append_warning('del_modal_body', 'success', 'glyphicon-remove', response.status.msg);
+                    showNotification(response.status.msg);
                     setTimeout(function ()
                     {
                         location.reload(true);
@@ -284,7 +286,7 @@ $(function ()
             function (error)
             {
                 console.log(error);
-                modal_append_warning('del_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                showNotification('出现错误，请重试', FAILURE);
             })
     })
 });

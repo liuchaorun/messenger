@@ -47,7 +47,7 @@ $(function ()
         if (!USERNAME_REG.test($new_username.val()))
         {
             $new_username.css('borderColor', 'red');
-            modal_append_warning('modify_username_modal_body', 'danger', 'glyphicon-remove', '用户名不合法');
+            showNotification('用户名不合法', FAILURE);
             return false;
         }
         let data = {};
@@ -67,7 +67,7 @@ $(function ()
         if (!USERNAME_REG.test($new_work_place.val()))
         {
             $new_work_place.css('borderColor', 'red');
-            modal_append_warning('modify_work_place_modal_body', 'danger', 'glyphicon-remove', '工作地点不合法');
+            showNotification('工作地点不合法', FAILURE);
             return false;
         }
         let data = {};
@@ -110,7 +110,7 @@ $(function ()
 
         if (status === false)
         {
-            modal_append_warning('modify_password_modal_body', 'danger', 'glyphicon-remove', '信息填写非法');
+            showNotification('信息填写不合法', FAILURE);
             return false;
         }
         else
@@ -123,10 +123,10 @@ $(function ()
                 function (response)
                 {
                     if (response.status.code === 0)
-                        modal_append_warning('modify_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
+                        showNotification(response.status.msg, FAILURE);
                     else
                     {
-                        modal_append_warning('modify_password_modal_body', 'success', 'glyphicon-ok', response.status.msg);
+                        showNotification(response.status.msg);
                         setTimeout(function ()
                         {
                             location.reload(true);
@@ -136,7 +136,7 @@ $(function ()
                 function (error)
                 {
                     console.log(error);
-                    modal_append_warning('modify_password_modal_body', 'danger', 'glyphicon-remove', '出现错误，请重试');
+                    showNotification('出现错误，请重试', FAILURE);
                 });
         }
     });
@@ -148,10 +148,10 @@ function modify_AJAX(data, modal_body_id)
         function (response)
         {
             if (response.status.code === 0)
-                modal_append_warning(modal_body_id, 'danger', 'glyphicon-remove', response.status.msg);
+                showNotification(response.status.msg, FAILURE);
             else
             {
-                modal_append_warning(modal_body_id, 'success', 'glyphicon-ok', response.status.msg);
+                showNotification(response.status.msg);
                 setTimeout(function ()
                 {
                     location.reload(true);
@@ -161,6 +161,6 @@ function modify_AJAX(data, modal_body_id)
         function (error)
         {
             console.log(error);
-            modal_append_warning(modal_body_id, 'danger', 'glyphicon-remove', '出现错误，请重试');
+            showNotification('出现错误，请重试', FAILURE);
         });
 }
