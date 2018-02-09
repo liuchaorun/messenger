@@ -18,6 +18,7 @@ let screen = model.screen;
 let picture = model.picture;
 let resource = model.resource;
 let resource_picture = model.resource_picture;
+let feedback_info = model.feedback_info;
 user.hasMany(picture, {foreignKey: 'user_id'});
 user.hasMany(screen, {foreignKey: 'user_id'});
 user.hasMany(resource, {foreignKey: 'user_id'});
@@ -617,8 +618,21 @@ router.post('/action=request_update',async (ctx,next)=>{
     await next();
 });
 
-router.post('/action=get_qrcode_info', async (ctx,next)=>{
 
+router.post('/action=get_qrcode_info', async (ctx,next)=>{
+    let body = ctx.request.body;
+    // feedback_info.create({
+    //     browser:body.broswer,
+    //     deviceType:body.deviceType,
+    //     device:body.device,
+    //     os:body.os,
+    //     uuid:body.uuid,
+    //     position:body.position,
+    //     adType:body.adType,
+    //     adId:body.adId,
+    //     scanTime:body.scanTime
+    // });
+    console.log(body);
     await next();
 });
 
