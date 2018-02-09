@@ -71,6 +71,23 @@
     font-size: 0.75em;
 }
 
+#lockIcon{
+    font-size: 3em;
+    position: absolute;
+    bottom: 0;
+    left: 20%;
+    transform: translate(-120%,-20%);
+    color: #337ab7;
+    cursor: pointer;
+    border-radius: 1em;
+    width: 2em;
+    height: 2em;
+}
+
+#lockIcon > .glyphicon{
+    vertical-align: bottom;
+}
+
 #frame_div {
     display: inline-block;
     text-align: center;

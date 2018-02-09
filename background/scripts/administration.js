@@ -100,13 +100,33 @@ $(function ()
     })
 });
 
-/**边栏宽度自动切换**/
+/*边栏宽度自动切换以及锁定按钮*/
 $(function ()
 {
     const $sidebar = $('#sidebar');
     const $icon_div = $('#icon_div');
     const $sidebar_label = $('.sidebar_label');
     const $frame_div = $('#frame_div');
+    const $lockIcon = $('#lockIcon');
+
+    let isLocked = false;
+    $lockIcon.click(function (e)
+    {
+        e.preventDefault();
+        if (isLocked === false)
+        {
+            $lockIcon.css({backgroundColor: '#337ab7', color: '#FFF'});
+            isLocked = true;
+        }
+        else
+        {
+            $lockIcon.removeAttr('style');
+            $lockIcon.css('display','inline');//修正默认状态下会消失的问题
+            isLocked = false;
+        }
+    });
+
+
     let fadeOut;
 
     $sidebar.hover(
@@ -123,10 +143,20 @@ $(function ()
         },
         function ()
         {
-            clearTimeout(fadeOut);
-            $sidebar.removeClass('sidebar_big').addClass('sidebar_small');
-            $icon_div.removeClass('icon_div_big').addClass('icon_div_small');
-            $frame_div.removeClass('frame_div_small').addClass('frame_div_big');
-            $sidebar_label.hide();
+            if (isLocked === false)
+            {
+                clearTimeout(fadeOut);
+                $sidebar.removeClass('sidebar_big').addClass('sidebar_small');
+                $icon_div.removeClass('icon_div_big').addClass('icon_div_small');
+                $frame_div.removeClass('frame_div_small').addClass('frame_div_big');
+                $sidebar_label.hide();
+            }
         })
+});
+
+
+/*添加工具提示*/
+$(function ()
+{
+    tip_by_id('lockIcon', '锁定侧边栏', 'right');
 });

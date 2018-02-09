@@ -155,7 +155,7 @@ const DANGER = 3;
 const TOP = 0;
 const BOTTOM = 1;
 
-function showNotification(content, TYPE = SUCCESS, POSITION = TOP)
+function showNotification(content, TYPE = SUCCESS, POSITION = TOP)//在顶部或底部放置消息
 {
     if (TYPE >= SUCCESS && TYPE <= DANGER)
     {
