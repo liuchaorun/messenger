@@ -10,7 +10,7 @@ $(function ()
     }
 
     const searchObj = decodeSearchString(searchString);
-    if (!searchObj.hasOwnProperty('uuid') || !searchObj.hasOwnProperty('adType') || !searchObj.hasOwnProperty('adId') || !searchObj.hasOwnProperty('target'))//这三个二维码内置信息如果有缺失则报错
+    if (!searchObj.hasOwnProperty('uuid') || !searchObj.hasOwnProperty('adType') || !searchObj.hasOwnProperty('adId') || !searchObj.hasOwnProperty('target'))//这几个二维码内置信息如果有缺失则报错
     {
         $body.text(ERROR_STRING);
         return;
