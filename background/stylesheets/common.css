@@ -48,6 +48,10 @@ body {
     background: rgba(255, 255, 255, 1);
 }
 
+.sortable_th{
+    cursor: pointer;
+}
+
 @keyframes notification {
     0% {
         height: 0
