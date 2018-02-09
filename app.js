@@ -14,7 +14,7 @@ const res_api = require('koa.res.api');
 app.use(bodyParser());
 app.use(res_api());
 app.use(session({
-    //store: new Store()
+    store: new Store()
 }));
 app.use(require('koa-static')(__dirname + '/background'));
 app
