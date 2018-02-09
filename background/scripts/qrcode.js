@@ -9,7 +9,7 @@ $(function ()
         return;
     }
 
-    const searchObj = decodeSearchString(searchString);
+	const searchObj = decodeSearchString(searchString);
     if (!searchObj.hasOwnProperty('uuid') || !searchObj.hasOwnProperty('adType') || !searchObj.hasOwnProperty('adId') || !searchObj.hasOwnProperty('target'))//这几个二维码内置信息如果有缺失则报错
     {
         $body.text(ERROR_STRING);
@@ -18,9 +18,9 @@ $(function ()
 
     const UA = new UAParser();
     searchObj.broswer = UA.getBrowser().name;
-    searchObj.deviceType = UA.getDevice().type === undefined ? 'PC' : UA.getDevice().type;
-    searchObj.device = UA.getDevice().vendor === undefined ? 'PC' : UA.getDevice().vendor;
-    searchObj.os = UA.getOS().name;
+    searchObj.deviceType = UA.getDevice().type;
+    searchObj.device = UA.getDevice().vendor;
+    searchObj.os = `${UA.getOS().name} ${UA.getOS().version}`;
 
     const nowTime = new Date();
     searchObj.scanTime = nowTime.toString();
