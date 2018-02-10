@@ -23,7 +23,7 @@
        deviceType : 'mobile',
        device : 'Xiaomi',
        /*注意设备相关两项在电脑上访问的时候得到的均是'PC'*/
-       os : 'Windows',
+       os : 'Windows 10',
        uuid : '123456',
        adType : '%E6%9C%8D%E8%A3%85',//URI编码
        adId : '123456',
@@ -33,3 +33,5 @@
    </pre>
    * 后端根据请求获得信息
        1. IP
+       
+* 机器学习
