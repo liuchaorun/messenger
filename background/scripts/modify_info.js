@@ -29,11 +29,11 @@ $(function ()
 /**Tips**/
 $(function ()
 {
-    tip_by_id('new_username', '输入新用户名，16个字符以内');
-    tip_by_id('new_work_place', '输入新工作地点，16个字符以内');
-    tip_by_id('old_password', '输入旧密码');
-    tip_by_id('new_password', '输入新密码，32个字符以内，允许数字、字母、下划线');
-    tip_by_id('new_password_again', '重复输入新密码');
+    add_tooltip_by_id('new_username', '输入新用户名，16个字符以内');
+    add_tooltip_by_id('new_work_place', '输入新工作地点，16个字符以内');
+    add_tooltip_by_id('old_password', '输入旧密码');
+    add_tooltip_by_id('new_password', '输入新密码，32个字符以内，允许数字、字母、下划线');
+    add_tooltip_by_id('new_password_again', '重复输入新密码');
 });
 
 /**用户名修改**/

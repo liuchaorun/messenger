@@ -1,5 +1,6 @@
 body{
     min-width: 1280px;
+    min-height: 720px;
 }
 
 .container {
@@ -14,10 +15,10 @@ body{
     border-right: solid #337ab7 1px;
     display: inline-block;
     float: left;
-    background-color: rgba(255, 255, 255, 0.4);
-    transition: 0.5s;
+    background-color: rgba(255, 255, 255, 0.5);
     box-shadow: #444 0.1em 0.1em 0.25em;
     overflow: auto;
+    transition: 0.5s;
     text-align: center;
 }
 
@@ -27,10 +28,6 @@ body{
 
 .sidebar_small {
     width: 5%;
-}
-
-#sidebar:hover {
-    background-color: rgba(255, 255, 255, 0.6);
 }
 
 .sidebar_label {

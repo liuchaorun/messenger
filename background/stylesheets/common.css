@@ -16,6 +16,7 @@ body {
     background: transparent;
     user-select: none;
     animation: body 0.5s;
+    overflow-y: hidden;
 }
 
 .modal-title {

@@ -13,7 +13,9 @@
 <div class="container" id="upload">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title">上传图片</h3>
+            <h3 class="panel-title">上传图片
+                <small>请确认图片比例为 <b>9:16</b>，否则可能无法正常播放</small>
+            </h3>
         </div>
         <div class="panel-body" id="upload_panel_body">
             <form action="" id="upload_form">
@@ -23,29 +25,90 @@
                          aria-valuemax="100" style="width: 0">
                     </div>
                 </div>
+                <div class="alert alert-info" role="alert" id="upload_info_wrapper">
+                    <span class="glyphicon glyphicon-info-sign"></span> <span id="upload_info">未选择图片</span>
+                </div>
                 <div id="btn_div">
                     <input id="upload_input" type="file" class="form-control" multiple accept="image/jpeg,image/png">
-                    <button class="btn btn-primary btn-lg" id="file_btn">选择图片</button>
-                    <button class="btn btn-primary btn-lg" id="upload_btn">上传</button>
-                    <button id="clear_file_btn" class="btn btn-danger btn-lg">清空</button>
+                    <button class="btn btn-primary" id="file_btn">选择图片</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="file_info_panel">
         <div class="panel-heading">
-            <h3 class="panel-title">图片信息<span id="file_total_info">(共0个文件，0.00MB)</span></h3>
+            <h3 class="panel-title">图片信息
+                <small>所填信息将应用到<b>所有上传图片</b></small>
+            </h3>
         </div>
-        <div class="panel-body" id="file_info_modal_body">
-            <table class="table" id="file_table">
-                <tr>
-                    <th>序号</th>
-                    <th>文件名</th>
-                    <th>文件类型</th>
-                    <th>文件大小</th>
-                </tr>
-            </table>
+        <div class="panel-body" id="file_info_panel_body">
+            <div id="file_info_panel_body_row">
+                <!--广告的名字 扫码之后指向网址  二维码放置位置 和 标签-->
+                <div id="file_info_panel_body_left">
+                    <div id="file_info_panel_body_left_top">
+                        <input type="text" class="form-control file_info_panel_input" id="file_name" placeholder="图片名">
+                        <input type="text" class="form-control file_info_panel_input" id="file_target"
+                               placeholder="二维码指向网址">
+                    </div>
+                    <div id="file_info_panel_body_left_bottom">
+                        <h4 id="adType_title">选择图片标签
+                            <small>
+                                <span style="color: rgba(51, 122, 183, 1);font-weight: bold">蓝色</span>为选中状态，滚动可查看更多
+                            </small>
+                        </h4>
+                        <div id="adType_table_wrapper">
+                            <div id="adType_table"><!--广告种类表格内容-->Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！</div>
+                        </div>
+                        <button id="manage_adType_btn" class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#manage_adType_modal">管理标签
+                        </button>
+                    </div>
+                </div>
+                <div id="file_info_panel_body_right">
+                    <h4 id="file_preview_table_title">选择二维码位置
+                        <small>默认为图片右下角</small>
+                    </h4>
+                    <div id="file_preview_table_wrapper">
+                        <div id="file_preview_table">
+                            <div class="file_preview_table_row">
+                                <div class="file_preview_table_cell" id="1">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="2">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="3">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                            </div>
+                            <div class="file_preview_table_row">
+                                <div class="file_preview_table_cell" id="4">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="5">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="6">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                            </div>
+                            <div class="file_preview_table_row">
+                                <div class="file_preview_table_cell" id="7">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="8">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell selected" id="9">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="upload_btn">确认上传</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -67,6 +130,33 @@
                 <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal"><span
                         class="glyphicon glyphicon-repeat"></span> 确定
                 </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--管理标签模态框-->
+<div class="modal fade" id="manage_adType_modal" tabindex="-1" role="dialog" aria-labelledby="manage_adType_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">管理标签</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info" role="alert" id="manage_adType_modal_info">
+                    <span class="glyphicon glyphicon-info-sign"></span> 可添加标签，或点选后删除标签
+                </div>
+                <div id="manage_adType_modal_table_wrapper">
+                    <div id="manage_adType_modal_table"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="text" class="form-control" id="add_adType_input" placeholder="输入新标签">
+                <button type="button" class="btn btn-primary" id="add_adType_modal_btn">增加</button>
+                <button type="button" class="btn btn-danger" id="delete_adType_modal_btn">删除</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>

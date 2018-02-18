@@ -277,9 +277,9 @@ $(function ()
 /**Tips**/
 $(function ()
 {
-    tip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
-    tip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
-    tip_by_className('multiple_new_pack_note_input', '32位以内字母、数字与汉字', 'top');
+    add_tooltip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
+    add_tooltip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
+    add_tooltip_by_className('multiple_new_pack_note_input', '32位以内字母、数字与汉字', 'top');
 });
 
 /**加减屏幕按钮**/
@@ -392,7 +392,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
                         }
                     }
                     activate_checkbox(type);
-                    tip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
+                    add_tooltip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
                 }
             },
             function (error)
@@ -569,9 +569,9 @@ function activate_button()
         event.preventDefault();
         table_btn_AJAX(event.target, 'minus', 'get_pack_screen');
     });
-    tip_by_className('plus_screen', '增加屏幕', 'left');
-    tip_by_className('minus_screen', '减少屏幕', 'right');
-    tip_by_className('screens', '点击查看完整屏幕列表', 'bottom');
+    add_tooltip_by_className('plus_screen', '增加屏幕', 'left');
+    add_tooltip_by_className('minus_screen', '减少屏幕', 'right');
+    add_tooltip_by_className('screens', '点击查看完整屏幕列表', 'bottom');
 }
 
 /**图片列表modal**/

@@ -1,7 +1,6 @@
 html, body {
     background: url("../images/index/background_index.jpg");
     background-size: cover;
-    overflow: hidden;
 }
 
 #icon {
@@ -14,7 +13,6 @@ html, body {
 .well {
     background-color: rgba(255, 255, 255, 0.5);
     box-shadow: #444 0.5em 0.5em 0.75em;
-    transition: 0.5s;
     padding-bottom: 5em;
 }
 
@@ -28,7 +26,7 @@ html, body {
 
 #title {
     font-weight: 800;
-    font-family: "Noto Serif", "Noto Serif CJK", "Source Han Serif", serif;
+    font-family: "Noto Serif", "Source Serif Pro", serif;
     display: inline-block;
 }
 

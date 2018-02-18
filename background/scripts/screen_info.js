@@ -116,7 +116,7 @@ $(function ()
     const $uuid = $('#uuid');
     const $add_modal_btn = $('#add_modal_btn');
 
-    tip_by_id('uuid', '8位字母、数字');
+    add_tooltip_by_id('uuid', '8位字母、数字');
 
     $add_modal_btn.click(function (event)
     {
@@ -339,7 +339,7 @@ $(function ()
 /**Tips**/
 $(function ()
 {
-    tip_by_id('new_screen_name', '16位以内字母、数字或汉字');
-    tip_by_id('new_freq', '正整数，单位为分钟');
-    tip_by_id('new_note', '32位以内字母、数字或汉字');
+    add_tooltip_by_id('new_screen_name', '16位以内字母、数字或汉字');
+    add_tooltip_by_id('new_freq', '正整数，单位为分钟');
+    add_tooltip_by_id('new_note', '32位以内字母、数字或汉字');
 });

@@ -10,6 +10,10 @@ const PACK_NOTE_REG = /^[A-z0-9\u4e00-\u9fa5]{0,32}$/;
 const SCREEN_NAME_REG = /^[A-z0-9\u4e00-\u9fa5]{1,16}$/;
 const SCREEN_NOTE_REG = /^[A-z0-9\u4e00-\u9fa5]{1,32}$/;
 
+const IMAGE_NAME_REG = /^[A-z0-9\u4e00-\u9fa5]{1,16}$/;
+const IMAGE_TARGET_REG = /^http[s]?:\/\/.+$/;
+const ADTYPE_REG = /^[A-z0-9\u4e00-\u9fa5]{1,8}$/;
+
 function AJAX(action, data_object, success_function, error_function, async = true)
 {
     $.ajax(
@@ -21,8 +25,8 @@ function AJAX(action, data_object, success_function, error_function, async = tru
             timeout: 2000,
             async: async,
             dataType: 'json',
-            //url: `http://118.89.197.156:3000/action=${action}`,
-            url: `http://127.0.0.1:3000/action=${action}`,
+            url: `http://118.89.197.156:3000/action=${action}`,
+            //url: `http://127.0.0.1:3000/action=${action}`,
             method: 'post',
             data: JSON.stringify(data_object),
             success: success_function,
@@ -80,7 +84,7 @@ function auto_max_height(id, offset)
 }
 
 /**为指定的元素添加tooltip**/
-function tip_by_id(id, content, position = 'left')
+function add_tooltip_by_id(id, content, position = 'left')
 {
     $(`#${id}`).tooltip(
         {
@@ -92,7 +96,7 @@ function tip_by_id(id, content, position = 'left')
     );
 }
 
-function tip_by_className(className, content, position = 'left')
+function add_tooltip_by_className(className, content, position = 'left')
 {
     $(`.${className}`).tooltip(
         {

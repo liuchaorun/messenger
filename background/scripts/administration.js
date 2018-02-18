@@ -158,5 +158,5 @@ $(function ()
 /*添加工具提示*/
 $(function ()
 {
-    tip_by_id('lockIcon', '锁定侧边栏', 'right');
+    add_tooltip_by_id('lockIcon', '锁定侧边栏', 'right');
 });

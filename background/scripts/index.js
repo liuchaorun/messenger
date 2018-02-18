@@ -35,15 +35,15 @@ $(function ()
 /**输入提示**/
 $(function ()
 {
-    tip_by_id('register_username', '请输入你的用户名。16个字符以内');
-    tip_by_id('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
-    tip_by_id('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
-    tip_by_id('register_password_again', '请再次输入你的密码');
-    tip_by_id('verification_code', '请输入接收到的验证码');
-    tip_by_id('forget_username', '请输入最后使用的用户名');
-    tip_by_id('forget_email', '请输入注册时使用的邮箱');
-    tip_by_id('login_email', '请输入邮箱');
-    tip_by_id('login_password', '请输入密码');
+    add_tooltip_by_id('register_username', '请输入你的用户名。16个字符以内');
+    add_tooltip_by_id('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
+    add_tooltip_by_id('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
+    add_tooltip_by_id('register_password_again', '请再次输入你的密码');
+    add_tooltip_by_id('verification_code', '请输入接收到的验证码');
+    add_tooltip_by_id('forget_username', '请输入最后使用的用户名');
+    add_tooltip_by_id('forget_email', '请输入注册时使用的邮箱');
+    add_tooltip_by_id('login_email', '请输入邮箱');
+    add_tooltip_by_id('login_password', '请输入密码');
 });
 
 /**得到验证码**/
