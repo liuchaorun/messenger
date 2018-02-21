@@ -6,16 +6,16 @@ let picture_pack_info = {};//存储每个图片的资源包信息
 /**Set height**/
 $(function ()
 {
-    auto_height('del_picture_panel_body', 90);
+    auto_height('image_management_panel_body', 90);
     auto_height('del_error_2_modal_body', 225);
 });
 
 /**Pull images**/
 /**DOM Structure
- * <div class="del_picture_row">
- <div class="del_picture_div">
+ * <div class="image_management_table_row">
+ <div class="image_management_table_cell">
  <label id="del_picture_label"><img src="../images/Test.png" alt="test"
- class="del_picture image img-responsive">
+ class="table_image image img-responsive">
  <input type="checkbox" class="checkbox"></label>
  </div>
  </div>
@@ -32,7 +32,7 @@ $(function ()
 $(function ()
 {
     const $error_modal = $('#error_modal');
-    const $del_picture_table = $('#del_picture_table');
+    const $del_picture_table = $('#image_management_table');
     const PICTURES_PER_ROW = 5;
     AJAX('get_picture_for_del', {},
         function (response)
@@ -49,22 +49,22 @@ $(function ()
                 }
                 const pictures = response.data.pictures;
                 let row = 0;
-                let $row_node = $(`<div class="del_picture_row"></div>`);
+                let $row_node = $(`<div class="image_management_table_row"></div>`);
                 for (; row < Math.floor(pictures.length / PICTURES_PER_ROW); row++)
                 {
                     for (let i = 0; i < PICTURES_PER_ROW; i++)
                     {
-                        $row_node.append(`<div class="del_picture_div"><label id=${pictures[row * PICTURES_PER_ROW + i].id}  class='del_picture_label'><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive del_picture"><input type="checkbox" class="checkbox"></label></div>`);
+                        $row_node.append(`<div class="image_management_table_cell"><label id=${pictures[row * PICTURES_PER_ROW + i].id}  class='del_picture_label'><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive table_image"><input type="checkbox" class="checkbox"></label></div>`);
                     }
                     $del_picture_table.append($row_node);
-                    $row_node = $(`<div class="del_picture_row"></div>`);
+                    $row_node = $(`<div class="image_management_table_row"></div>`);
                 }
                 if (pictures.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
                 {
-                    $del_picture_table.append(`<div class="del_picture_row" id="del_picture_table_last_row"></div>`);
+                    $del_picture_table.append(`<div class="image_management_table_row" id="del_picture_table_last_row"></div>`);
                     for (let i = 0; i < pictures.length - row * PICTURES_PER_ROW; i++)
                     {
-                        $(`#del_picture_table_last_row`).append(`<div class="del_picture_div"><label id=${pictures[row * PICTURES_PER_ROW + i].id} class='del_picture_label'><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive del_picture"><input type="checkbox" class="checkbox"></label></div></div>`)
+                        $(`#del_picture_table_last_row`).append(`<div class="image_management_table_cell"><label id=${pictures[row * PICTURES_PER_ROW + i].id} class='del_picture_label'><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive table_image"><input type="checkbox" class="checkbox"></label></div></div>`)
                     }
                 }
                 activate();
@@ -80,7 +80,7 @@ $(function ()
 
 /**Load click event**/
 /**
- * <table class="table table-responsive" id="del_picture_with_pack_table">
+ * <table class="table table-responsive" id="del_image_with_pack_table">
  <tr>
  <th class="preview">预览</th>
  <th>资源包</th>
@@ -96,7 +96,7 @@ function activate()
     const [$del_picture_btn, $del_picture_modal_btn] = [$('#del_picture_btn'), $('#del_picture_modal_btn')];
     const [$del_error_modal, $del_error_2_modal, $del_picture_modal] =
         [$('#del_error_modal'), $('#del_error_2_modal'), $('#del_picture_modal')];
-    const $del_picture_with_pack_table = $('#del_picture_with_pack_table');
+    const $del_picture_with_pack_table = $('#del_image_with_pack_table');
     const $checkbox = $('.checkbox');
 
     /**checkbox effect**/
@@ -138,7 +138,7 @@ function activate()
 
             $del_picture_modal_btn.click(function ()
             {
-                AJAX('del_picture', data,
+                AJAX('table_image', data,
                     function (response)
                     {
                         if (response.status.code === 0)
@@ -165,7 +165,7 @@ function activate()
         }
         else
         {
-            $del_picture_with_pack_table.html(`<table class="table table-responsive" id="del_picture_with_pack_table"><tbody><tr><th class="preview">预览</th><th>资源包</th></tr></tbody></table>`);
+            $del_picture_with_pack_table.html(`<table class="table table-responsive" id="del_image_with_pack_table"><tbody><tr><th class="preview">预览</th><th>资源包</th></tr></tbody></table>`);
 
             for (let id of picture_with_pack)
             {

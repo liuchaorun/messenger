@@ -1,0 +1,168 @@
+#buttons {
+    position: fixed;
+    right: 0;
+    padding: 1em 2.5em;
+    bottom: 5em;
+    background-color: rgba(255, 255, 255, 0.4);
+    opacity: 0.6;
+    border-top-left-radius: 0.5em;
+    border-bottom-left-radius: 0.5em;
+    transition: 0.5s;
+    box-shadow: #444 0.2em 0.2em 0.5em;
+}
+
+#buttons:hover {
+    background-color: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+}
+
+#buttons > button {
+    font-size: 2em;
+    padding: 0.5em 1.5em;
+    margin-left: 0.5em;
+}
+
+#image_management_panel_body {
+    overflow-y: auto;
+}
+
+#image_management_table {
+    display: table;
+    margin: 0 auto;
+}
+
+.image_management_table_row {
+    display: table-row;
+}
+
+.image_management_table_cell {
+    display: table-cell;
+    text-align: center;
+    background-image: url("../images/admin/selected.png");
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 8em;
+    cursor: pointer;
+    padding: 1em 2em;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.image_name {
+    width: 8em;
+}
+
+.selected {
+    opacity: 0.25;
+}
+
+#del_error_2_modal .alert {
+    font-size: 2.2em;
+}
+
+#del_image_with_pack_table {
+    font-size: 1.5em !important;
+}
+
+#del_error_2_modal_body {
+    overflow-y: auto;
+}
+
+.preview {
+    width: 7.5em;
+}
+
+.modal .alert {
+    font-size: 2.2em;
+}
+
+.tip {
+    text-align: left;
+    display: inline-block;
+    width: 18em;
+    margin-bottom: 0;
+    float: left;
+    margin-left: 3.5em;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+}
+
+#modify_image_modal_left {
+    display: inline-block;
+    width: 35%;
+    padding: 0 1em 0 2em;
+    text-align: center;
+}
+
+#modify_image_modal_right {
+    display: inline-block;
+    width: 65%;
+    padding: 0 10%;
+    float: right;
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
+}
+
+#modify_image_modal_preview {
+    width: 100%;
+}
+
+#new_name_label, #new_target_label {
+    display: block;
+    font-size: 2em;
+    margin-bottom: 1em;
+}
+
+.modal_label_title {
+    font-weight: bold;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    margin-bottom: 0.75em;
+    color: rgb(50, 50, 50)
+}
+
+#new_name, #new_target {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+#file_preview_table_title {
+    text-align: center;
+}
+
+#file_preview_table_wrapper {
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+#file_preview_table {
+    display: table;
+    width: 18em;
+    height: 32em;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.file_preview_table_row {
+    display: table-row;
+    width: 100%;
+}
+
+.file_preview_table_cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 1px rgba(255, 255, 255, 0.75) solid;
+    border-collapse: collapse;
+}
+
+#file_preview_table .selected{
+    background-color: rgba(51, 122, 183, 0.75);
+    color: white;
+}

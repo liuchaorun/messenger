@@ -162,6 +162,7 @@
     height: 17.6em;
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center center;
 }
 
 #file_preview_table {

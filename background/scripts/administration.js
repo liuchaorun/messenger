@@ -30,7 +30,7 @@ $(function ()
     const $screen_info = $('#screen_info');
     const $resource_management = $('#resource_management');
     const $upload = $('#upload');
-    const $del_picture = $('#del_picture');
+    const $image_management = $('#image_management');
     const $package_management = $('#package_management');
     const $modify_info = $('#modify_info');
 
@@ -75,13 +75,13 @@ $(function ()
         $upload.addClass('active');
         $frame.attr('src', 'frames/upload.html');
     });
-    $del_picture.click(function (event)
+    $image_management.click(function (event)
     {
         event.preventDefault();
         $('.active').removeClass('active');
         $resource_management.addClass('active');
-        $del_picture.addClass('active');
-        $frame.attr('src', 'frames/del_picture.html');
+        $image_management.addClass('active');
+        $frame.attr('src', 'frames/image_management.html');
     });
     $package_management.click(function (event)
     {

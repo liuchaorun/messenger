@@ -133,7 +133,7 @@ $(function ()
 /*添加工具提示*/
 $(function ()
 {
-    add_tooltip_by_id('file_name', '16字符以内字母、数字及汉字', 'right');
+    add_tooltip_by_id('file_name', '8字符以内字母、数字及汉字', 'right');
     add_tooltip_by_id('file_target', 'http:// 或 https:// 开头网址', 'right');
     add_tooltip_by_id('add_adType_input', '8字符以内字母、数字及汉字', 'top');
 });
@@ -156,20 +156,6 @@ $(function ()
         for (let i = 0; i < files.length; i++)
             file_size += files[i].size;
         $upload_info.text(`共${files.length}个图片，${(file_size / 1024 / 1024).toFixed(2)}MB`);
-    });
-});
-
-/*点击标签后选中并变色*/
-$(function ()
-{
-    const $adType = $('.adType');
-    $adType.click(function (e)
-    {
-        e.preventDefault();
-        if ($(this).hasClass('selected'))
-            $(this).removeClass('selected');
-        else
-            $(this).addClass('selected');
     });
 });
 
@@ -328,6 +314,21 @@ function refresh_adType_table()
     }
     $adType_table.append($lastRow);
     $manage_adType_modal_table.append($lastRow);
+    refresh_adType_click_event();
+}
+
+/*点击标签后选中并变色*/
+function refresh_adType_click_event()
+{
+    const $adType = $('.adType');
+    $adType.click(function (e)
+    {
+        e.preventDefault();
+        if ($(this).hasClass('selected'))
+            $(this).removeClass('selected');
+        else
+            $(this).addClass('selected');
+    });
 }
 
 /*上传之前各部分信息获取的函数*/

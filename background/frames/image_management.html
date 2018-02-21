@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/frame_common.css">
+    <link rel="stylesheet" href="../stylesheets/image_management.css">
+    <title>图片管理 - 云展</title>
+</head>
+<body>
+<div class="container">
+    <div class="panel panel-default" id="del_picture_panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">图片管理</h3>
+        </div>
+        <div class="panel-body" id="image_management_panel_body">
+            <div id="image_management_table" class="image_table"><!--图片列表在此处--></div>
+        </div>
+    </div>
+</div>
+<div id="buttons">
+    <button class="btn btn-primary btn-lg" id="modify_image_btn">修改</button>
+    <button class="btn btn-danger btn-lg" id="delete_image_btn">删除</button>
+</div>
+
+<!--修改-->
+<div class="modal fade" id="modify_image_modal" tabindex="-1" role="dialog" aria-labelledby="modify_image_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modify_image_modal_title">修改图片</h4>
+            </div>
+            <div class="modal-body">
+                <div id="modify_image_modal_left">
+                    <h4 id="file_preview_table_title">选择二维码位置</h4>
+                    <div id="file_preview_table_wrapper">
+                        <div id="file_preview_table">
+                            <div class="file_preview_table_row">
+                                <div class="file_preview_table_cell" id="1">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="2">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="3">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                            </div>
+                            <div class="file_preview_table_row">
+                                <div class="file_preview_table_cell" id="4">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="5">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="6">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                            </div>
+                            <div class="file_preview_table_row">
+                                <div class="file_preview_table_cell" id="7">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="8">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                                <div class="file_preview_table_cell" id="9">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="modify_image_modal_right">
+                    <label for="new_name" id="new_name_label"><span class="modal_label_title">图片名</span>
+                        <input type="text" id="new_name" class="form-control" placeholder="图片名">
+                    </label>
+                    <label for="new_target" id="new_target_label"><span class="modal_label_title">二维码指向网址</span>
+                        <input type="text" id="new_target" class="form-control" placeholder="二维码指向网址">
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modify_image_modal_submit_btn">
+                    <span class="glyphicon glyphicon-ok"></span> 确认
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <span class="glyphicon glyphicon-remove"></span> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--删除-->
+<div class="modal fade" tabindex="-1" role="dialog" id="delete_image_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除图片</h4>
+            </div>
+            <div class="modal-body" id="delete_picture_modal_body">
+                <div class="alert alert-danger" role="alert" id="delete_warning"><span
+                        class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除图片，删除后你将丢失这些图片的所有设置，请仔细确认。
+                </div>
+                <div class="modal-footer" id="delete_picture_modal_footer">
+                    <button type="button" class="btn btn-danger btn-lg" id="delete_image_modal_btn"><span
+                            class="glyphicon glyphicon-ok">确认</span></button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span>关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--绑定包禁止删除-->
+<div class="modal fade" tabindex="-1" role="dialog" id="del_image_with_pack_modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">删除包</h4>
+            </div>
+            <div class="modal-body" id="del_picture_with_pack_modal_body">
+                <div class="alert alert-danger" role="alert" id="del_picture_with_pack_warning"><span
+                        class="glyphicon glyphicon-exclamation-sign"></span> 不能删除绑定资源包的图片，绑定情况如下
+                </div>
+                <table class="table table-responsive" id="del_image_with_pack_table">
+                    <tr>
+                        <th class="preview">预览</th>
+                        <th>资源包</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span>关闭
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--错误提示框-->
+<div class="modal fade" tabindex="-1" role="dialog" id="error_modal">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">错误</h4>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-remove-sign"></span>
+                    获取信息失败，将刷新页面
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-repeat"></span> 确定
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="../scripts/lib.js"></script>
+<script src="../scripts/frame_common.js"></script>
+<script src="../scripts/image_management.js"></script>
+</body>
+</html>

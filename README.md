@@ -35,7 +35,6 @@
        browser : 'Chrome',
        deviceType : 'mobile',
        device : 'Xiaomi',
-       /*注意设备相关两项在电脑上访问的时候得到的均是'PC'*/
        os : 'Windows 10',
        uuid : '123456',
        adType : '%E6%9C%8D%E8%A3%85',//URI编码
@@ -48,3 +47,33 @@
        1. IP
        
 * 机器学习
+
+* 图片管理功能
+    * 图片列表获取
+        * action=get_images
+        * 服务器返回信息
+        <pre>
+        data:
+        {
+            id1:{name:XXX,src:XXX,target:XXX,pack:[XXX,XXX]},
+            id2:{name:XXX,src:XXX,target:XXX,pack:[XXX,XXX]},
+            id3:{name:XXX,src:XXX,target:XXX,pack:[XXX,XXX]}
+        }
+        </pre>
+        * 图片编辑
+            * action=modify_image_info
+            * 提交信息
+            <pre>
+            {
+                id:XXX,//图片ID
+                new_name:XXX,//新名字
+                new_target:XXX,//新二维码地址
+                new_position:'3'//新二维码位置
+            }
+            </pre>
+        * 图片删除
+            * action=delete_image
+            * 提交信息
+            <pre>
+            [id_1,id_2,……]
+            </pre>
