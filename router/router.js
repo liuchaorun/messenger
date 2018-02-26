@@ -546,7 +546,7 @@ router.post('/action=get_images', async(ctx, next)=>{
     let data = {};
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let all_picture = await user_person.getPictures();
-    for(let i in all_picture){
+    for(let i of all_picture){
         let temp = {};
         temp = {
             name:i.name,
