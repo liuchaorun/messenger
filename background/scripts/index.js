@@ -105,7 +105,7 @@ $(function ()
             AJAX('signup', data,
                 function (response)
                 {
-                    if (response.status.code === 0)
+                    if (response.status.code === FAIL)
                     {
                         //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                         showNotification(response.status.msg, FAILURE);
@@ -178,7 +178,7 @@ $(function ()
         AJAX('verify', data,
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                 {
                     //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
@@ -234,7 +234,7 @@ $(function ()
         AJAX('login', data,
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                 {
                     //modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
@@ -314,7 +314,7 @@ $(function ()
         AJAX('forget', data,
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                 {
                     //modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
@@ -359,7 +359,7 @@ $(function ()
         AJAX('new_password', data,
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                 {
                     //modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);

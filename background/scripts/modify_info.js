@@ -10,7 +10,7 @@ $(function ()
     AJAX('get_info', {},
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 $error_modal.modal('show');
             else
             {
@@ -122,7 +122,7 @@ $(function ()
             AJAX('modify_password', data,
                 function (response)
                 {
-                    if (response.status.code === 0)
+                    if (response.status.code === FAIL)
                         showNotification(response.status.msg, FAILURE);
                     else
                     {
@@ -147,7 +147,7 @@ function modify_AJAX(data, modal_body_id)
     AJAX('modify_user', data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 showNotification(response.status.msg, FAILURE);
             else
             {

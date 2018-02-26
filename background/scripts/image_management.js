@@ -25,7 +25,7 @@ $(function ()
 
     AJAX('get_images', {}, function (res)
     {
-        if (res.status.code === 0)
+        if (res.status.code === FAIL)
         {
             showNotification(res.status.msg, FAILURE);
             $error_modal.modal('show');
@@ -139,7 +139,7 @@ $(function ()
             data.new_position = $selected.attr('id');
             AJAX('modify_image_info', data, function (res)
             {
-                if (res.status.code === 0)
+                if (res.status.code === FAIL)
                 {
                     showNotification(res.status.msg, FAILURE);
                 }
@@ -215,7 +215,7 @@ $(function ()
                     }
                     AJAX('delete_image', data, function (res)
                     {
-                        if (res.status.code === 0)
+                        if (res.status.code === FAIL)
                         {
                             showNotification(res.status.msg, FAILURE);
                         }

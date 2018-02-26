@@ -14,27 +14,7 @@
 /*返回数组*/
 $(function ()
 {
-    const $err_modal = $('#error_modal');
-    AJAX('get_adType', {},
-        function (res)
-        {
-            if (res.status.code === 0)
-            {
-                showNotification(res.status.msg, FAILURE);
-                $err_modal.modal('show');
-            }
-            else
-            {
-                const adTypeArr = res.data;
-                sessionStorage.setItem('adTypeArr', JSON.stringify(adTypeArr));
-                refresh_adType_table();
-            }
-        },
-        function (err)
-        {
-            console.log(err);
-            $err_modal.modal('show');
-        });
+    get_server_adTypeArr();
 });
 
 
@@ -89,7 +69,7 @@ $(function ()
                 contentType: false,
                 success: function (response)
                 {
-                    if (response.status.code === 0)
+                    if (response.status.code === FAIL)
                         showNotification(response.status.msg, FAILURE);
                     else
                         showNotification(response.status.msg);
@@ -198,7 +178,7 @@ $(function ()
     $add_adType_modal_btn.click(function (e)
     {
         e.preventDefault();
-        const new_adType = {new_adType: $add_adType_input.val()};
+        const new_adType = $add_adType_input.val();
         if (!ADTYPE_REG.test(new_adType))
         {
             showNotification('新标签名不合法', FAILURE);
@@ -206,16 +186,16 @@ $(function ()
         }
         else
         {
-            AJAX('add_adType', new_adType,
+            AJAX('add_adType', {new_adType: new_adType},
                 function (res)
                 {
-                    if (res.status.code === 0)
+                    if (res.status.code === FAIL)
                     {
                         showNotification(res.status.msg, FAILURE);
                     }
                     else
                     {
-                        let adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+                        let adTypeArr = get_local_adTypeArr();
                         adTypeArr = [new_adType].concat(adTypeArr);
                         sessionStorage.setItem('adTypeArr', JSON.stringify(adTypeArr));
                         refresh_adType_table();
@@ -253,14 +233,14 @@ $(function ()
             }
             AJAX('delete_adType', selectedAdTypeArr, function (res)
             {
-                if (res.status.code === 0)
+                if (res.status.code === FAIL)
                 {
                     showNotification(res.status.msg, FAILURE);
                 }
                 else
                 {
                     let index;
-                    let adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+                    let adTypeArr = get_local_adTypeArr();
                     for (const adType of selectedAdTypeArr)
                     {
                         index = adTypeArr.indexOf(adType);
@@ -280,40 +260,93 @@ $(function ()
     });
 });
 
+/*从本地缓存解析出对象并返回，如果本地缓存不存在则重新获取*/
+function get_local_adTypeArr()
+{
+    let adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+    if(adTypeArr === null)
+    {
+        get_server_adTypeArr();
+        adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+    }
+    return adTypeArr;
+}
+
+/*从服务器获取标签名数组，并放在本地缓存中*/
+function get_server_adTypeArr()
+{
+    const $err_modal = $('#error_modal');
+    AJAX('get_adType', {},
+        function (res)
+        {
+            if (res.status.code === FAIL)
+            {
+                showNotification(res.status.msg, FAILURE);
+                $err_modal.modal('show');
+            }
+            else
+            {
+                const adTypeArr = res.data.adType;
+                sessionStorage.setItem('adTypeArr', JSON.stringify(adTypeArr));
+                refresh_adType_table();
+            }
+        },
+        function (err)
+        {
+            console.log(err);
+            $err_modal.modal('show');
+        });
+}
+
 /*刷新标签表格*/
 function refresh_adType_table()
 {
     const $adType_table = $('#adType_table');
     const $manage_adType_modal_table = $('#manage_adType_modal_table');
-    const adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
-    $adType_table.text('');
-    $manage_adType_modal_table.text('');
-    const completeRowNum = Math.floor(adTypeArr.length / 5);
-    const restItemNum = adTypeArr.length % 5;
-    for (let i = 0; i < completeRowNum; i++)
+    const adTypeArr = get_local_adTypeArr();
+    if (adTypeArr.length === 0)
     {
-        $adType_table.append(`<div class="adType_table_row">
+        $adType_table.text(`Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！`);
+        $manage_adType_modal_table.text(`Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！`);
+    }
+    else
+    {
+        $adType_table.text('');
+        $manage_adType_modal_table.text('');
+        const completeRowNum = Math.floor(adTypeArr.length / 5);
+        const restItemNum = adTypeArr.length % 5;
+        for (let i = 0; i < completeRowNum; i++)
+        {
+            $adType_table.append(`<div class="adType_table_row">
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 1]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 2]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 3]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 4]}</span>
   </div>`);
-        $manage_adType_modal_table.append(`<div class="adType_table_row">
+            $manage_adType_modal_table.append(`<div class="adType_table_row">
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 1]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 2]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 3]}</span>
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 4]}</span>
   </div>`);
+        }
+        let $lastRow = $(`<div class="adType_table_row"></div>`);
+        let $lastRowCopy = $(`<div class="adType_table_row"></div>`);
+        for (let i = 0; i < restItemNum; i++)
+        {
+            $lastRow.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
+            $lastRowCopy.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
+        }
+        for (let i = 0; i < 5 - restItemNum; i++)
+        {
+            $lastRow.append(`<span class="adType_table_cell"></span>`);
+            $lastRowCopy.append(`<span class="adType_table_cell"></span>`);
+        }
+        $adType_table.append($lastRow);
+        $manage_adType_modal_table.append($lastRowCopy);
     }
-    let $lastRow = $(`<div class="adType_table_row"></div>`);
-    for (let i = 0; i < restItemNum; i++)
-    {
-        $lastRow.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
-    }
-    $adType_table.append($lastRow);
-    $manage_adType_modal_table.append($lastRow);
     refresh_adType_click_event();
 }
 
