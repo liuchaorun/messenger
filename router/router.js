@@ -742,13 +742,26 @@ router.post('/action=get_adType', async(ctx, next)=>{
 router.post('/action=delete_adType', async(ctx, next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let adTypes = ctx.request.body;
+    let flag = 0;
+    let err = '';
     for (let i of adTypes){
         if(await ad_type.count({where:{name:i}}) > 0){
             let ad_type_one = await ad_type.findOne({where:{name:i}});
             await user_person.removeAd_type(ad_type_one);
         }
+        else{
+            flag = 1;
+            err+=name;
+            err+=' ';
+        }
     }
-    ctx.api(200, {}, {code:1,msg:'删除成功！'});
+    if(flag === 0){
+        ctx.api(200, {}, {code:1,msg:'删除成功！'});
+    }
+    else{
+        ctx.api(200, {}, {code:0,msg:'删除失败！'+err+'标签不存在！'});
+    }
+    await next();
 });
 
 // let myqr = require('./bsdiff');
