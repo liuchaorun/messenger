@@ -90,10 +90,6 @@ $(function ()
                             {
                                 let percent = event.loaded / event.total * 100;
                                 $upload_progress_bar.css('width', percent + '%');
-                                if (percent === 100)
-                                {
-                                    setTimeout(clear_progress_bar, 2000);
-                                }
                             }
                         }, false);
                     }
@@ -117,12 +113,6 @@ $(function ()
     add_tooltip_by_id('file_target', 'http:// 或 https:// 开头网址', 'right');
     add_tooltip_by_id('add_adType_input', '8字符以内字母、数字及汉字', 'top');
 });
-
-function clear_progress_bar()
-{
-    const $upload_progress_bar = $('#upload_progress_bar');
-    $upload_progress_bar.css('width', 0 + '%');
-}
 
 /*选择文件后显示文件个数以及大小*/
 $(function ()
