@@ -706,7 +706,7 @@ router.post('/action=add_adType', async (ctx, next)=>{
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     if (await ad_type.count({where:{name:new_ad_type}}) ===1){
         let ad_type_one = await ad_type.findOne({where:{name:new_ad_type}});
-        await user_person.addAdd_type(ad_type_one);
+        await user_person.addAd_type(ad_type_one);
     }
     else{
         await user_person.createAd_type({
@@ -719,13 +719,15 @@ router.post('/action=add_adType', async (ctx, next)=>{
 
 router.post('/action=get_adType', async(ctx, next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
-    let ad_types = await user_person.getAd_types();
+    let types = await user_person.getAd_types();
     let data = {
         adType:[]
     };
     let a = 0;
-    for(let i in ad_types){
-        data.adType[a++] = i.name;
+    if(types.length>0){
+        for(let i of types){
+            data.adType.push(i.name);
+        }
     }
     ctx.api(200,data,{code:10000, msg:'获取成功！'});
     await next();
@@ -743,10 +745,10 @@ router.post('/action=delete_adType', async(ctx, next)=>{
     ctx.api(200, {}, {code:10000,msg:'删除成功！'});
 });
 
-let myqr = require('./bsdiff');
-router.get('/action',async(ctx,next)=>{
-    let asd = await myqr('asdasd','asd.jpg','/home/lcr/');
-    console.log(asd);
-    await next();
-});
+// let myqr = require('./bsdiff');
+// router.get('/action',async(ctx,next)=>{
+//     let asd = await myqr('asdasd','asd.jpg','/home/lcr/');
+//     console.log(asd);
+//     await next();
+// });
 module.exports = router;
