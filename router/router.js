@@ -736,7 +736,7 @@ router.post('/action=get_adType', async(ctx, next)=>{
 router.post('/action=delete_adType', async(ctx, next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let adTypes = ctx.request.body;
-    for (let i in adTypes){
+    for (let i of adTypes){
         if(await ad_type.count({where:{name:i}}) > 0){
             let ad_type_one = await ad_type.findOne({where:{name:i}});
             await user_person.removeAd_type(ad_type_one);
