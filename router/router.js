@@ -706,14 +706,20 @@ router.post('/action=add_adType', async (ctx, next)=>{
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     if (await ad_type.count({where:{name:new_ad_type}}) ===1){
         let ad_type_one = await ad_type.findOne({where:{name:new_ad_type}});
-        await user_person.addAd_type(ad_type_one);
+        if(await user_person.hasAd_type(ad_type_one)){
+            ctx.api(200,{},{code:10001, msg:'标签重复！'});
+        }
+        else{
+            await user_person.addAd_type(ad_type_one);
+            ctx.api(200,{},{code:10000, msg:'创建成功！'});
+        }
     }
     else{
         await user_person.createAd_type({
             name:new_ad_type
-        })
+        });
+        ctx.api(200,{},{code:10000, msg:'创建成功！'});
     }
-    ctx.api(200,{},{code:10000, msg:'创建成功！'});
     await next();
 });
 
