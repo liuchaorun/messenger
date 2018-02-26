@@ -761,6 +761,7 @@ router.post('/action=delete_adType', async(ctx, next)=>{
     else{
         ctx.api(200, {}, {code:0,msg:'删除失败！'+err+'标签不存在！'});
     }
+    await next();
 });
 
 // let myqr = require('./bsdiff');
