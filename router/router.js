@@ -566,7 +566,7 @@ router.post('/action=get_images', async(ctx, next)=>{
 
 router.post('/action=modify_image_info', async(ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
-    let image = await user_person.getPicture({where:{ctx.request.body.id}});
+    let image = await user_person.getPicture({where:{picture_id:ctx.request.body.id}});
     await image.update({
         name:ctx.request.new_name,
         target:ctx.request.body.new_target,
