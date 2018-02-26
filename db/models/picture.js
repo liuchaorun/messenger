@@ -28,5 +28,7 @@ module.exports=database.defineModel('picture',{
         type:Sequelize.STRING(255)
     },
     thumbnails_url:Sequelize.STRING(255),
+    target:Sequelize.STRING(255),
+    position:Sequelize.STRING(255),
     md5:Sequelize.STRING(32)
 });

@@ -19,12 +19,19 @@ let picture = model.picture;
 let resource = model.resource;
 let resource_picture = model.resource_picture;
 let feedback_info = model.feedback_info;
+let ad_type = model.ad_type;
+let ad_type_picture = model.ad_type_picture;
+let user_ad_type = model.user_ad_type;
 user.hasMany(picture, {foreignKey: 'user_id'});
 user.hasMany(screen, {foreignKey: 'user_id'});
 user.hasMany(resource, {foreignKey: 'user_id'});
 resource.hasMany(screen, {foreignKey: 'resource_id'});
 resource.belongsToMany(picture, {through: resource_picture, foreignKey: 'resource_id'});
 picture.belongsToMany(resource, {through: resource_picture, foreignKey: 'picture_id'});
+ad_type.belongsToMany(picture, {through:ad_type_picture, foreignKey:'ad_type_id'});
+picture.belongsToMany(ad_type, {through:ad_type_picture, foreignKey:'picture_id'});
+user.belongsToMany(ad_type, {through:user_ad_type, foreignKey:'user_id'});
+ad_type.belongsToMany(user, {through:user_ad_type, foreignKey:'ad_type_id'});
 let sequelize = new Sequelize(config.database, config.username, config.password, {
     host: config.host,
     dialect: 'postgres',
@@ -245,16 +252,22 @@ router.post('/action=upload', koaBody({
             let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
             let image = images(files.file[i].path);
             let picture_now = await user_person.createPicture({
-                name: file_name,
+                name: ctx.request.body.name + i,
                 size: files.file[i].size,
                 image_size: image.width.toString() + '×' + image.height.toString(),
                 image_type: files.file[i].type,
                 url: 'http://118.89.197.156:8000/' + file_name,
-                thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
+                thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
+                position:ctx.request.body.position
             });
             fs.rename(files.file[i].path, upDir + file_name, (err) => {
                 console.log(err);
             });
+            let adTypes = ctx.request.body.type;
+            for(let j = 0; j < adTypes.length; j++){
+                let adType = await ad_type.findOne({where:{name:adTypes[j]}});
+                await picture_now.addAd_type(adType);
+            }
             gm(upDir + file_name).resize(null,200).write(upDir+'thumbnails_'+file_name,()=>{});
             let buf = await fs.readFileSync(upDir+file_name);
             await picture_now.update({md5:md5(buf)});
@@ -266,16 +279,22 @@ router.post('/action=upload', koaBody({
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let image = images(files.file.path);
         let picture_now = await user_person.createPicture({
-            name: file_name,
+            name: ctx.request.body.name,
             size: files.file.size,
             image_size: image.width.toString() + '×' + image.height.toString(),
             image_type: files.file.type,
             url: 'http://118.89.197.156:8000/' + file_name,
-            thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name
+            thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
+            position:ctx.request.body.position
         });
         fs.rename(files.file.path, upDir + file_name, (err) => {
             console.log(err);
         });
+        let adTypes = ctx.request.body.type;
+        for(let j = 0; j < adTypes.length; j++){
+            let adType = await ad_type.findOne({where:{name:adTypes[j]}});
+            await picture_now.addAd_type(adType);
+        }
         gm(upDir + file_name).resize(960,null).write(upDir+'thumbnails_'+file_name,()=>{});
         let buf = await fs.readFileSync(upDir+file_name);
         await picture_now.update({md5:md5(buf)});
@@ -523,6 +542,53 @@ router.post('/action=get_picture_for_del',async(ctx,next)=>{
     await next();
 });
 
+router.post('/action=get_images', async(ctx, next)=>{
+    let data = {};
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let all_picture = await user_person.getPictures();
+    for(let i in all_picture){
+        let temp = {};
+        temp = {
+            name:i.name,
+            src:i.thumbnails_url,
+            target:i.target
+        };
+        let all_pack = await i.getResources();
+        temp.pack = [];
+        for(let j = 0;j<all_pack.length;++j){
+            temp.pack[j] = all_pack[j].name;
+        }
+        data[i.id] = temp;
+    }
+    ctx.api(200,data,{code:10000,msg:'获取图片列表成功！'});
+    await next();
+});
+
+router.post('/action=modify_image_info', async(ctx,next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let image = await user_person.getPicture({where:{ctx.request.body.id}});
+    await image.update({
+        name:ctx.request.new_name,
+        target:ctx.request.body.new_target,
+        position:ctx.request.body.new_position
+    });
+    ctx.api(200,{},{code:10000,msg:'修改成功！'});
+    await next();
+});
+
+router.post('/action=delete_image', async(ctx,next)=>{
+    let del_images = ctx.request.body;
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    for(let i of del_images){
+        let pic = await picture.findOne({where:{picture_id:i}});
+        await fs.unlinkSync(upDir + pic.name);
+        await fs.unlinkSync(upDir + 'thumbnails_'+pic.name);
+        pic.destroy();
+    }
+    ctx.api(200,{},{code:10000,msg:'删除成功！'});
+    await next();
+});
+
 router.post('/action=del_picture',async(ctx,next)=>{
     let picture_ids = ctx.request.body.picture_id;
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
@@ -618,22 +684,62 @@ router.post('/action=request_update',async (ctx,next)=>{
     await next();
 });
 
-
 router.post('/action=get_qrcode_info', async (ctx,next)=>{
     let body = ctx.request.body;
-    // feedback_info.create({
-    //     browser:body.broswer,
-    //     deviceType:body.deviceType,
-    //     device:body.device,
-    //     os:body.os,
-    //     uuid:body.uuid,
-    //     position:body.position,
-    //     adType:body.adType,
-    //     adId:body.adId,
-    //     scanTime:body.scanTime
-    // });
+    feedback_info.create({
+        browser:body.broswer,
+        deviceType:body.deviceType,
+        device:body.device,
+        os:body.os,
+        uuid:body.uuid,
+        position:body.position,
+        adType:body.adType,
+        adId:body.adId,
+        scanTime:body.scanTime
+    });
     console.log(body);
     await next();
 });
 
+router.post('/action=add_adType', async (ctx, next)=>{
+    let new_ad_type = ctx.request.body;
+    let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+    if (await ad_type.count({where:{name:new_ad_type}}) ===1){
+        let ad_type_one = await ad_type.findOne({where:{name:new_ad_type}});
+        await user_person.addAdd_type(ad_type_one);
+    }
+    else{
+        await user_person.createAd_type({
+            name:new_ad_type
+        })
+    }
+    ctx.api(200,{},{code:10000, msg:'创建成功！'});
+    await next();
+});
+
+router.post('/action=get_adType', async(ctx, next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let ad_types = await user_person.getAd_types();
+    let data = {
+        adType:[]
+    };
+    let a = 0;
+    for(let i in ad_types){
+        data.adType[a++] = i.name;
+    }
+    ctx.api(200,data,{code:10000, msg:'获取成功！'});
+    await next();
+});
+
+router.post('/action=delete_adType', async(ctx, next)=>{
+    let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let adTypes = ctx.request.body;
+    for (let i in adTypes){
+        if(await ad_type.count({where:{name:i}}) > 0){
+            let ad_type_one = await ad_type.findOne({where:{name:i}});
+            await user_person.removeAd_type(ad_type_one);
+        }
+    }
+    ctx.api(200, {}, {code:10000,msg:'删除成功！'});
+});
 module.exports = router;
