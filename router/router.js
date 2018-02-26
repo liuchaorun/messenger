@@ -54,7 +54,7 @@ router.post('/action=signup', async (ctx, next) => {
     let n = Math.floor(Math.random() * 9000 + 1000);
     ctx.session.verify = n.toString();
     if (user_num === 1) {
-        ctx.api(200, {}, {code: 10001, msg: '该用户已存在'});
+        ctx.api(200, {}, {code: 0, msg: '该用户已存在'});
     }
     else {
         let mailOptions = {
@@ -69,7 +69,7 @@ router.post('/action=signup', async (ctx, next) => {
             }
             console.log('Message %s sent: %s', info.messageId, info.response);
         });
-        ctx.api(200, {}, {code: 100000, msg: '验证码已下发'});
+        ctx.api(200, {}, {code: 1, msg: '验证码已下发'});
     }
     await next();
 });
@@ -81,7 +81,7 @@ router.post('/action=verify', async (ctx, next) => {
             email: ctx.request.body.email,
             password: ctx.request.body.password
         });
-        ctx.api(200, {}, {code: 10000, msg: '注册成功！'});
+        ctx.api(200, {}, {code: 1, msg: '注册成功！'});
     }
     else ctx.api(200, {}, {code: 0, msg: '验证码错误！'});
     await next();
@@ -113,7 +113,7 @@ router.post('/action=login', async (ctx, next) => {
                 await user_person.update({
                     last_login_time: Date.now(),
                 });
-                ctx.api(200, data, {code: 10000, msg: '登录成功！'});
+                ctx.api(200, data, {code: 1, msg: '登录成功！'});
             }
             else{
                 ctx.api(200,{},{code:0,msg:'密码错误！'});
@@ -128,7 +128,7 @@ router.post('/action=login', async (ctx, next) => {
             let data = {};
             data.username = user_person.username;
             data.email = user_person.email;
-            ctx.api(200, data, {code: 10000, msg: '登录成功！'});
+            ctx.api(200, data, {code: 1, msg: '登录成功！'});
         }
     }
     await next();
@@ -141,7 +141,7 @@ router.post('/action=forget', async (ctx, next) => {
         let user_person = await user.findOne({where: {email: ctx.request.body.email}});
         if (user_person.username === ctx.request.body.username) {
             ctx.session.forget_email = ctx.request.body.email;
-            ctx.api(200, {}, {code: 10000, msg: '验证成功！'});
+            ctx.api(200, {}, {code: 1, msg: '验证成功！'});
         }
         else {
             ctx.api(200, {}, {code: 0, msg: '用户名错误！'});
@@ -155,7 +155,7 @@ router.post('/action=new_password', async (ctx, next) => {
     await user_person.update({
         password: ctx.request.body.new_password
     });
-    ctx.api(200, {}, {code: 10000, msg: '修改密码成功！'});
+    ctx.api(200, {}, {code: 1, msg: '修改密码成功！'});
     await next();
 });
 
@@ -191,7 +191,7 @@ router.post('/action=get_screen', async (ctx, next) => {
             note: user_screen[i].remark
         }
     }
-    ctx.api(200, data, {code: 10000, msg: "获取成功！"});
+    ctx.api(200, data, {code: 1, msg: "获取成功！"});
     await next();
 });
 
@@ -204,7 +204,7 @@ router.post('/action=add_screen', async (ctx, next) => {
     else {
         let screen_new = await screen.findOne({where: {uuid: ctx.request.body.uuid}});
         await user_person.addScreen(screen_new);
-        ctx.api(200, {}, {code: 10000, msg: '添加成功！'});
+        ctx.api(200, {}, {code: 1, msg: '添加成功！'});
     }
     await next();
 });
@@ -222,7 +222,7 @@ router.post('/action=modify_screen', async (ctx, next) => {
         }
         if (ctx.request.body.new_note !== undefined) await screen_new.update({remark: ctx.request.body.new_note});
     }
-    ctx.api(200, {}, {code: 10000, msg: '修改成功！'});
+    ctx.api(200, {}, {code: 1, msg: '修改成功！'});
     await next();
 });
 
@@ -234,7 +234,7 @@ router.post('/action=del_screen', async (ctx, next) => {
         await user_person.removeScreen(screen_del);
         await screen_del.destroy();
     }
-    ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
+    ctx.api(200, {}, {code: 1, msg: '删除成功！'});
     await next();
 });
 
@@ -299,7 +299,7 @@ router.post('/action=upload', koaBody({
         let buf = await fs.readFileSync(upDir+file_name);
         await picture_now.update({md5:md5(buf)});
     }
-    ctx.api(200, {}, {code: 10000, msg: '上传成功'});
+    ctx.api(200, {}, {code: 1, msg: '上传成功'});
     await next();
 });
 
@@ -313,7 +313,7 @@ router.post('/action=get_picture', async (ctx, next) => {
         data.pictures[i].id = user_person_picture[i].picture_id;
         data.pictures[i].src = user_person_picture[i].thumbnails_url;
     }
-    ctx.api(200, data, {code: 10000, msg: '获取图片成功！'});
+    ctx.api(200, data, {code: 1, msg: '获取图片成功！'});
     await next()
 });
 
@@ -343,7 +343,7 @@ router.post('/action=add_pack', async (ctx, next) => {
     await fs.writeFileSync(upDir+resource_new.resource_id+'.json',json_file);
     let buf = await fs.readFileSync(upDir+resource_new.resource_id+'.json');
     resource_new.update({md5:md5(buf)});
-    ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
+    ctx.api(200, {}, {code: 1, msg: '创建资源包成功！'});
     await next();
 });
 
@@ -361,7 +361,7 @@ router.post('/action=get_pack', async (ctx, next) => {
             'resource_id': person_resource[i].resource_id
         }
     }
-    ctx.api(200, data, {code: 10000, msg: '获取资源包成功！'});
+    ctx.api(200, data, {code: 1, msg: '获取资源包成功！'});
     await next();
 });
 
@@ -377,7 +377,7 @@ router.post('/action=get_pack_screen', async (ctx, next) => {
             note: resource_now_screen[i].remark
         }
     }
-    ctx.api(200, data, {code: 10000, msg: '获取关联屏幕成功！'});
+    ctx.api(200, data, {code: 1, msg: '获取关联屏幕成功！'});
     await next();
 });
 
@@ -400,7 +400,7 @@ router.post('/action=get_pack_no_screen', async (ctx, next) => {
             n++;
         }
     }
-    ctx.api(200, data, {code: 10000, msg: '获取未添加屏幕成功！'});
+    ctx.api(200, data, {code: 1, msg: '获取未添加屏幕成功！'});
     await next();
 });
 
@@ -412,7 +412,7 @@ router.post('/action=add_pack_screen', async (ctx, next) => {
         await resource_add.addScreens(screen_new);
         screen_new.update({md5:md5(Date.now())});
     }
-    ctx.api(200, {}, {code: 10000, msg: '添加屏幕成功！'});
+    ctx.api(200, {}, {code: 1, msg: '添加屏幕成功！'});
     await next();
 });
 
@@ -424,7 +424,7 @@ router.post('/action=del_pack_screen', async (ctx, next) => {
         await resource_del.removeScreens(screen_w);
         screen_w.update({md5:md5(Date.now())});
     }
-    ctx.api(200, {}, {code: 10000, msg: '删除屏幕成功！'});
+    ctx.api(200, {}, {code: 1, msg: '删除屏幕成功！'});
     await next();
 });
 
@@ -435,7 +435,7 @@ router.post('/action=get_pack_info', async (ctx, next) => {
     data.used_pictures = resource_settings;
     data.name = resource_get.name;
     data.note = resource_get.remark;
-    ctx.api(200, data, {code: 10000, msg: '获取资源包图片成功！'});
+    ctx.api(200, data, {code: 1, msg: '获取资源包图片成功！'});
     await next();
 });
 
@@ -448,7 +448,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
             let buf = await fs.readFileSync(upDir+resource_new.resource_id+'.json');
             resource_new.update({md5:md5(buf)});
         }
-        ctx.api(200, {}, {code: 10000, msg: '批量修改备注成功！'});
+        ctx.api(200, {}, {code: 1, msg: '批量修改备注成功！'});
     }
     else {
         let resource_new = await resource.findOne({where: {resource_id: ctx.request.body.pack[0]}});
@@ -480,7 +480,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
         await fs.writeFileSync(upDir+resource_new.resource_id+'.json',json_file);
         let buf = await fs.readFileSync(upDir+resource_new.resource_id+'.json');
         resource_new.update({md5:md5(buf)});
-        ctx.api(200, {}, {code: 10000, msg: '创建资源包成功！'});
+        ctx.api(200, {}, {code: 1, msg: '创建资源包成功！'});
     }
     await next();
 });
@@ -496,7 +496,7 @@ router.post('/action=del_pack', async (ctx, next) => {
         await del_resource.removeScreens(screen_now);
         await del_resource.destroy();
     }
-    ctx.api(200, {}, {code: 10000, msg: '删除成功！'});
+    ctx.api(200, {}, {code: 1, msg: '删除成功！'});
     await next();
 });
 
@@ -506,7 +506,7 @@ router.post('/action=modify_password',async(ctx,next)=>{
         user_person.update({
             password:ctx.request.body.new_password
         });
-        ctx.api(200,{},{code:10000,msg:'修改密码成功！'});
+        ctx.api(200,{},{code:1,msg:'修改密码成功！'});
     }
     else{
         ctx.api(200,{},{code:0,msg:'密码错误！'});
@@ -518,7 +518,7 @@ router.post('/action=modify_user', async (ctx, next) => {
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     if (ctx.request.body.new_username !== undefined) await user_person.update({username: ctx.request.body.new_username});
     if (ctx.request.body.new_work_place !== undefined) await user_person.update({work_place: ctx.request.body.new_work_place});
-    ctx.api(200, {}, {code: 10000, msg: '修改信息成功！'});
+    ctx.api(200, {}, {code: 1, msg: '修改信息成功！'});
     await next();
 });
 
@@ -538,7 +538,7 @@ router.post('/action=get_picture_for_del',async(ctx,next)=>{
             data.pictures[i].pack[j] = pack_all[j].name;
         }
     }
-    ctx.api(200,data,{code:10000,msg:'获取图片成功！'});
+    ctx.api(200,data,{code:1,msg:'获取图片成功！'});
     await next();
 });
 
@@ -560,7 +560,7 @@ router.post('/action=get_images', async(ctx, next)=>{
         }
         data[i.id] = temp;
     }
-    ctx.api(200,data,{code:10000,msg:'获取图片列表成功！'});
+    ctx.api(200,data,{code:1,msg:'获取图片列表成功！'});
     await next();
 });
 
@@ -572,7 +572,7 @@ router.post('/action=modify_image_info', async(ctx,next)=>{
         target:ctx.request.body.new_target,
         position:ctx.request.body.new_position
     });
-    ctx.api(200,{},{code:10000,msg:'修改成功！'});
+    ctx.api(200,{},{code:1,msg:'修改成功！'});
     await next();
 });
 
@@ -585,7 +585,7 @@ router.post('/action=delete_image', async(ctx,next)=>{
         await fs.unlinkSync(upDir + 'thumbnails_'+pic.name);
         pic.destroy();
     }
-    ctx.api(200,{},{code:10000,msg:'删除成功！'});
+    ctx.api(200,{},{code:1,msg:'删除成功！'});
     await next();
 });
 
@@ -598,7 +598,7 @@ router.post('/action=del_picture',async(ctx,next)=>{
         await fs.unlinkSync(upDir + 'thumbnails_'+pic.name);
         pic.destroy();
     }
-    ctx.api(200,{},{code:10000,msg:'删除成功！'});
+    ctx.api(200,{},{code:1,msg:'删除成功！'});
     await next();
 });
 
@@ -610,9 +610,9 @@ router.post('/action=create_screen',async(ctx,next)=>{
             md5:md5(Date.now()),
             name:uuid
         });
-        ctx.api(200,{},{code:10000,msg:'创建屏幕成功！'});
+        ctx.api(200,{},{code:1,msg:'创建屏幕成功！'});
     }
-    else ctx.api(200,{},{code:10000,msg:'该屏幕已存在！'});
+    else ctx.api(200,{},{code:1,msg:'该屏幕已存在！'});
     await next();
 });
 
@@ -630,7 +630,7 @@ router.post('/action=verify_screen',async(ctx,next)=>{
             data.is_user = 1;
         }
     }
-    ctx.api(200,data,{code:10000,msg:'验证完成！'});
+    ctx.api(200,data,{code:1,msg:'验证完成！'});
     await next();
 });
 
@@ -645,7 +645,7 @@ router.post('/action=all',async(ctx,next)=>{
         data.json_url='http://118.89.197.156:8000/'+resource_now.resource_id+'.json';
         data.md5 = resource_now.md5;
     }
-    ctx.api(200,data,{code:10000,msg:'获取成功！'});
+    ctx.api(200,data,{code:1,msg:'获取成功！'});
     await next();
 });
 
@@ -659,7 +659,7 @@ router.post('/action=request',async(ctx,next)=>{
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
         data.md5 = resource_now.md5;
     }
-    ctx.api(200,data,{code:10000,msg:'轮询成功！'});
+    ctx.api(200,data,{code:1,msg:'轮询成功！'});
     await next();
 });
 
@@ -670,16 +670,16 @@ router.post('/action=request_resource',async(ctx,next)=>{
     let data={};
     await screen_now.update({updated_at:Date.now()});
     data.json_url = 'http://118.89.197.156:8000/'+resource_now.resource_id+'.json';
-    ctx.api(200,data,{code:10000,msg:'获取成功！'});
+    ctx.api(200,data,{code:1,msg:'获取成功！'});
     await next();
 });
 
 router.post('/action=request_update',async (ctx,next)=>{
     if(ctx.request.body.version_code===3){
-        ctx.api(200,{url:''},{code:10000,msg:''});
+        ctx.api(200,{url:''},{code:1,msg:''});
     }
     else{
-        ctx.api(200,{url:''},{code:10000,msg:''});
+        ctx.api(200,{url:''},{code:1,msg:''});
     }
     await next();
 });
@@ -707,18 +707,18 @@ router.post('/action=add_adType', async (ctx, next)=>{
     if (await ad_type.count({where:{name:new_ad_type}}) ===1){
         let ad_type_one = await ad_type.findOne({where:{name:new_ad_type}});
         if(await user_person.hasAd_type(ad_type_one)){
-            ctx.api(200,{},{code:10001, msg:'标签重复！'});
+            ctx.api(200,{},{code:0, msg:'标签重复！'});
         }
         else{
             await user_person.addAd_type(ad_type_one);
-            ctx.api(200,{},{code:10000, msg:'创建成功！'});
+            ctx.api(200,{},{code:1, msg:'创建成功！'});
         }
     }
     else{
         await user_person.createAd_type({
             name:new_ad_type
         });
-        ctx.api(200,{},{code:10000, msg:'创建成功！'});
+        ctx.api(200,{},{code:1, msg:'创建成功！'});
     }
     await next();
 });
@@ -735,7 +735,7 @@ router.post('/action=get_adType', async(ctx, next)=>{
             data.adType.push(i.name);
         }
     }
-    ctx.api(200,data,{code:10000, msg:'获取成功！'});
+    ctx.api(200,data,{code:1, msg:'获取成功！'});
     await next();
 });
 
@@ -748,7 +748,7 @@ router.post('/action=delete_adType', async(ctx, next)=>{
             await user_person.removeAd_type(ad_type_one);
         }
     }
-    ctx.api(200, {}, {code:10000,msg:'删除成功！'});
+    ctx.api(200, {}, {code:1,msg:'删除成功！'});
 });
 
 // let myqr = require('./bsdiff');
