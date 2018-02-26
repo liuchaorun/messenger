@@ -702,7 +702,7 @@ router.post('/action=get_qrcode_info', async (ctx,next)=>{
 });
 
 router.post('/action=add_adType', async (ctx, next)=>{
-    let new_ad_type = ctx.request.body;
+    let new_ad_type = JSON.parse(ctx.request.body);
     let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
     if (await ad_type.count({where:{name:new_ad_type}}) ===1){
         let ad_type_one = await ad_type.findOne({where:{name:new_ad_type}});
@@ -741,5 +741,12 @@ router.post('/action=delete_adType', async(ctx, next)=>{
         }
     }
     ctx.api(200, {}, {code:10000,msg:'删除成功！'});
+});
+
+let myqr = require('./bsdiff');
+router.get('/action',async(ctx,next)=>{
+    let asd = await myqr('asdasd','asd.jpg','/home/lcr/');
+    console.log(asd);
+    await next();
 });
 module.exports = router;
