@@ -15,8 +15,8 @@ const IMAGE_TARGET_REG = /^http[s]?:\/\/.+$/;
 const ADTYPE_REG = /^[A-z0-9\u4e00-\u9fa5]{1,8}$/;
 
 /*请求code*/
-const SUCC = 0;
-const FAIL = 1;
+const SUCC = 1;
+const FAIL = 0;
 
 function AJAX(action, data_object, success_function, error_function, async = true)
 {
@@ -29,8 +29,8 @@ function AJAX(action, data_object, success_function, error_function, async = tru
             timeout: 2000,
             async: async,
             dataType: 'json',
-            //url: `http://118.89.197.156:3000/action=${action}`,
-            url: `http://127.0.0.1:3000/action=${action}`,
+            url: `http://118.89.197.156:3000/action=${action}`,
+            //url: `http://127.0.0.1:3000/action=${action}`,
             method: 'post',
             data: JSON.stringify(data_object),
             success: success_function,

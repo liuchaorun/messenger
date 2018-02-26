@@ -162,7 +162,6 @@ $(function ()
         fileReader.readAsDataURL($upload_input[0].files[0]);
         fileReader.onload = function (event)
         {
-            console.log(event.target.result);
             $file_preview_table_wrapper.css('background-image', `url(${event.target.result})`);
         }
     });
@@ -219,7 +218,7 @@ $(function ()
     $delete_adType_modal_btn.click(function (e)
     {
         e.preventDefault();
-        const $selected = $('.manage_adType_modal_table.selected');
+        const $selected = $('.manage_adType_modal_table_cell.selected');
         if ($selected.length === 0)
         {
             showNotification('请选择要删除的标签', FAILURE);
@@ -227,9 +226,9 @@ $(function ()
         else
         {
             let selectedAdTypeArr = [];
-            for (const $adType of $selected)
+            for (const adType of $selected)
             {
-                selectedAdTypeArr.push($adType.text());
+                selectedAdTypeArr.push($(adType).text());
             }
             AJAX('delete_adType', selectedAdTypeArr, function (res)
             {
@@ -245,7 +244,9 @@ $(function ()
                     {
                         index = adTypeArr.indexOf(adType);
                         if (index !== -1)
-                            adTypeArr.slice(index, 1);
+                        {
+                            adTypeArr.splice(index, 1);
+                        }
                     }
                     sessionStorage.setItem('adTypeArr', JSON.stringify(adTypeArr));
                     refresh_adType_table();
@@ -325,11 +326,11 @@ function refresh_adType_table()
       <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 4]}</span>
   </div>`);
             $manage_adType_modal_table.append(`<div class="adType_table_row">
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 1]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 2]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 3]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 4]}</span>
+      <span class="label label-default manage_adType_modal_table_cell adType">${adTypeArr[5 * i]}</span>
+      <span class="label label-default manage_adType_modal_table_cell adType">${adTypeArr[5 * i + 1]}</span>
+      <span class="label label-default manage_adType_modal_table_cell adType">${adTypeArr[5 * i + 2]}</span>
+      <span class="label label-default manage_adType_modal_table_cell adType">${adTypeArr[5 * i + 3]}</span>
+      <span class="label label-default manage_adType_modal_table_cell adType">${adTypeArr[5 * i + 4]}</span>
   </div>`);
         }
         let $lastRow = $(`<div class="adType_table_row"></div>`);
@@ -337,7 +338,7 @@ function refresh_adType_table()
         for (let i = 0; i < restItemNum; i++)
         {
             $lastRow.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
-            $lastRowCopy.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
+            $lastRowCopy.append(`<span class="label label-default manage_adType_modal_table_cell  adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
         }
         for (let i = 0; i < 5 - restItemNum; i++)
         {
@@ -398,9 +399,9 @@ function get_adType()
     else
     {
         let selectedAdTypeArr = [];
-        for (const $adType of $selected)
+        for (const adType of $selected)
         {
-            selectedAdTypeArr.push($adType.text());
+            selectedAdTypeArr.push($(adType).text());
         }
         return selectedAdTypeArr;
     }

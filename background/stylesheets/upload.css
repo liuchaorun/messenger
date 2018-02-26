@@ -105,7 +105,7 @@
     height: 100%;
 }
 
-.adType_table_cell {
+.adType_table_cell,.manage_adType_modal_table_cell {
     display: table-cell;
     height: 100%;
     width: 20%;
