@@ -198,7 +198,7 @@ $(function ()
     $add_adType_modal_btn.click(function (e)
     {
         e.preventDefault();
-        const new_adType = $add_adType_input.val();
+        const new_adType = {new_adType: $add_adType_input.val()};
         if (!ADTYPE_REG.test(new_adType))
         {
             showNotification('新标签名不合法', FAILURE);
