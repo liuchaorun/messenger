@@ -37,7 +37,7 @@ $(function ()
     AJAX('get_picture_for_del', {},
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 $error_modal.modal('show');
             else
             {
@@ -141,7 +141,7 @@ function activate()
                 AJAX('table_image', data,
                     function (response)
                     {
-                        if (response.status.code === 0)
+                        if (response.status.code === FAIL)
                         //modal_prepend_warning('del_picture_modal_footer', 'danger', 'glyphicon-remove', response.status.msg, 'tip');
                             showNotification(response.status.msg, FAILURE);
                         else

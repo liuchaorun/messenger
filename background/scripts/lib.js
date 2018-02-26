@@ -14,6 +14,10 @@ const IMAGE_NAME_REG = /^[A-z0-9\u4e00-\u9fa5]{1,8}$/;
 const IMAGE_TARGET_REG = /^http[s]?:\/\/.+$/;
 const ADTYPE_REG = /^[A-z0-9\u4e00-\u9fa5]{1,8}$/;
 
+/*请求code*/
+const SUCC = 0;
+const FAIL = 1;
+
 function AJAX(action, data_object, success_function, error_function, async = true)
 {
     $.ajax(

@@ -108,6 +108,7 @@
 .adType_table_cell {
     display: table-cell;
     height: 100%;
+    width: 20%;
 }
 
 .adType {

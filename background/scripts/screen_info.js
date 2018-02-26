@@ -38,7 +38,7 @@ $(function ()
     AJAX('get_screen', {},
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 $error_modal.modal('show');
             else
             {
@@ -128,7 +128,7 @@ $(function ()
             AJAX('add_screen', data,
                 function (response)
                 {
-                    if (response.status.code === 0)
+                    if (response.status.code === FAIL)
                         showNotification(response.status.msg, FAILURE);
                     else
                     {
@@ -248,7 +248,7 @@ $(function ()
         AJAX('modify_screen', data,
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                     showNotification(response.status.msg, FAILURE);
                 else
                 {
@@ -311,7 +311,7 @@ $(function ()
         AJAX('del_screen', data,
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                     showNotification(response.status.msg, FAILURE);
                 else
                 {

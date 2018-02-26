@@ -35,7 +35,7 @@ $(function ()
     AJAX('get_pack', {},
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 $error_modal.modal('show');
             else
             {
@@ -117,7 +117,7 @@ $(function ()
             AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0]).parent().parent().attr('id')},
                 function (response)
                 {
-                    if (response.status.code === 0)
+                    if (response.status.code === FAIL)
                     {
                         showNotification(response.status.msg, FAILURE);
                         $modify_modal_btn.attr('disabled', 'disabled');
@@ -241,7 +241,7 @@ $(function ()
                 AJAX('del_pack', data,
                     function (response)
                     {
-                        if (response.status.code === 0)
+                        if (response.status.code === FAIL)
                             showNotification(response.status.msg, FAILURE);
                         else
                         {
@@ -314,7 +314,7 @@ function screen_AJAX(type, action)
     AJAX(action, data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 showNotification('response.status.msg', FAILURE);
             else
             {
@@ -363,7 +363,7 @@ function image_AJAX(type, table_id, button_id, footer_id)
         AJAX('get_picture', {},
             function (response)
             {
-                if (response.status.code === 0)
+                if (response.status.code === FAIL)
                 {
                     showNotification(response.status.msg, FAILURE);
                     $(`#${button_id}`).attr('disabled', 'disabled');
@@ -455,7 +455,7 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     AJAX(action, data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 showNotification(response.status.msg, FAILURE);
             else
             {
@@ -499,7 +499,7 @@ function modify_AJAX(multiple_bool, data)
     AJAX('modify_pack', data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 showNotification(response.status.msg, FAILURE);
             else
             {
@@ -589,7 +589,7 @@ function get_screen_modal(pack_dom_obj)
     AJAX('get_pack_screen', data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 showNotification(response.status.msg, FAILURE);
             else
             {
@@ -624,7 +624,7 @@ function table_btn_AJAX(btn_html_obj, type, action)
     AJAX(action, data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 showNotification(response.status.msg, FAILURE);
             else
             {

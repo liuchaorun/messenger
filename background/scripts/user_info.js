@@ -22,7 +22,7 @@ $(function ()
     AJAX('get_info', {},
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code === FAIL)
                 $error_modal.modal('show');
             else
             {
