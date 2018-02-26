@@ -27,7 +27,7 @@ function defineModel(name, attributes) {
             };
         }
     }
-    if(name!=='resource_picture'&&name!=='picture'){
+    if(name!=='resource_picture'&&name!=='picture'&&name!=='ad_type'&&name!=='ad_)type_picture'&&name!=='feedback_info'&&name!=='user_ad_type'){
         attrs.created_at = {
             type: Sequelize.DATE,
         };
