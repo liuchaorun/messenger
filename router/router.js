@@ -562,7 +562,7 @@ router.post('/action=get_images', async(ctx, next)=>{
         for(let j = 0;j<all_pack.length;++j){
             temp.pack[j] = all_pack[j].name;
         }
-        data[i.id] = temp;
+        data[i.picture_id] = temp;
     }
     ctx.api(200,data,{code:1,msg:'获取图片列表成功！'});
     await next();
