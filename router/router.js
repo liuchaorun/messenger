@@ -586,7 +586,6 @@ router.post('/action=delete_image', async(ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     for(let i of del_images){
         let pic = await picture.findOne({where:{picture_id:i}});
-        await user_person.removePicture(pic);
         await fs.unlinkSync(upDir + pic.file_name);
         await fs.unlinkSync(upDir + 'thumbnails_'+pic.file_name);
         pic.destroy();
