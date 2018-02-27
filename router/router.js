@@ -246,7 +246,7 @@ router.post('/action=upload', koaBody({
 }), async (ctx, next) => {
     let files = ctx.request.body.files;
     console.log('body'+ctx.request.body);
-    console.log(ctx.request.body.name);
+    console.log(ctx.request.body.files.name);
     if(files.file.name === undefined){
         for (let i = 0; i < files.file.length; ++i) {
             let fileFormat = (files.file[i].name).split(".");
@@ -267,7 +267,7 @@ router.post('/action=upload', koaBody({
             fs.rename(files.file[i].path, upDir + file_name, (err) => {
                 console.log(err);
             });
-            let adTypes = ctx.request.body.type;
+            let adTypes = ctx.request.body.files.type;
             for(let j = 0; j < adTypes.length; j++){
                 let adType = await ad_type.findOne({where:{name:adTypes[j]}});
                 await picture_now.addAd_type(adType);
