@@ -303,6 +303,7 @@ router.post('/action=upload', koaBody({
             console.log(err);
         });
         let adTypes = ctx.request.body.fields.type;
+        console.log(adTypes);
         for(let j of adTypes){
             let adType = await ad_type.findOne({where:{name:j}});
             await picture_now.addAd_type(adType);
