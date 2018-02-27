@@ -31,7 +31,7 @@
 $(function ()
 {
     sessionStorage.clear();
-    get_server_package_obj();
+    get_server_package_arr();
 });
 
 /**增加按钮设定**/
@@ -201,7 +201,7 @@ $(function ()
         else
         {
             let data = {};
-            let package_arr = get_local_package_obj();
+            let package_arr = get_local_package_arr();
             $del_modal.modal('show');
             for (const checkbox of checked_checkboxes)
                 checked_pack.push(parseInt($(checkbox).parent().parent().attr('id')));
@@ -297,7 +297,7 @@ function screen_AJAX(type, action)
                 showNotification('response.status.msg', FAILURE);
             else
             {
-                let package_arr = get_local_package_obj();
+                let package_arr = get_local_package_arr();
                 let package_index = 0;
                 for (let i = 0; i < package_arr.length; i++)
                 {
@@ -314,7 +314,7 @@ function screen_AJAX(type, action)
                 {
                     for (let i = 0; i < package_arr[package_index].screen.length; i++)
                     {
-                        if (data.screen.indexOf(package_arr[package_index].screen[i]) !== -1)
+                        if (data.screen.indexOf(parseInt(package_arr[package_index].screen[i].screen_id)) !== -1)
                         {
                             package_arr[package_index].screen.splice(i, 1);
                             i--;
@@ -655,7 +655,7 @@ function table_btn_AJAX(btn_html_obj, type, action)
 function refresh_package_management_table()
 {
     const $package_management_table = $('#package_management_table');
-    const package_arr = get_local_package_obj();
+    const package_arr = get_local_package_arr();
     $package_management_table.html(`<tbody><tr>
                     <th>序号</th>
                     <th>名称</th>
@@ -682,19 +682,19 @@ function refresh_package_management_table()
 }
 
 /*从本地缓存解析出对象并返回，如果本地缓存不存在则重新获取*/
-function get_local_package_obj()
+function get_local_package_arr()
 {
     let package_arr = JSON.parse(sessionStorage.getItem('package_arr'));
     if (package_arr === null)
     {
-        get_server_package_obj();
+        get_server_package_arr();
         package_arr = JSON.parse(sessionStorage.getItem('package_arr'));
     }
     return package_arr;
 }
 
 /*从服务器获取标签名数组，并放在本地缓存中*/
-function get_server_package_obj()
+function get_server_package_arr()
 {
     const $error_modal = $('#error_modal');
     AJAX('get_pack', {},
