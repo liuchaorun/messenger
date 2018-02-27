@@ -626,7 +626,7 @@ router.post('/action=delete_image', async(ctx,next)=>{
         let pic = await picture.findOne({where:{picture_id:i}});
         await fs.unlinkSync(upDir + pic.file_name);
         await fs.unlinkSync(upDir + 'thumbnails_'+pic.file_name);
-        pic.destroy();
+        await pic.destroy();
     }
     ctx.api(200,{},{code:1,msg:'删除成功！'});
     await next();
