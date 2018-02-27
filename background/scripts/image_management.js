@@ -87,9 +87,9 @@ $(function ()
             $new_target.val(imagesObj[imageID].target);
 
             $adType.removeClass('selected');
-            for(let adType of $adType)
+            for (let adType of $adType)
             {
-                if(adTypeArr.indexOf($(adType).text())!== -1)
+                if (adTypeArr.indexOf($(adType).text()) !== -1)
                 {
                     $(adType).addClass('selected');
                 }
@@ -144,9 +144,9 @@ $(function ()
         {
             showNotification('二维码位置选择非法', FAILURE);
         }
-        else if($selected_adType.length === 0)
+        else if ($selected_adType.length === 0)
         {
-            showNotification('至少选择一个标签',FAILURE);
+            showNotification('至少选择一个标签', FAILURE);
         }
         else
         {
@@ -157,7 +157,7 @@ $(function ()
             data.new_position = $selected_position.attr('id');
             data.new_adType = [];
 
-            for(const adType of $selected_adType)
+            for (const adType of $selected_adType)
             {
                 data.new_adType.push($(adType).text());
             }
@@ -209,10 +209,10 @@ $(function ()
         else
         {
             let hasPack = false;
-            $del_image_with_pack_table.html(`<tr>
+            $del_image_with_pack_table.html(`<tbody><tr>
                         <th class="preview">预览</th>
                         <th>资源包</th>
-                    </tr>`);
+                    </tr></tbody>`);
             for (const image of $selected)
             {
                 if (imagesObj[$(image).attr('id')].pack.length !== 0)//有绑定的图片
