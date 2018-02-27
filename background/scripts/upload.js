@@ -49,7 +49,8 @@ $(function ()
         const qrcode_position = get_qrcode_position();
         if (qrcode_position === false)
             return false;
-        formData.append('name', image_name_and_target);
+        formData.append('name', image_name_and_target.fileName);
+        formData.append('target',image_name_and_target.fileTarget);
         formData.append('type', adType);
         formData.append('position', qrcode_position);
 

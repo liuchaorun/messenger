@@ -9,6 +9,7 @@
             * name 图片名（字符串）
             * type 标签（数组）
             * position 位置（数字，对应九宫格从左到右从上到下九个位置）
+            * target 图片目标网址
     * 添加标签
         * action=add_adType
         * 数据为新标签名，字符串形式
