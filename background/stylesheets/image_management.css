@@ -102,8 +102,42 @@
     padding: 0 10%;
     float: right;
     position: relative;
-    top: 50%;
-    transform: translateY(50%);
+}
+
+#adType_table_title{
+    font-size: 2em;
+}
+
+#adType_table_wrapper {
+    overflow: auto;
+    height: 12em;
+    background-color: rgba(175, 175, 175, 0.75);
+    border-radius: 3px;
+}
+
+#adType_table {
+    display: table;
+    width: 100%;
+    border-spacing: 0.5em;
+}
+
+.adType_table_row {
+    display: table-row;
+    height: 100%;
+}
+
+.adType_table_cell,.manage_adType_modal_table_cell {
+    display: table-cell;
+    height: 100%;
+    width: 20%;
+}
+
+.adType {
+    cursor: pointer;
+}
+
+#adType_table .selected {
+    background-color: rgba(51, 122, 183, 1);
 }
 
 #modify_image_modal_preview {
