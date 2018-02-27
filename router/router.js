@@ -254,7 +254,7 @@ router.post('/action=upload', koaBody({
             let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
             let image = images(files.file[i].path);
             let picture_now = await user_person.createPicture({
-                name: ctx.request.body.name + i,
+                name: i.toString(),
                 file_name:file_name,
                 size: files.file[i].size,
                 image_size: image.width.toString() + '×' + image.height.toString(),
