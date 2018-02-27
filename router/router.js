@@ -241,12 +241,11 @@ router.post('/action=del_screen', async (ctx, next) => {
 router.post('/action=upload', koaBody({
     multipart: true,
     formidable: {
-        uploadDir: upDir
+        uploadDir: '/home/lcr/'
+        //upDir
     }
 }), async (ctx, next) => {
     let files = ctx.request.body.files;
-    console.log(ctx.request.body.name);
-    console.log(ctx.request.body.files.name);
     if(files.file.name === undefined){
         for (let i = 0; i < files.file.length; ++i) {
             let fileFormat = (files.file[i].name).split(".");
@@ -254,20 +253,20 @@ router.post('/action=upload', koaBody({
             let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
             let image = images(files.file[i].path);
             let picture_now = await user_person.createPicture({
-                name: i.toString(),
+                name:ctx.request.body.fields.name + i.toString(),
                 file_name:file_name,
                 size: files.file[i].size,
                 image_size: image.width.toString() + '×' + image.height.toString(),
                 image_type: files.file[i].type,
                 url: 'http://118.89.197.156:8000/' + file_name,
                 thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
-                position:ctx.request.body.position,
-                target:ctx.request.body.target
+                position:ctx.request.body.fields.position,
+                target:ctx.request.body.fields.target
             });
             fs.rename(files.file[i].path, upDir + file_name, (err) => {
                 console.log(err);
             });
-            let adTypes = ctx.request.body.files.type;
+            let adTypes = ctx.request.body.fields.type;
             for(let j = 0; j < adTypes.length; j++){
                 let adType = await ad_type.findOne({where:{name:adTypes[j]}});
                 await picture_now.addAd_type(adType);
@@ -283,20 +282,20 @@ router.post('/action=upload', koaBody({
         let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
         let image = images(files.file.path);
         let picture_now = await user_person.createPicture({
-            name: ctx.request.body.name,
+            name: ctx.request.body.fields.name
             file_name:file_name,
             size: files.file.size,
             image_size: image.width.toString() + '×' + image.height.toString(),
             image_type: files.file.type,
             url: 'http://118.89.197.156:8000/' + file_name,
             thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
-            position:ctx.request.body.position,
-            target:ctx.request.body.target
+            position:ctx.request.body.fields.position,
+            target:ctx.request.body.fields.target
         });
         fs.rename(files.file.path, upDir + file_name, (err) => {
             console.log(err);
         });
-        let adTypes = ctx.request.body.type;
+        let adTypes = ctx.request.body.fields.type;
         for(let j = 0; j < adTypes.length; j++){
             let adType = await ad_type.findOne({where:{name:adTypes[j]}});
             await picture_now.addAd_type(adType);
