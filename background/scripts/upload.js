@@ -14,6 +14,7 @@
 /*返回数组*/
 $(function ()
 {
+    sessionStorage.clear();
     get_server_adTypeArr();
 });
 

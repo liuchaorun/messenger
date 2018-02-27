@@ -30,38 +30,8 @@
  * **/
 $(function ()
 {
-    const $package_management_table = $('#package_management_table');
-    const $error_modal = $('#error_modal');
-    AJAX('get_pack', {},
-        function (response)
-        {
-            if (response.status.code === FAIL)
-                $error_modal.modal('show');
-            else
-            {
-                let packs = response.data.resources;
-                for (let i = 0; i < packs.length; i++)
-                {
-                    $package_management_table.append(`<tr id=${packs[i].resource_id} class="packet_row"> 
- <td>${i + 1}</td>
- <td>${packs[i].name}</td>
- <td>${packs[i].note === '' ? '无' : packs[i].note}</td>
- <td>
- <button class="plus_screen btn btn-primary btn-sm">+</button>
- <span class="screens">${packs[i].screen.length > 1 ? packs[i].screen[0].name + '……' : packs[i].screen.length === 0 ? '无' : packs[i].screen[0].name}</span>
- <button class="minus_screen btn btn-primary btn-sm">-</button>
- </td>
- <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
- </tr>`)
-                }
-            }
-            activate_button();
-        },
-        function (error)
-        {
-            console.log(error);
-            $error_modal.modal('show');
-        });
+    sessionStorage.clear();
+    get_server_package_obj();
 });
 
 /**增加按钮设定**/
@@ -70,7 +40,7 @@ $(function ()
     const $add_btn = $('#add_btn');
     $add_btn.click(function ()
     {
-        image_AJAX('add', 'add_modal_table', 'add_modal_btn', 'add_modal_footer');
+        image_AJAX('add', 'add_modal_table', 'add_modal_btn');
     });
 
 });
@@ -124,7 +94,7 @@ $(function ()
                     }
                     else
                     {
-                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
+                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn');
                         $modify_modal_btn.removeAttr('disabled');
                         let pack_info = response.data;
                         $new_pack_name_input.val(pack_info.name);
@@ -231,6 +201,7 @@ $(function ()
         else
         {
             let data = {};
+            let package_arr = get_local_package_obj();
             $del_modal.modal('show');
             for (const checkbox of checked_checkboxes)
                 checked_pack.push(parseInt($(checkbox).parent().parent().attr('id')));
@@ -245,11 +216,18 @@ $(function ()
                             showNotification(response.status.msg, FAILURE);
                         else
                         {
-                            showNotification(response.status.msg);
-                            setTimeout(function ()
+                            for (let i = 0; i < package_arr.length; i++)
                             {
-                                location.reload(true);
-                            }, 3000);
+                                if (checked_pack.indexOf(parseInt(package_arr[i].id.toString())) !== -1)
+                                {
+                                    package_arr.splice(i, 1);
+                                    i--;
+                                }
+                            }
+                            sessionStorage.setItem('package_arr', JSON.stringify(package_arr));
+                            refresh_package_management_table();
+                            showNotification(response.status.msg);
+                            $del_modal.modal('hide');
                         }
                     },
                     function (error)
@@ -318,11 +296,33 @@ function screen_AJAX(type, action)
                 showNotification('response.status.msg', FAILURE);
             else
             {
-                showNotification(response.status.msg);
-                setTimeout(function ()
+                let package_arr = get_local_package_obj();
+                let package_index = 0;
+                for (let i = 0; i < package_arr.length; i++)
                 {
-                    location.reload(true);
-                }, 1000);
+                    if (package_arr[i].id === data.resource_id)
+                    {
+                        package_index = i;
+                    }
+                }
+                if (type === 'plus')
+                {
+                    package_arr[package_index].pack = package_arr[package_index].pack.concat(data.screen);
+                }
+                else if (type === 'minus')
+                {
+                    for (let i = 0; i < package_arr[package_index].pack.length; i++)
+                    {
+                        if (data.screen.indexOf(package_arr[package_index].pack[i]) !== -1)
+                        {
+                            package_arr[package_index].pack.splice(i, 1);
+                            i--;
+                        }
+                    }
+                }
+                sessionStorage.setItem('package_arr', JSON.stringify(package_arr));
+                refresh_package_management_table();
+                showNotification(response.status.msg);
             }
         },
         function (error)
@@ -353,7 +353,7 @@ function screen_AJAX(type, action)
  *
  * <input type="text" class="form-control" id=${}.id_time>
  * **/
-function image_AJAX(type, table_id, button_id, footer_id)
+function image_AJAX(type, table_id, button_id)
 {
     const PICTURES_PER_ROW = 5;
     if ($(`#${table_id}`).find('.modal_cell').length)
@@ -646,4 +646,69 @@ function table_btn_AJAX(btn_html_obj, type, action)
             showNotification('出现错误，请重试', FAILURE);
         })
 
+}
+
+/*重写包列表*/
+function refresh_package_management_table()
+{
+    const $package_management_table = $('#package_management_table');
+    const package_arr = get_local_package_obj();
+    $package_management_table.html(`<tbody><tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>备注</th>
+                    <th id="screen_col">关联屏幕</th>
+                    <th></th>
+                </tr>
+            </tbody>`);
+    for (let i = 0; i < package_arr.length; i++)
+    {
+        $package_management_table.append(`<tr id=${package_arr[i].resource_id} class="packet_row"> 
+ <td>${i + 1}</td>
+ <td>${package_arr[i].name}</td>
+ <td>${package_arr[i].note === '' ? '无' : package_arr[i].note}</td>
+ <td>
+ <button class="plus_screen btn btn-primary btn-sm">+</button>
+ <span class="screens">${package_arr[i].screen.length > 1 ? package_arr[i].screen[0].name + '……' : package_arr[i].screen.length === 0 ? '无' : package_arr[i].screen[0].name}</span>
+ <button class="minus_screen btn btn-primary btn-sm">-</button>
+ </td>
+ <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
+ </tr>`)
+    }
+    activate_button();
+}
+
+/*从本地缓存解析出对象并返回，如果本地缓存不存在则重新获取*/
+function get_local_package_obj()
+{
+    let package_arr = JSON.parse(sessionStorage.getItem('package_arr'));
+    if (package_arr === null)
+    {
+        get_server_package_obj();
+        package_arr = JSON.parse(sessionStorage.getItem('package_arr'));
+    }
+    return package_arr;
+}
+
+/*从服务器获取标签名数组，并放在本地缓存中*/
+function get_server_package_obj()
+{
+    const $error_modal = $('#error_modal');
+    AJAX('get_pack', {},
+        function (response)
+        {
+            if (response.status.code === FAIL)
+                $error_modal.modal('show');
+            else
+            {
+                sessionStorage.setItem('package_arr', JSON.stringify(response.data.resources));
+                refresh_package_management_table();
+            }
+
+        },
+        function (error)
+        {
+            console.log(error);
+            $error_modal.modal('show');
+        });
 }

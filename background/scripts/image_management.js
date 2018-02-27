@@ -21,6 +21,7 @@ $(function ()
  * **/
 $(function ()
 {
+    sessionStorage.clear();
     const $error_modal = $('#error_modal');
 
     AJAX('get_images', {}, function (res)
