@@ -555,7 +555,8 @@ router.post('/action=get_images', async(ctx, next)=>{
         temp = {
             name:i.name,
             src:i.thumbnails_url,
-            target:i.target
+            target:i.target,
+            position:i.position
         };
         let all_pack = await i.getResources();
         temp.pack = [];
