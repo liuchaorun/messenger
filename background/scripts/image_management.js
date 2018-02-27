@@ -10,7 +10,7 @@ $(function ()
 });
 
 
-/*拉取图片列表*/
+/*拉取图片列表，初始化标签表格*/
 /**
  * data:
  * {
@@ -22,6 +22,8 @@ $(function ()
 $(function ()
 {
     sessionStorage.clear();
+    get_server_adTypeArr();
+
     const $error_modal = $('#error_modal');
 
     AJAX('get_images', {}, function (res)
@@ -73,6 +75,8 @@ $(function ()
             /*预先填充信息*/
             let imagesObj = JSON.parse(sessionStorage.getItem('imagesObj'));
             const imageID = parseInt($selected.attr('id').toString());
+            const adTypeArr = imagesObj[imageID].adType;
+            const $adType = $('.adType');
             const $file_preview_table_cell = $('.file_preview_table_cell');
 
             $file_preview_table_wrapper.css('background-image', `url(${imagesObj[imageID].src})`);
@@ -81,6 +85,14 @@ $(function ()
             $(`#${imagesObj[imageID].position}`).addClass('selected');
             $new_name.val(imagesObj[imageID].name);
             $new_target.val(imagesObj[imageID].target);
+
+            for(let adType of $adType)
+            {
+                if(adTypeArr.indexOf($(adType).text())!== -1)
+                {
+                    $(adType).addClass('selected');
+                }
+            }
             $modify_image_modal.modal('show');
         }
     });
@@ -115,7 +127,8 @@ $(function ()
 
         const new_name = $new_name.val();
         const new_target = $new_target.val();
-        const $selected = $('.file_preview_table_cell.selected');
+        const $selected_position = $('.file_preview_table_cell.selected');
+        const $selected_adType = $('.adType.selected');
         if (!IMAGE_NAME_REG.test(new_name))
         {
             $new_name.css('border-color', 'red');
@@ -126,9 +139,13 @@ $(function ()
             $new_target.css('border-color', 'red');
             showNotification('新网址不合法', FAILURE);
         }
-        else if ($selected.length !== 1)
+        else if ($selected_position.length !== 1)
         {
             showNotification('二维码位置选择非法', FAILURE);
+        }
+        else if($selected_adType.length === 0)
+        {
+            showNotification('至少选择一个标签',FAILURE);
         }
         else
         {
@@ -136,7 +153,14 @@ $(function ()
             data.id = $file_preview_table_wrapper.attr('alt');
             data.new_name = new_name;
             data.new_target = new_target;
-            data.new_position = $selected.attr('id');
+            data.new_position = $selected_position.attr('id');
+            data.new_adType = [];
+
+            for(const adType of $selected_adType)
+            {
+                data.new_adType.push($(adType).text());
+            }
+
             AJAX('modify_image_info', data, function (res)
             {
                 if (res.status.code === FAIL)
@@ -233,7 +257,7 @@ $(function ()
                         }
                     }, function (err)
                     {
-                        showNotification('删除失败，请重试',FAILURE);
+                        showNotification('删除失败，请重试', FAILURE);
                         console.log(err);
                     });
                 });
@@ -338,5 +362,88 @@ function refresh_image_click_event()
             $(this).parent().css({backgroundImage: 'url("../images/admin/selected.png")'});
             $(this).addClass('selected');
         }
+    });
+}
+
+/*从本地缓存解析出对象并返回，如果本地缓存不存在则重新获取*/
+function get_local_adTypeArr()
+{
+    let adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+    if (adTypeArr === null)
+    {
+        get_server_adTypeArr();
+        adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+    }
+    return adTypeArr;
+}
+
+/*从服务器获取标签名数组，并放在本地缓存中*/
+function get_server_adTypeArr()
+{
+    const $err_modal = $('#error_modal');
+    AJAX('get_adType', {},
+        function (res)
+        {
+            if (res.status.code === FAIL)
+            {
+                showNotification(res.status.msg, FAILURE);
+                $err_modal.modal('show');
+            }
+            else
+            {
+                const adTypeArr = res.data.adType;
+                sessionStorage.setItem('adTypeArr', JSON.stringify(adTypeArr));
+                refresh_adType_table();
+            }
+        },
+        function (err)
+        {
+            console.log(err);
+            $err_modal.modal('show');
+        });
+}
+
+/*刷新标签表格*/
+function refresh_adType_table()
+{
+    const $adType_table = $('#adType_table');
+    const adTypeArr = get_local_adTypeArr();
+    $adType_table.text('');
+    const completeRowNum = Math.floor(adTypeArr.length / 5);
+    const restItemNum = adTypeArr.length % 5;
+    for (let i = 0; i < completeRowNum; i++)
+    {
+        $adType_table.append(`<div class="adType_table_row">
+      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i]}</span>
+      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 1]}</span>
+      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 2]}</span>
+      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 3]}</span>
+      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 4]}</span>
+  </div>`);
+    }
+    let $lastRow = $(`<div class="adType_table_row"></div>`);
+    for (let i = 0; i < restItemNum; i++)
+    {
+        $lastRow.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
+    }
+    for (let i = 0; i < 5 - restItemNum; i++)
+    {
+        $lastRow.append(`<span class="adType_table_cell"></span>`);
+    }
+    $adType_table.append($lastRow);
+    refresh_adType_click_event();
+}
+
+/*点击标签后选中并变色*/
+function refresh_adType_click_event()
+{
+    const $adType = $('.adType');
+    $adType.click(function (e)
+    {
+        e.preventDefault();
+        if ($(this).hasClass('selected'))
+            $(this).removeClass('selected');
+        else
+            $(this).addClass('selected');
     });
 }
