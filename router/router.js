@@ -615,7 +615,7 @@ router.post('/action=modify_image_info', async(ctx,next)=>{
             await image[0].addAd_type(t);
         }
     }
-    ctx.api(200, {},{code:1,msg:'修改成功！'});
+    ctx.api(200,{},{code:1,msg:'修改成功！'});
     await next();
 });
 
