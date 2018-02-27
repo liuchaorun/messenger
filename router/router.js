@@ -253,12 +253,14 @@ router.post('/action=upload', koaBody({
             let image = images(files.file[i].path);
             let picture_now = await user_person.createPicture({
                 name: ctx.request.body.name + i,
+                file_name:file_name,
                 size: files.file[i].size,
                 image_size: image.width.toString() + '×' + image.height.toString(),
                 image_type: files.file[i].type,
                 url: 'http://118.89.197.156:8000/' + file_name,
                 thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
-                position:ctx.request.body.position
+                position:ctx.request.body.position,
+                target:ctx.request.body.target
             });
             fs.rename(files.file[i].path, upDir + file_name, (err) => {
                 console.log(err);
@@ -280,12 +282,14 @@ router.post('/action=upload', koaBody({
         let image = images(files.file.path);
         let picture_now = await user_person.createPicture({
             name: ctx.request.body.name,
+            file_name:file_name,
             size: files.file.size,
             image_size: image.width.toString() + '×' + image.height.toString(),
             image_type: files.file.type,
             url: 'http://118.89.197.156:8000/' + file_name,
             thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
-            position:ctx.request.body.position
+            position:ctx.request.body.position,
+            target:ctx.request.body.target
         });
         fs.rename(files.file.path, upDir + file_name, (err) => {
             console.log(err);
@@ -698,6 +702,7 @@ router.post('/action=get_qrcode_info', async (ctx,next)=>{
         scanTime:body.scanTime
     });
     console.log(body);
+    ctx.api(200,{},{code:1,msg:'获取信息成功！'});
     await next();
 });
 
