@@ -227,6 +227,7 @@ $(function ()
                             }
                             sessionStorage.setItem('imagesObj', JSON.stringify(imagesObj));
                             refresh_image_table();
+                            $del_image_modal.modal('hide');
                             showNotification(res.status.msg);
                         }
                     }, function (err)

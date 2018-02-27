@@ -49,6 +49,11 @@
     width: 8em;
 }
 
+.table_image{
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .table_image.selected {
     opacity: 0.25;
 }
