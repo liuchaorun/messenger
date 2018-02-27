@@ -273,7 +273,17 @@ router.post('/action=upload', koaBody({
             fs.rename(files.file[i].path, upDir + file_name, (err) => {
                 console.log(err);
             });
-            let adTypes = ctx.request.body.fields.type;
+            let adTypes = [];
+            let elements = '';
+            for(let i of ctx.request.body.fields.type){
+                if(i===','){
+                    adTypes.push(elements);
+                    elements = '';
+                }
+                else{
+                    elements += i;
+                }
+            }
             for(let j of adTypes){
                 let adType = await ad_type.findOne({where:{name:j}});
                 await picture_now.addAd_type(adType);
@@ -302,8 +312,17 @@ router.post('/action=upload', koaBody({
         fs.rename(files.file.path, upDir + file_name, (err) => {
             console.log(err);
         });
-        let adTypes = ctx.request.body.fields.type;
-        console.log(adTypes);
+        let adTypes = [];
+        let elements = '';
+        for(let i of ctx.request.body.fields.type){
+            if(i===','){
+                adTypes.push(elements);
+                elements = '';
+            }
+            else{
+                elements += i;
+            }
+        }
         for(let j of adTypes){
             let adType = await ad_type.findOne({where:{name:j}});
             await picture_now.addAd_type(adType);
