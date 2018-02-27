@@ -301,8 +301,8 @@ function refresh_adType_table()
     const adTypeArr = get_local_adTypeArr();
     if (adTypeArr.length === 0)
     {
-        $adType_table.text(`Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！`);
-        $manage_adType_modal_table.text(`Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！`);
+        $adType_table.html(`Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！`);
+        $manage_adType_modal_table.html(`Oops，你没有任何标签。<br>准确的标签选择可增加图片投放准确度。<br>点击下方按钮来创建标签吧！`);
     }
     else
     {
