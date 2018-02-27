@@ -86,6 +86,7 @@ $(function ()
             $new_name.val(imagesObj[imageID].name);
             $new_target.val(imagesObj[imageID].target);
 
+            $adType.removeClass('selected');
             for(let adType of $adType)
             {
                 if(adTypeArr.indexOf($(adType).text())!== -1)
@@ -169,12 +170,13 @@ $(function ()
                 }
                 else
                 {
-                    showNotification(res.status.msg);
                     imagesObj[data.id].name = new_name;
                     imagesObj[data.id].target = new_target;
                     imagesObj[data.id].position = data.new_position;
+                    imagesObj[data.id].adType = data.new_adType;
                     sessionStorage.setItem('imagesObj', JSON.stringify(imagesObj));
                     refresh_image_table();
+                    showNotification(res.status.msg);
                     $modify_image_modal.modal('hide');
                 }
             }, function (err)
