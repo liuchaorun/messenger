@@ -192,7 +192,7 @@ $(function ()
             }
             [data.picture_id, data.picture_time, data.new_pack_name, data.new_pack_note, data.mutiple] =
                 [picture_id, picture_time, $new_pack_name_input.val(), $new_pack_note_input.val(), false];
-            modify_AJAX(false, data);
+            modify_AJAX(data);
         });
 
         $modify_multiple_modal_btn.click(function (event)
@@ -205,7 +205,7 @@ $(function ()
                 return false;
             }
             [data.new_pack_note, data.mutiple] = [$multiple_new_pack_note_input.val(), true];
-            modify_AJAX(true, data);
+            modify_AJAX(data);
         });
     });
 });
@@ -493,9 +493,8 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
   *     multiple:true
  * }
  * **/
-function modify_AJAX(multiple_bool, data)
+function modify_AJAX(data)
 {
-    let type = multiple_bool === false ? 'modify_modal' : 'modify_multiple_modal';
     AJAX('modify_pack', data,
         function (response)
         {
@@ -514,7 +513,7 @@ function modify_AJAX(multiple_bool, data)
         {
             console.log(error);
             showNotification('出现错误，请重试', FAILURE);
-        })
+        });
 }
 
 /**图片选中后显示对号**/
