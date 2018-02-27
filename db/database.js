@@ -72,9 +72,15 @@ function defineModel(name, attributes) {
                         obj.created_at = now;
                         obj.updated_at = now;
                         obj.version = 0;
+                        if(name==='ad_type'){
+                            obj.times = -9223372036854775808;
+                        }
                     } else {
                         console.log('will update entity...');
                         obj.version++;
+                        if(name==='ad_type'){
+                            obj.times++;
+                        }
                     }
             }
             }

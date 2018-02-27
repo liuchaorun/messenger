@@ -6,5 +6,6 @@ module.exports=database.defineModel('ad_type',{
         primaryKey:true,
         autoIncrement:true
     },
-    name:Sequelize.STRING(255)
+    name:Sequelize.STRING(255),
+    times:Sequelize.BIGINT
 });
