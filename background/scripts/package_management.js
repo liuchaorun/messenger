@@ -278,6 +278,7 @@ $(function ()
 
 function screen_AJAX(type, action)
 {
+    const [$plus_modal_btn, $minus_modal_btn] = [$('#plus_modal_btn'), $('#minus_modal_btn')];
     let data = {};
     data.screen = [];
     data.resource_id = $(`#${type}_head_row`).attr('class');
@@ -322,6 +323,8 @@ function screen_AJAX(type, action)
                 }
                 sessionStorage.setItem('package_arr', JSON.stringify(package_arr));
                 refresh_package_management_table();
+                $plus_modal_btn.modal('hide');
+                $minus_modal_btn.modal('hide');
                 showNotification(response.status.msg);
             }
         },
