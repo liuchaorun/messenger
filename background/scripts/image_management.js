@@ -193,8 +193,8 @@ $(function ()
                     hasPack = true;
                     $del_image_with_pack_table.append(`<tr>
  <td><img class="preview" src="${imagesObj[$(image).attr('id')].src}" alt="$(image).attr('id')"></td>
- <td>${imagesObj[$(image).attr('id')].pack.toString().slice(1, -1)}</td>
- </tr>`)
+ <td>${imagesObj[$(image).attr('id').toString()].pack.toString()}</td>
+ </tr>`);
                 }
             }
 
