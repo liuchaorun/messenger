@@ -241,8 +241,7 @@ router.post('/action=del_screen', async (ctx, next) => {
 router.post('/action=upload', koaBody({
     multipart: true,
     formidable: {
-        uploadDir: '/home/lcr/'
-        //upDir
+        uploadDir: upDir
     }
 }), async (ctx, next) => {
     let files = ctx.request.body.files;
