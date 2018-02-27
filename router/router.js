@@ -284,6 +284,7 @@ router.post('/action=upload', koaBody({
                     elements += i;
                 }
             }
+            adTypes.push(elements);
             for(let j of adTypes){
                 let adType = await ad_type.findOne({where:{name:j}});
                 await picture_now.addAd_type(adType);
@@ -323,6 +324,7 @@ router.post('/action=upload', koaBody({
                 elements += i;
             }
         }
+        adTypes.push(elements);
         for(let j of adTypes){
             let adType = await ad_type.findOne({where:{name:j}});
             await picture_now.addAd_type(adType);
