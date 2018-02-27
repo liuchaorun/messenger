@@ -245,7 +245,7 @@ router.post('/action=upload', koaBody({
     }
 }), async (ctx, next) => {
     let files = ctx.request.body.files;
-    console.log('body'+ctx.request.body);
+    console.log(ctx.body.name);
     console.log(ctx.request.body.files.name);
     if(files.file.name === undefined){
         for (let i = 0; i < files.file.length; ++i) {
