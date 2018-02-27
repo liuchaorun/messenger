@@ -38,21 +38,18 @@
 .image_management_table_cell {
     display: table-cell;
     text-align: center;
-    background-image: url("../images/admin/selected.png");
     background-size: contain;
     background-position: center center;
     background-repeat: no-repeat;
     width: 8em;
     cursor: pointer;
-    padding: 1em 2em;
-    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .image_name {
     width: 8em;
 }
 
-.selected {
+.table_image.selected {
     opacity: 0.25;
 }
 

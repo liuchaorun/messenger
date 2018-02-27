@@ -71,14 +71,13 @@ $(function ()
         {
             /*预先填充信息*/
             let imagesObj = JSON.parse(sessionStorage.getItem('imagesObj'));
-            const imageID = $(this).attr('id');
+            const imageID = parseInt($selected.attr('id').toString());
             const $file_preview_table_cell = $('.file_preview_table_cell');
 
             $file_preview_table_wrapper.css('background-image', `url(${imagesObj[imageID].src})`);
             $file_preview_table_wrapper.attr('alt', imageID);//记录修改图片的ID
             $file_preview_table_cell.removeClass('selected');
             $(`#${imagesObj[imageID].position}`).addClass('selected');
-
             $new_name.val(imagesObj[imageID].name);
             $new_target.val(imagesObj[imageID].target);
             $modify_image_modal.modal('show');
@@ -293,6 +292,7 @@ function refresh_image_table()
 
     let currentImageNum = 0;
     let $currentRow = null;
+    $image_management_table.text('');
     for (const id in imagesObj)
     {
         if (imagesObj.hasOwnProperty(id))
@@ -327,8 +327,14 @@ function refresh_image_click_event()
     {
         e.preventDefault();
         if ($(this).hasClass('selected'))
+        {
+            $(this).parent().removeAttr('style');
             $(this).removeClass('selected');
+        }
         else
+        {
+            $(this).parent().css({backgroundImage: 'url("../images/admin/selected.png")'});
             $(this).addClass('selected');
+        }
     });
 }
