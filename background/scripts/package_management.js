@@ -308,15 +308,15 @@ function screen_AJAX(type, action)
                 }
                 if (type === 'plus')
                 {
-                    package_arr[package_index].pack = package_arr[package_index].pack.concat(data.screen);
+                    package_arr[package_index].screen = package_arr[package_index].screen.concat(data.screen);
                 }
                 else if (type === 'minus')
                 {
-                    for (let i = 0; i < package_arr[package_index].pack.length; i++)
+                    for (let i = 0; i < package_arr[package_index].screen.length; i++)
                     {
-                        if (data.screen.indexOf(package_arr[package_index].pack[i]) !== -1)
+                        if (data.screen.indexOf(package_arr[package_index].screen[i]) !== -1)
                         {
-                            package_arr[package_index].pack.splice(i, 1);
+                            package_arr[package_index].screen.splice(i, 1);
                             i--;
                         }
                     }
