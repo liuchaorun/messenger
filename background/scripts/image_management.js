@@ -174,7 +174,7 @@ $(function ()
     {
         e.preventDefault();
         let imagesObj = JSON.parse(sessionStorage.getItem('imagesObj'));
-        const $selected = $('.image_name.selected');
+        const $selected = $('.table_image.selected');
         if ($selected.length === 0)
         {
             showNotification('请选择要删除的图片', FAILURE);
@@ -231,7 +231,7 @@ $(function ()
                         }
                     }, function (err)
                     {
-                        showNotification('删除失败，请重试');
+                        showNotification('删除失败，请重试',FAILURE);
                         console.log(err);
                     });
                 });
