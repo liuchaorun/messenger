@@ -563,14 +563,14 @@ router.post('/action=get_images', async(ctx, next)=>{
         for(let j = 0;j<all_pack.length;++j){
             temp.pack[j] = all_pack[j].name;
         }
-        data[i.picture_id] = temp;
-    }
-    let types = await user_person.getAd_types();
-    data.adType = [];
-    if(types.length>0){
-        for(let j of types){
-            data.adType.push(j.name);
+        let types = await i.getAd_types();
+        temp.adType = [];
+        if(types.length>0){
+            for(let j of types){
+                temp.adType.push(j.name);
+            }
         }
+        data[i.picture_id] = temp;
     }
     ctx.api(200,data,{code:1,msg:'获取图片列表成功！'});
     await next();
