@@ -120,8 +120,10 @@ $(function ()
 {
     const $upload_input = $('#upload_input');
     const $upload_info = $('#upload_info');
+    const $upload_progress_bar = $('#upload_progress_bar');
     $upload_input.change(function ()
     {
+        $upload_progress_bar.css('width','0');
         let files = $upload_input[0].files;
         let file_size = 0;
         for (let i = 0; i < files.length; i++)
