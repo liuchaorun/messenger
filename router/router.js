@@ -1,6 +1,14 @@
 /**
  * Created by lcr on 17-3-25.
  */
+Array.prototype.removeByValue = function(val) {
+    for(let i=0; i<this.length; i++) {
+        if(this[i] === val) {
+            this.splice(i, 1);
+            break;
+        }
+    }
+};
 const md5 = require('md5');
 const router = require('koa-router')();
 const koaBody = require('koa-body');
@@ -584,6 +592,29 @@ router.post('/action=modify_image_info', async(ctx,next)=>{
         target:ctx.request.body.new_target,
         position:ctx.request.body.new_position
     });
+    let new_adType = ctx.request.body.new_adType;
+    let old_adType = await image[0].getAd_types();
+    for(let i of old_adType){
+        let flag = 0;
+        for(let j of new_adType){
+            if(i.name === j){
+                flag = 1;
+                break;
+            }
+        }
+        if(flag === 0){
+            image[0].removeAd_type(i);
+        }
+        else{
+            new_adType.removeByValue(i.name);
+        }
+    }
+    if(new_adType.length>0){
+        for(let i of new_adType){
+            let t = await ad_type.findOne({where:{name:i}});
+            await image[0].addAd_type(t);
+        }
+    }
     ctx.api(200, {},{code:1,msg:'修改成功！'});
     await next();
 });
