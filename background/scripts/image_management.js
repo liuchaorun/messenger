@@ -32,7 +32,7 @@ $(function ()
         }
         else
         {
-            sessionStorage.setItem('imagesObj', JSON.stringify(res.data.images));
+            sessionStorage.setItem('imagesObj', JSON.stringify(res.data));
             refresh_image_table();
         }
     }, function (err)
