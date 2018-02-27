@@ -622,13 +622,29 @@ router.post('/action=modify_image_info', async(ctx,next)=>{
 router.post('/action=delete_image', async(ctx,next)=>{
     let del_images = ctx.request.body;
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+    let err = '';
+    let flag = 0;
     for(let i of del_images){
         let pic = await picture.findOne({where:{picture_id:i}});
-        await fs.unlinkSync(upDir + pic.file_name);
-        await fs.unlinkSync(upDir + 'thumbnails_'+pic.file_name);
-        await pic.destroy();
+        let resource_all = await pic.getResources();
+        if(resource_all.length>0){
+            err = err + pic.name + ' ';
+            flag = 1;
+        }
+        else{
+            let types = await pic.getAd_types();
+            await pic.removeAd_types(types);
+            await fs.unlinkSync(upDir + pic.file_name);
+            await fs.unlinkSync(upDir + 'thumbnails_'+pic.file_name);
+            await pic.destroy();
+        }
     }
-    ctx.api(200,{},{code:1,msg:'删除成功！'});
+    if(flag === 0){
+        ctx.api(200,{},{code:1,msg:'删除成功！'});
+    }
+    else{
+        ctx.api(200,{},{code:0,msg:err+'删除失败！'});
+    }
     await next();
 });
 
