@@ -20,6 +20,7 @@ const images = require("image-size");
 const isOnline = require('./isOnlie');
 const fs = require('fs');
 const gm = require('gm');
+const shell = require('shelljs');
 const upDir = '/home/ubuntu/file/';
 let user = model.user;
 let screen = model.screen;
@@ -365,11 +366,12 @@ router.post('/action=add_pack', async (ctx, next) => {
         let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
         await resource_new.addPictures(picture_add);
         picture_all[i]={
-            name:picture_add.name,
-            md5:picture_add.md5,
-            time:picture_time[i],
-            url:picture_add.url,
-            id:picture_add.picture_id
+            picture_name:picture_add.name,
+            picture_md5:picture_add.md5,
+            picture_time:picture_time[i],
+            picture_url:picture_add.url,
+            picture_id:picture_add.picture_id,
+            qrcode:0
         }
     }
     main.picture = picture_all;
@@ -502,11 +504,12 @@ router.post('/action=modify_pack', async (ctx, next) => {
             let picture_add = await picture.findOne({where: {picture_id: picture_id[i]}});
             await resource_new.addPictures(picture_add);
             picture_all[i]={
-                name:picture_add.name,
-                md5:picture_add.md5,
-                time:picture_time[i],
-                url:picture_add.url,
-                id:picture_add.picture_id
+                picture_name:picture_add.name,
+                picture_md5:picture_add.md5,
+                picture_time:picture_time[i],
+                picture_url:picture_add.url,
+                picture_id:picture_add.picture_id,
+                qrcode:0
             }
         }
         main.picture = picture_all;
@@ -609,6 +612,15 @@ router.post('/action=get_images', async(ctx, next)=>{
 router.post('/action=modify_image_info', async(ctx,next)=>{
     let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
     let image = await user_person.getPictures({where:{picture_id:ctx.request.body.id}});
+    if(image[0].target !== ctx.request.body.new_target){
+        let buf = await fs.readFileSync(upDir+resource_now.resource_id+'.json');
+        let main = JSON.parse(buf);
+        for(let i of main){
+            if(i.picture_id === picture_now.picture_id){
+                i.qrcode = 1;
+            }
+        }
+    }
     await image[0].update({
         name:ctx.request.body.new_name,
         target:ctx.request.body.new_target,
@@ -683,7 +695,8 @@ router.post('/action=del_picture',async(ctx,next)=>{
     await next();
 });
 
-router.post('/action=create_screen',async(ctx,next)=>{
+//创建屏幕
+router.post('/cloudExhibition/action=create_screen',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
     if(await screen.count({where:{uuid:uuid}})===0){
         await screen.create({
@@ -697,7 +710,8 @@ router.post('/action=create_screen',async(ctx,next)=>{
     await next();
 });
 
-router.post('/action=verify_screen',async(ctx,next)=>{
+//验证屏幕
+router.post('/cloudExhibition/action=check_bind',async(ctx,next)=>{
     let data = {};
     if(await screen.count({where:{uuid:ctx.request.body.uuid}})===0){
         data.is_user = 2;
@@ -715,7 +729,9 @@ router.post('/action=verify_screen',async(ctx,next)=>{
     await next();
 });
 
-router.post('/action=all',async(ctx,next)=>{
+
+//请求json文件
+router.post('/cloudExhibition/action=gain_json',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
     let data = {};
     let screen_now = await screen.findOne({where:{uuid:uuid}});
@@ -724,13 +740,14 @@ router.post('/action=all',async(ctx,next)=>{
     if(screen_now.resource_id){
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
         data.json_url='http://118.89.197.156:8000/'+resource_now.resource_id+'.json';
-        data.md5 = resource_now.md5;
     }
     ctx.api(200,data,{code:1,msg:'获取成功！'});
     await next();
 });
 
-router.post('/action=request',async(ctx,next)=>{
+
+//轮询
+router.post('/cloudExhibition/action=play_information',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
     let screen_now = await screen.findOne({where:{uuid:uuid}});
     let data = {};
@@ -739,18 +756,50 @@ router.post('/action=request',async(ctx,next)=>{
     if(screen_now.resource_id){
         let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
         data.md5 = resource_now.md5;
+        data.auto_time = 0;
+        data.time = screen_now.time;
     }
     ctx.api(200,data,{code:1,msg:'轮询成功！'});
     await next();
 });
 
-router.post('/action=request_resource',async(ctx,next)=>{
+
+let create_qcode = function (url, file_name, file_path) {
+    return new Promise(function (resolve, reject) {
+        let sh = `myqr '${url}' -n '${file_name}' -d '${file_path}'`;
+        console.log(sh);
+        shell.exec(sh,function (code, stdout, stderr) {
+            if (code === 0){
+                resolve('Success!');
+            }
+            else {
+                reject();
+            }
+        })
+    });
+};
+//请求二维码
+router.post('/cloudExhibition/action=gain_qrcode',async(ctx,next)=>{
     let uuid = ctx.request.body.uuid;
     let screen_now = await screen.findOne({where:{uuid:uuid}});
     let resource_now = await resource.findOne({where:{resource_id:screen_now.resource_id}});
-    let data={};
-    await screen_now.update({updated_at:Date.now()});
-    data.json_url = 'http://118.89.197.156:8000/'+resource_now.resource_id+'.json';
+    let picture_now = await picture.findOne(({where:{picture_id:ctx.request.picture_id}}));
+    let qrcode_name = 'qrcode-' + Date.now() + '.png';
+    let data = {};
+    let ad_types = await picture_now.getAd_types();
+    let ad = ' ';
+    for (let i of ad_types){
+        ad+=i.name;
+    }
+    await create_qcode('http://118.89.197.156:3000/qrcode.html?'+'uuid='+uuid+'&adType='+encodeURI(ad)+'&adId='+picture_now.picture_id+'&target='+picture_now.target,qrcode_name,'/home/ubuntu/file/qrcode/');
+    data.qr_url = 'http://118.89.197.156:8000/'+qrcode_name;
+    let buf = await fs.readFileSync(upDir+resource_now.resource_id+'.json');
+    let main = JSON.parse(buf);
+    for(let i of main){
+        if(i.picture_id === picture_now.picture_id){
+            i.qrcode = 1;
+        }
+    }
     ctx.api(200,data,{code:1,msg:'获取成功！'});
     await next();
 });
@@ -852,10 +901,4 @@ router.post('/action=delete_adType', async(ctx, next)=>{
     await next();
 });
 
-// let myqr = require('./bsdiff');
-// router.get('/action',async(ctx,next)=>{
-//     let asd = await myqr('asdasd','asd.jpg','/home/lcr/');
-//     console.log(asd);
-//     await next();
-// });
 module.exports = router;
