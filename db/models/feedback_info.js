@@ -7,7 +7,7 @@ module.exports=database.defineModel('feedback_info',{
         autoIncrement:true
     },
     browser:Sequelize.STRING(255),
-    deviceType:Sequelize.STRING(255),
+    device_type:Sequelize.STRING(255),
     device:Sequelize.STRING(255),
     os:Sequelize.STRING(255),
     ip:Sequelize.STRING(255),
