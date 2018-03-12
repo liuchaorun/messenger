@@ -13,7 +13,7 @@ module.exports=database.defineModel('feedback_info',{
     ip:Sequelize.STRING(255),
     uuid:Sequelize.STRING(255),
     position:Sequelize.STRING(255),
-    adType:Sequelize.STRING(255),
-    adId:Sequelize.STRING(255),
-    scanTime:Sequelize.STRING(255)
+    ad_type:Sequelize.STRING(255),
+    ad_id:Sequelize.STRING(255),
+    scan_time:Sequelize.STRING(255)
 });
