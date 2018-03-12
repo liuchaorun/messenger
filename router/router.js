@@ -816,7 +816,7 @@ router.post('/action=request_update',async (ctx,next)=>{
 
 router.post('/action=get_qrcode_info', async (ctx,next)=>{
     let body = ctx.request.body;
-    feedback_info.create({
+    await feedback_info.create({
         browser:body.broswer,
         deviceType:body.deviceType,
         device:body.device,
@@ -827,8 +827,7 @@ router.post('/action=get_qrcode_info', async (ctx,next)=>{
         adId:body.adId,
         scanTime:body.scanTime
     });
-    console.log(body);
-    ctx.api(200,{},{code:1,msg:'获取信息成功！'});
+    ctx.redirect(body.target);
     await next();
 });
 
