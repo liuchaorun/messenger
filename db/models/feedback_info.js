@@ -1,6 +1,11 @@
 const database = require("../database");
 const Sequelize = require('sequelize');
 module.exports=database.defineModel('feedback_info',{
+    id: {
+        type: Sequelize.BIGINT,
+        primaryKey:true,
+        autoIncrement:true
+    },
     browser:Sequelize.STRING(255),
     deviceType:Sequelize.STRING(255),
     device:Sequelize.STRING(255),
