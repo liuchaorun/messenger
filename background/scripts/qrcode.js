@@ -17,7 +17,7 @@ $(function ()
     }
 
     const UA = new UAParser();
-    searchObj.broswer = UA.getBrowser().name;
+    searchObj.browser = UA.getBrowser().name;
     searchObj.deviceType = UA.getDevice().type;
     searchObj.device = UA.getDevice().vendor;
     searchObj.os = `${UA.getOS().name} ${UA.getOS().version}`;
