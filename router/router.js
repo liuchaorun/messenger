@@ -817,7 +817,7 @@ router.post('/action=request_update',async (ctx,next)=>{
 router.post('/action=get_qrcode_info', async (ctx,next)=>{
     let body = ctx.request.body;
     await feedback_info.create({
-        browser:body.broswer,
+        browser:body.browser,
         deviceType:body.deviceType,
         device:body.device,
         os:body.os,
