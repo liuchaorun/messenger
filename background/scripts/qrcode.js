@@ -22,8 +22,7 @@ $(function ()
     searchObj.device = UA.getDevice().vendor;
     searchObj.os = `${UA.getOS().name} ${UA.getOS().version}`;
 
-    const nowTime = new Date();
-    searchObj.scanTime = nowTime.toString();
+    searchObj.scanTime = new Date();
 
     AJAX('get_qrcode_info', searchObj,
         function (res)
