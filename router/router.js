@@ -818,14 +818,14 @@ router.post('/action=get_qrcode_info', async (ctx,next)=>{
     let body = ctx.request.body;
     await feedback_info.create({
         browser:body.browser,
-        deviceType:body.deviceType,
+        device_type:body.deviceType,
         device:body.device,
         os:body.os,
         uuid:body.uuid,
         position:body.position,
-        adType:body.adType,
-        adId:body.adId,
-        scanTime:body.scanTime
+        ad_type:body.adType,
+        ad_id:body.adId,
+        scan_time:body.scanTime
     });
     ctx.redirect(body.target);
     await next();
