@@ -830,7 +830,7 @@ router.post('/action=get_qrcode_info', async (ctx,next)=>{
         scan_time:body.scanTime,
         ip:ctx.request.ip
     });
-    console.log(ctx.request.connection.remoteAddress);
+    console.log(ctx.request.headers['x-forwarded-for'] ||ctx.request.connection.remoteAddress || ctx.request.socket.remoteAddress||ctx.request.connection.socket.remoteAddress);
     ctx.redirect(body.target);
     await next();
 });
