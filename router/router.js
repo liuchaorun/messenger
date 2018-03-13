@@ -827,7 +827,8 @@ router.post('/action=get_qrcode_info', async (ctx,next)=>{
         position:body.position,
         ad_type:body.adType,
         ad_id:body.adId,
-        scan_time:body.scanTime
+        scan_time:body.scanTime,
+        ip:ctx.request.ip
     });
     ctx.redirect(body.target);
     await next();
