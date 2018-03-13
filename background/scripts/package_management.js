@@ -70,7 +70,7 @@ $(function ()
     const $add_btn = $('#add_btn');
     $add_btn.click(function ()
     {
-        image_AJAX('add', 'add_modal_table', 'add_modal_btn', 'add_modal_footer');
+        image_AJAX('add', 'add_modal_table', 'add_modal_btn');
     });
 
 });
@@ -124,7 +124,7 @@ $(function ()
                     }
                     else
                     {
-                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn', 'modify_modal_footer');
+                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn');
                         $modify_modal_btn.removeAttr('disabled');
                         let pack_info = response.data;
                         $new_pack_name_input.val(pack_info.name);
@@ -353,55 +353,62 @@ function screen_AJAX(type, action)
  *
  * <input type="text" class="form-control" id=${}.id_time>
  * **/
-function image_AJAX(type, table_id, button_id, footer_id)
+function image_AJAX(type, table_id, button_id)
 {
-    const PICTURES_PER_ROW = 5;
-    if ($(`#${table_id}`).find('.modal_cell').length)
-        activate_checkbox(type);
-    else
-    {
-        AJAX('get_picture', {},
-            function (response)
-            {
-                if (response.status.code === 0)
-                {
-                    showNotification(response.status.msg, FAILURE);
-                    $(`#${button_id}`).attr('disabled', 'disabled');
-                }
-                else
-                {
-                    $(`#${button_id}`).removeAttr('disabled');
-                    let pictures = response.data.pictures;
-                    let row = 0;
-                    let $row_node = $(`<div class="modal_row"></div>`);
-                    for (; row < Math.floor(pictures.length / PICTURES_PER_ROW); row++)
-                    {
-                        for (let i = 0; i < PICTURES_PER_ROW; i++)
-                        {
-                            $row_node.append(`<div class="modal_cell"><label class=${pictures[row * PICTURES_PER_ROW + i].id}><div class="picture_div"><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * PICTURES_PER_ROW + i].id}_time maxlength="6" disabled placeholder="10"></label></div>`)
-                        }
-                        $(`#${table_id}`).append($row_node);
-                        $row_node = $(`<div class="modal_row"></div>`);
-                    }
-                    if (pictures.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
-                    {
-                        $(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
-                        for (let i = 0; i < pictures.length - row * 5; i++)
-                        {
-                            $(`#${table_id}_last_row`).append(`<div class="modal_cell"><label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label></div></div>`)
-                        }
-                    }
-                    activate_checkbox(type);
-                    add_tooltip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
-                }
-            },
-            function (error)
-            {
-                console.log(error);
-                showNotification('出现错误，请重试', FAILURE);
-                $(`#${button_id}`).attr('disabled', 'disabled');
-            }, false)
-    }
+	const PICTURES_PER_ROW = 5;
+	if ($(`#${table_id}`).find('.modal_cell').length === 0)
+	{
+		AJAX('get_picture', {},
+			function (response)
+			{
+				if (response.status.code === 0)
+				{
+					showNotification(response.status.msg, FAILURE);
+					$(`#${button_id}`).attr('disabled', 'disabled');
+				}
+				else
+				{
+					$(`#${button_id}`).removeAttr('disabled');
+					let pictures = response.data.pictures;
+					let row = 0;
+					let $row_node = $(`<div class="modal_row"></div>`);
+					for (; row < Math.floor(pictures.length / PICTURES_PER_ROW); row++)
+					{
+						for (let i = 0; i < PICTURES_PER_ROW; i++)
+						{
+							$row_node.append(`<div class="modal_cell"><label class=${pictures[row * PICTURES_PER_ROW + i].id}><div class="picture_div"><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * PICTURES_PER_ROW + i].id}_time maxlength="6" disabled placeholder="10"></label></div>`)
+						}
+						$(`#${table_id}`).append($row_node);
+						$row_node = $(`<div class="modal_row"></div>`);
+					}
+					if (pictures.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
+					{
+						$(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
+						for (let i = 0; i < pictures.length - row * 5; i++)
+						{
+							$(`#${table_id}_last_row`).append(`<div class="modal_cell"><label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label></div></div>`)
+						}
+					}
+					activate_checkbox(type);
+					add_tooltip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
+				}
+			},
+			function (error)
+			{
+				console.log(error);
+				showNotification('出现错误，请重试', FAILURE);
+				$(`#${button_id}`).attr('disabled', 'disabled');
+			}, false)
+	}
+	else
+	{
+		const $checkbox = $(`.${type}_checkbox`);
+		$checkbox.attr('checked', false);
+		$checkbox.prev().removeAttr('style');
+		$checkbox.prev().children().removeAttr('style');
+		$checkbox.next().attr('disabled', 'disabled').css('opacity', 0);
+		activate_checkbox(type);
+	}
 }
 
 /**
@@ -520,21 +527,24 @@ function modify_AJAX(data)
 function activate_checkbox(type)
 {
     const $checkbox = $(`.${type}_checkbox`);
-    $checkbox.attr('checked', false);
+
+    $checkbox.prop('checked',false);
+	$checkbox.unbind();
+
     $checkbox.click(function (event)
     {
-        if ($(event.target).is(':checked'))
+	    if ($(this).is(':checked'))
         {
-            $(event.target).prev().css('backgroundImage', 'url("../images/admin/selected.png")');
-            $(event.target).prev().children().css('opacity', 0.25);
-            $(event.target).next().removeAttr('disabled').css('opacity', 1);
-            $(event.target).next().val('');
+            $(this).prev().css('backgroundImage', 'url("../images/admin/selected.png")');
+            $(this).prev().children().css('opacity', 0.25);
+            $(this).next().removeAttr('disabled').css('opacity', 1);
+            $(this).next().val('');
         }
         else
         {
-            $(event.target).prev().removeAttr('style');
-            $(event.target).prev().children().removeAttr('style');
-            $(event.target).next().attr('disabled', 'disabled').css('opacity', 0);
+            $(this).prev().removeAttr('style');
+            $(this).prev().children().removeAttr('style');
+            $(this).next().attr('disabled', 'disabled').css('opacity', 0);
         }
     });
 }
