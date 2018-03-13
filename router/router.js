@@ -371,7 +371,8 @@ router.post('/action=add_pack', async (ctx, next) => {
             picture_time:picture_time[i],
             picture_url:picture_add.url,
             picture_id:picture_add.picture_id,
-            qrcode:0
+            qrcode:0,
+            qrcode_position:picture_add.position
         }
     }
     main.picture = picture_all;
@@ -509,7 +510,8 @@ router.post('/action=modify_pack', async (ctx, next) => {
                 picture_time:picture_time[i],
                 picture_url:picture_add.url,
                 picture_id:picture_add.picture_id,
-                qrcode:0
+                qrcode:0,
+                qrcode_position:picture_add.position
             }
         }
         main.picture = picture_all;
@@ -517,7 +519,7 @@ router.post('/action=modify_pack', async (ctx, next) => {
         await fs.writeFileSync(upDir+resource_new.resource_id+'.json',json_file);
         let buf = await fs.readFileSync(upDir+resource_new.resource_id+'.json');
         resource_new.update({md5:md5(buf)});
-        ctx.api(200, {}, {code: 1, msg: '创建资源包成功！'});
+        ctx.api(200, {}, {code: 1, msg: '修改资源包成功！'});
     }
     await next();
 });
