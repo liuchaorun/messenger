@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="../stylesheets/common.css">
     <link rel="stylesheet" href="../stylesheets/frame_common.css">
     <link rel="stylesheet" href="../stylesheets/image_management.css">
-    <title>图片管理 - 云展</title>
+    <title>广告管理 - 云展</title>
 </head>
 <body>
 <div class="container">
     <div class="panel panel-default" id="del_picture_panel">
         <div class="panel-heading">
-            <h3 class="panel-title">图片管理</h3>
+            <h3 class="panel-title">广告管理</h3>
         </div>
         <div class="panel-body" id="image_management_panel_body">
-            <div id="image_management_table" class="image_table"><!--图片列表在此处--></div>
+            <div id="image_management_table" class="image_table"><!--广告列表在此处--></div>
         </div>
     </div>
 </div>
@@ -32,7 +32,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title" id="modify_image_modal_title">修改图片</h4>
+                <h4 class="modal-title" id="modify_image_modal_title">修改广告</h4>
             </div>
             <div class="modal-body">
                 <div id="modify_image_modal_left">
@@ -76,13 +76,13 @@
                     </div>
                 </div>
                 <div id="modify_image_modal_right">
-                    <label for="new_name" id="new_name_label"><span class="modal_label_title">图片名</span>
-                        <input type="text" id="new_name" class="form-control" placeholder="图片名">
+                    <label for="new_name" id="new_name_label"><span class="modal_label_title">广告名</span>
+                        <input type="text" id="new_name" class="form-control" placeholder="广告名">
                     </label>
                     <label for="new_target" id="new_target_label"><span class="modal_label_title">二维码指向网址</span>
                         <input type="text" id="new_target" class="form-control" placeholder="二维码指向网址">
                     </label>
-                    <div id="adType_table_title" class="modal_label_title">选择图片标签</div>
+                    <div id="adType_table_title" class="modal_label_title">选择广告标签</div>
                     <div id="adType_table_wrapper">
                         <div id="adType_table"><!--广告种类表格内容-->
                             <div class="adType_table_row">
@@ -116,11 +116,11 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">删除图片</h4>
+                <h4 class="modal-title">删除广告</h4>
             </div>
             <div class="modal-body" id="delete_picture_modal_body">
                 <div class="alert alert-danger" role="alert" id="delete_warning"><span
-                        class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除图片，删除后你将丢失这些图片的所有设置，请仔细确认。
+                        class="glyphicon glyphicon-exclamation-sign"></span> 警告：你即将删除广告，删除后你将丢失这些广告的所有设置，请仔细确认。
                 </div>
                 <div class="modal-footer" id="delete_picture_modal_footer">
                     <button type="button" class="btn btn-danger btn-lg" id="delete_image_modal_btn"><span
@@ -145,7 +145,7 @@
             </div>
             <div class="modal-body" id="del_picture_with_pack_modal_body">
                 <div class="alert alert-danger" role="alert" id="del_picture_with_pack_warning"><span
-                        class="glyphicon glyphicon-exclamation-sign"></span> 不能删除绑定资源包的图片，绑定情况如下
+                        class="glyphicon glyphicon-exclamation-sign"></span> 不能删除绑定资源包的广告，绑定情况如下
                 </div>
                 <table class="table table-responsive" id="del_image_with_pack_table">
                     <tr>

@@ -50,7 +50,7 @@ $(function ()
         event.preventDefault();
         $('.active').removeClass('active');
         $screen_info.addClass('active');
-        $frame.attr('src', 'frames/screen_info.html');
+        $frame.attr('src', 'frames/screen_management.html');
     });
     $resource_management.click(function (event)
     {
@@ -81,7 +81,7 @@ $(function ()
         $('.active').removeClass('active');
         $resource_management.addClass('active');
         $image_management.addClass('active');
-        $frame.attr('src', 'frames/image_management.html');
+        $frame.attr('src', 'frames/ad_management.html');
     });
     $package_management.click(function (event)
     {
