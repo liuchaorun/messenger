@@ -133,7 +133,7 @@ $(function ()
                         let checked_picture;
                         for (const picture of checked_pictures)
                         {
-                            checked_picture = $modify_modal_table.find(`label[class=${picture.id}]`);
+                            checked_picture = $modify_modal_table.find(`label[class=${picture.picture_id}]`);
                             $(checked_picture).children().first().css('backgroundImage', 'url("../images/admin/selected.png")');
                             $(checked_picture).children().first().children().css('opacity', 0.25);
                             $(checked_picture).find('input[type=text]')
