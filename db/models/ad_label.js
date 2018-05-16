@@ -1,19 +1,12 @@
-/**
- * Created by lcr on 17-6-27.
- */
 module.exports = (sequelize, DataTypes) => {
-	return sequelize.define('resource',{
-		resource_id:{
+	return sequelize.define('ad_label',{
+		ad_label_id:{
 			type: DataTypes.BIGINT,
 			primaryKey:true,
 			autoIncrement:true
 		},
-		name:{
-			type:DataTypes.STRING(255)
-		},
-		md5:DataTypes.STRING(255),
-		user_id:DataTypes.BIGINT,
-		remark:DataTypes.STRING(255),
+		name:DataTypes.STRING(255),
+		times:DataTypes.BIGINT,
 		created_at:DataTypes.DATE,
 		updated_at:DataTypes.DATE,
 		version:DataTypes.BIGINT
@@ -25,22 +18,25 @@ module.exports = (sequelize, DataTypes) => {
 		hooks:{
 			beforeCreate:user=>{
 				user.version = 0;
+				user.times = 0;
 			},
 			beforeUpdate:user=>{
 				user.version++;
+				user.times++;
 			}
 		},
 		associate:function (models) {
-			models.resource.hasMany(
-				models.screen,
-				{
-					foreignKey: 'resource_id'
-				});
-			models.resource.belongsToMany(
+			models.ad_label.belongsToMany(
 				models.ad,
 				{
-					through: 'resource_ad',
-					foreignKey: 'resource_id'
+					through:'ad_to_ad_label',
+					foreignKey:'ad_label_id'
+				});
+			models.ad_label.belongsToMany(
+				models.user,
+				{
+					through:'user_ad_label',
+					foreignKey:'ad_label_id'
 				});
 		}
 	})

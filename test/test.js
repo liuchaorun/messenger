@@ -1,50 +1,24 @@
 /**
  * Created by lcr on 17-5-16.
  */
-// const model = require('./model');
-// const config = require('./config');
-// const Sequelize = require('sequelize');
-// const md5 =require('md5');
-// let sequelize = new Sequelize(config.database, config.username, config.password, {
-//     host: config.host,
-//     dialect: 'postgres',
-//     timezone:'+08:00',
-//     pool: {
-//         max: 5,
-//         min: 0,
-//         idle: 3000
-//     }
-// });
-// let user = model.user;
-// let screen = model.screen;
-// let picture = model.picture;
-// let resource = model.resource;
-// let resource_picture = model.resource_picture;
-// user.hasMany(picture,{foreignKey:'user_id'});
-// user.hasMany(screen,{foreignKey:'user_id'});
-// user.hasMany(resource,{foreignKey:'user_id'});
-// resource.hasMany(screen, {foreignKey: 'resource_id'});
-// resource.belongsToMany(picture,{through:resource_picture,foreignKey:'resource_id'});
-// picture.belongsToMany(resource,{through:resource_picture,foreignKey:'picture_id'});
-// async function a() {
-//     let data={};
-//     let user_person = await user.findOne({where:{email:'1558531230@qq.com'}});
-//     let pictures_all = await user_person.getPictures();
-//     data.pictures = new Array();
-//     for(let i =0;i<pictures_all.length;++i){
-//         data.pictures[i]={
-//             picture_id : pictures_all[i].picture_id,
-//             url : pictures_all[i].thumbnails_url
-//         };
-//         let pack_all = await pictures_all[i].getResources();
-//         data.pictures[i].pack = new Array();
-//         for(let j =0;j<pack_all.length;++j){
-//             data.pictures[i].pack[j] = pack_all[j].name;
-//         }
-//     }
-//     console.log(data);
-// }
-// a();
+const db = require('../db/index');
+let resource = db.models.resource;
+let ad = db.models.ad;
+let user = db.models.user;
+async function a() {
+    // await user.create({
+	 //    username:'lcr',
+	 //    email:'1558531230@qq.com',
+	 //    password:'123456',
+	 //    last_login_time:new Date(),
+	 //    work_place:'ssdut'
+    // })
+	let usr = await user.findOne({where:{email:'1558531230@qq.com'}});
+	await usr.createAd_label({
+		name:'测试'
+	});
+}
+a();
 //const fs = require('fs');
 // let data = {};
 // data.i = "qwe";
@@ -121,16 +95,3 @@
 //     str = md5sum.digest('hex').toUpperCase();
 //     console.log('文件:.zip'+',MD5签名为:'+str);
 // });
-function swap(a,b) {
-    let temp = a;
-    a=b;
-    b=temp;
-    console.log(a, b);
-}
-function test() {
-    let i={1:'a'},j={2:'b'};
-    console.log(i,j);
-    swap(i,j);
-    console.log(i, j);
-}
-test();

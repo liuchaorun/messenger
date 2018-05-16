@@ -18,5 +18,7 @@
     <orderEntry type="library" name="md5-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="nodemailer-DefinitelyTyped" level="application" />
     <orderEntry type="library" name="pg-DefinitelyTyped" level="application" />
+    <orderEntry type="library" name="@types/pg" level="application" />
+    <orderEntry type="library" name="@types/sequelize" level="application" />
   </component>
 </module>
