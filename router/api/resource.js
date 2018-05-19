@@ -35,7 +35,8 @@ module.exports = (router)=>{
 				ad_url:ad_add.url,
 				ad_id:ad_add.ad_id,
 				ad_target:ad_add.target,
-				ad_qrcode_position:ad_add.position
+				ad_qrcode_position:ad_add.position,
+				ad_type:ad_add.ad_type
 			}
 		}
 		main.ad = ad_all;
@@ -174,7 +175,8 @@ module.exports = (router)=>{
                     ad_url:ad_add.url,
                     ad_id:ad_add.ad_id,
                     ad_target:ad_add.target,
-                    ad_qrcode_position:ad_add.position
+                    ad_qrcode_position:ad_add.position,
+                    ad_type:ad_add.ad_type
 				}
 			}
 			main.ad = ad_all;

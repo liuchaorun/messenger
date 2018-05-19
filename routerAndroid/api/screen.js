@@ -15,7 +15,8 @@ module.exports = (router)=>{
 			await screen.create({
 				uuid:uuid,
 				md5:md5(Date.now()),
-				name:uuid
+				name:uuid,
+				screen_resolution:ctx.request.body.screen_resolution
 			});
 			lib.msgTranslate(ctx,200,{},{code:1,msg:'创建屏幕成功！'});
 		}
@@ -24,7 +25,7 @@ module.exports = (router)=>{
 	});
 
 	//验证屏幕
-	router.post('/cloudExhibition/action=check_bind',async(ctx,next)=>{
+	router.post('/check_bind',async(ctx,next)=>{
 		let data = {};
 		if(await screen.count({where:{uuid:ctx.request.body.uuid}})===0){
 			data.is_user = 2;

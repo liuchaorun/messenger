@@ -10,7 +10,7 @@ let resource = db.models.resource;
 
 module.exports = (router)=>{
 	//轮询
-	router.post('/cloudExhibition/action=play_information',async(ctx,next)=>{
+	router.post('/poll',async(ctx,next)=>{
 		let uuid = ctx.request.body.uuid;
 		let screen_now = await screen.findOne({where:{uuid:uuid}});
 		let data = {};

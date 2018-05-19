@@ -9,7 +9,7 @@ let resource = db.models.resource;
 let screen = db.models.screen;
 module.exports = (router)=>{
 	//请求json文件
-	router.post('/cloudExhibition/action=gain_json',async(ctx,next)=>{
+	router.post('/get_json',async(ctx,next)=>{
 		let uuid = ctx.request.body.uuid;
 		let data = {};
 		let screen_now = await screen.findOne({where:{uuid:uuid}});
