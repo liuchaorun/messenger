@@ -8,9 +8,9 @@ const db = require('../../db/index');
 const md5 = require('md5');
 let user = db.models.user;
 module.exports = (router)=>{
-	router.post('/action=login', async (ctx, next) => {
+	router.post('/login', async (ctx, next) => {
 		let user_num = await user.count({where: {email: ctx.request.body.email}});
-		if (user_num === 0) lib.msgTranslate(ctx,200, {}, {code: 0, msg: '该用户不存在！'});
+		if (user_num === 0) lib.msgTranslate(ctx,200, {}, {code: 5, msg: '该用户不存在！'});
 		else {
 			if (ctx.cookies.get('user', {}) === undefined) {
 				let user_person = await user.findOne({where: {email: ctx.request.body.email}});
@@ -37,7 +37,7 @@ module.exports = (router)=>{
 					lib.msgTranslate(ctx,200, data, {code: 1, msg: '登录成功！'});
 				}
 				else{
-					lib.msgTranslate(ctx,200,{},{code:0,msg:'密码错误！'});
+					lib.msgTranslate(ctx,200,{},{code:4,msg:'密码错误！'});
 				}
 			}
 			else {

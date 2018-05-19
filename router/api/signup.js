@@ -8,12 +8,12 @@ const lib = require('../../lib/lib');
 let user = db.models.user;
 
 module.exports = (router)=>{
-	router.post('/action=signup', async (ctx, next) => {
+	router.post('/signup', async (ctx, next) => {
 		let user_num = await user.count({where: {email: ctx.request.body.email}});
 		let n = Math.floor(Math.random() * 9000 + 1000);
 		ctx.session.verify = n.toString();
 		if (user_num === 1) {
-			lib.msgTranslate(ctx,200, {}, {code: 0, msg: '该用户已存在'});
+			lib.msgTranslate(ctx,200, {}, {code: 2, msg: '该用户已存在'});
 		}
 		else {
 			let mailOptions = {
@@ -33,7 +33,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post('/action=verify', async (ctx, next) => {
+	router.post('verify', async (ctx, next) => {
 		if (ctx.session.verify === ctx.request.body.verify) {
 			await user.create({
 				username: ctx.request.body.username,
@@ -42,7 +42,7 @@ module.exports = (router)=>{
 			});
 			lib.msgTranslate(ctx,200, {}, {code: 1, msg: '注册成功！'});
 		}
-		else lib.msgTranslate(ctx,200, {}, {code: 0, msg: '验证码错误！'});
+		else lib.msgTranslate(ctx,200, {}, {code: 3, msg: '验证码错误！'});
 		await next();
 	});
 };

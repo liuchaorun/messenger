@@ -3,10 +3,9 @@ const cluster = require('cluster');
 
 const numCPUs = require("os").cpus().length;
 
-const app = require('../index');
+const app = require('../app');
 
 const pkg = require('../package');
-const port = pkg.port;
 
 const debug = require('../lib/debug');
 
@@ -25,6 +24,6 @@ if (isDebug) {
             console.error(`worker ${worker.process.pid} died, exit code is ${code}`);
         });
     } else {
-        http.createServer(app.callback()).listen(port);
+        http.createServer(app.callback()).listen(3000);
     }
 }

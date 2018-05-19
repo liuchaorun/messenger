@@ -6,13 +6,19 @@
 const lib = require('../../lib/lib');
 const db = require('../../db/index');
 const config = require('../../config/config');
+const koaBody = require('koa-body');
 const md5 = require('md5');
 const images = require("image-size");
 const gm = require('gm');
 let user = db.models.user;
 let ad_label = db.models.ad_label;
+let ad = db.models.ad;
+let resource = db.models.resource;
 module.exports = (router)=>{
-	router.post('/action=upload', koaBody({
+	let prefix = function (url){
+		return `/ad/${url}`;
+	};
+	router.post(prefix('upload'), koaBody({
 		multipart: true,
 		formidable: {
 			uploadDir: config.upDir
@@ -30,7 +36,7 @@ module.exports = (router)=>{
 					file_name:file_name,
 					size: files.file[i].size,
 					ad_size: image.width.toString() + '×' + image.height.toString(),
-					ad_type:0,
+					ad_type:ctx.request.body.fields.ad_type,//目前仅支持图片
 					file_type: files.file[i].type,
 					url: 'http://118.89.197.156:8000/' + file_name,
 					thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
@@ -71,7 +77,7 @@ module.exports = (router)=>{
 				file_name:file_name,
 				size: files.file[i].size,
 				ad_size: image.width.toString() + '×' + image.height.toString(),
-				ad_type:0,
+				ad_type:ctx.request.body.fields.ad_type,
 				file_type: files.file[i].type,
 				url: 'http://118.89.197.156:8000/' + file_name,
 				thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
@@ -105,17 +111,112 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post('/action=get_picture', async (ctx, next) => {
-		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-		let user_person_ad = await user_person.getAds();
-		let data = {};
-		data.ads = [];
-		for (let i = 0; i < user_person_ad.length; ++i) {
-			data.ads[i] = {};
-			data.ads[i].id = user_person_ad[i].ad_id;
-			data.ads[i].src = user_person_ad[i].thumbnails_url;
-		}
-		lib.msgTranslate(ctx,200, data, {code: 1, msg: '获取图片成功！'});
-		await next()
-	});
+    router.post(prefix('/get'), async(ctx, next)=>{
+        let data = {};
+        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let all_ad = await user_person.getAds();
+        for(let i of all_ad){
+            let temp = {};
+            temp = {
+                ad_id:i.ad_id,
+                name:i.name,
+                src:i.thumbnails_url,
+                target:i.target,
+                position:i.position
+            };
+            let all_pack = await i.getResources();
+            temp.pack = [];
+            for(let j = 0;j<all_pack.length;++j){
+                temp.pack[j] = all_pack[j].name;
+            }
+            let types = await i.getAd_types();
+            temp.adType = [];
+            if(types.length>0){
+                for(let j of types){
+                    temp.adType.push(j.name);
+                }
+            }
+            data[i.picture_id] = temp;
+        }
+        ctx.api(200,data,{code:1,msg:'获取图片列表成功！'});
+        await next();
+    });
+
+    router.post(prefix('/modify'), async(ctx,next)=>{
+        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let ad_one = await user_person.getAds({where:{picture_id:ctx.request.body.id}});
+        let resource_now = await ad_one.getResources();
+        if(ad_one[0].target !== ctx.request.body.new_target){
+            for(let r of resource_now){
+                let buf = await fs.readFileSync(config.upDir+r.resource_id+'.json');
+                let main = JSON.parse(buf);
+                for(let i of main){
+                    if(i.picture_id === ad_one.picture_id){
+                        i.ad_name=ctx.request.body.new_name;
+                        i.ad_target=ctx.request.body.new_target;
+                        i.ad_qrcode_position=ctx.request.body.new_position;
+                    }
+                }
+            }
+        }
+        await ad_one[0].update({
+            name:ctx.request.body.new_name,
+            target:ctx.request.body.new_target,
+            position:ctx.request.body.new_position
+        });
+        let new_adType = ctx.request.body.new_adType;
+        let old_adType = await ad_one[0].getAd_types();
+        for(let i of old_adType){
+            let flag = 0;
+            for(let j of new_adType){
+                if(i.name === j){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(flag === 0){
+                ad_one[0].removeAd_type(i);
+            }
+            else{
+                new_adType.removeByValue(i.name);
+            }
+        }
+        if(new_adType.length>0){
+            for(let i of new_adType){
+                let t = await ad_label.findOne({where:{name:i}});
+                await ad_one[0].addAd_type(t);
+            }
+        }
+        ctx.api(200,{},{code:1,msg:'修改成功！'});
+        await next();
+    });
+
+    router.post(prefix('/del'), async(ctx,next)=>{
+        let del_ads = ctx.request.body.ad_id;
+        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let err = '';
+        let flag = 0;
+        for(let i of del_ads){
+            let ad_one = await ad.findOne({where:{picture_id:i}});
+            let resource_all = await pic.getResources();
+            if(resource_all.length>0){
+                err = err + pic.name + ' ';
+                flag = 1;
+            }
+            else{
+                let types = await ad_one.getAd_types();
+                await pic.removeAd_types(types);
+                await fs.unlinkSync(config.upDir + ad_one.file_name);
+                await fs.unlinkSync(config.upDir + 'thumbnails_'+ad_one.file_name);
+                await ad_one.destroy();
+            }
+        }
+        if(flag === 0){
+            ctx.api(200,{},{code:1,msg:'删除成功！'});
+        }
+        else{
+            ctx.api(200,{},{code:7,msg:err+'删除失败！'});
+        }
+        await next();
+    });
 };

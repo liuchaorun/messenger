@@ -10,7 +10,10 @@ let user = db.models.user;
 let screen = db.models.screen;
 let resource = db.models.resource;
 module.exports = (router)=>{
-	router.post('/action=get_screen', async (ctx, next) => {
+	let prefix = function (url){
+		return `/screen${url}`;
+	};
+	router.post(prefix('/get_all'), async (ctx, next) => {
 		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
 		let user_screen = await user_person.getScreens();
 		let data = {};
@@ -24,18 +27,19 @@ module.exports = (router)=>{
 				update_time: user_screen[i].updated_at,
 				freq: user_screen[i].time,
 				pack: resource_name===null?'无':resource_name.name,
-				note: user_screen[i].remark
+				note: user_screen[i].remark,
+				screen_resolution:user_screen[i].screen_resolution
 			}
 		}
 		lib.msgTranslate(ctx,200, data, {code: 1, msg: "获取成功！"});
 		await next();
 	});
 
-	router.post('/action=add_screen', async (ctx, next) => {
+	router.post(prefix('/add'), async (ctx, next) => {
 		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
 		let screen_num = await screen.count({where: {uuid: ctx.request.body.uuid}});
 		if (screen_num === 0) {
-			lib.msgTranslate(200, {}, {code: 0, msg: '不存在该屏幕！'});
+			lib.msgTranslate(200, {}, {code: 6, msg: '不存在该屏幕！'});
 		}
 		else {
 			let screen_new = await screen.findOne({where: {uuid: ctx.request.body.uuid}});
@@ -45,7 +49,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post('/action=modify_screen', async (ctx, next) => {
+	router.post(prefix('/modify'), async (ctx, next) => {
 		let screen_uuid = ctx.request.body.uuid;
 		for (let i of screen_uuid) {
 			let screen_new = await screen.findOne({where: {uuid: i}});
@@ -62,7 +66,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post('/action=del_screen', async (ctx, next) => {
+	router.post(prefix('/del'), async (ctx, next) => {
 		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
 		let uuid = ctx.request.body.uuid;
 		for (let i of uuid) {

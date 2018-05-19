@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
 		resource_id:DataTypes.BIGINT,
 		created_at:DataTypes.DATE,
 		updated_at:DataTypes.DATE,
-		version:DataTypes.BIGINT
+		version:DataTypes.BIGINT,
+		screen_resolution:DataTypes.STRING(32)
 	},{
 		timestamps: true,
 		underscored: true,
