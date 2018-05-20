@@ -75,10 +75,10 @@ module.exports = (router)=>{
             }
         }
         if(flag === 0){
-            ctx.api(200, {}, {code:1,msg:'删除成功！'});
+            lib.msgTranslate(ctx,200, {}, {code:1,msg:'删除成功！'});
         }
         else if(flag===1){
-            ctx.api(200, {}, {code:10,msg:'删除失败！'+err+'标签不存在！'});
+            lib.msgTranslate(ctx,200, {}, {code:10,msg:'删除失败！'+err+'标签不存在！'});
         }
         await next();
     });
