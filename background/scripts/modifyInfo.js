@@ -7,7 +7,7 @@ $(function ()
     const $username = $('#username');
     const $work_place = $('#work_place');
 
-    AJAX('/user/get_info', {},
+    AJAX('/user/getInfo', {},
         function (response)
         {
             if (response.status.code !== SUCC)
@@ -16,7 +16,7 @@ $(function ()
             {
                 let info = response.data;
                 $username.text(info.username);
-                $work_place.text(info.work_place === null ? '无' : info.work_place);
+                $work_place.text(info.workPlace === null ? '无' : info.workPlace);
             }
         },
         function (error)
