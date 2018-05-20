@@ -168,6 +168,7 @@ $(function ()
         {
             //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
             showNotification('填写信息有误', FAILURE);
+            status = true;
             return false;
         }
 
@@ -304,6 +305,7 @@ $(function ()
         {
             //modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
             showNotification('填写信息有误', FAILURE);
+            status = true;
             return false;
         }
 
@@ -351,6 +353,7 @@ $(function ()
         {
             //modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', '填写信息有误');
             showNotification('填写信息有误', FAILURE);
+            status = true;
             return false;
         }
 

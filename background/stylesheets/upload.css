@@ -78,60 +78,60 @@
     padding: 0 1em;
 }
 
-#adType_title {
+#adLabel_title {
     font-weight: bold;
 }
 
-#manage_adType_btn {
+#manage_adLabel_btn {
     float: right;
     margin-top: 1em;
 }
 
-#adType_table_wrapper {
+#adLabel_table_wrapper {
     height: 11em;
     overflow: auto;
     background-color: rgba(175, 175, 175, 0.75);
     border-radius: 3px;
 }
 
-#adType_table {
+#adLabel_table {
     display: table;
     width: 100%;
     border-spacing: 0.5em;
 }
 
-.adType_table_row {
+.adLabel_table_row {
     display: table-row;
     height: 100%;
 }
 
-.adType_table_cell,.manage_adType_modal_table_cell {
+.adLabel_table_cell,.manage_adLabel_modal_table_cell {
     display: table-cell;
     height: 100%;
     width: 20%;
 }
 
-.adType {
+.adLabel {
     cursor: pointer;
 }
 
-#adType_table .selected {
+#adLabel_table .selected {
     background-color: rgba(51, 122, 183, 1);
 }
 
-#add_adType_input {
+#add_adLabel_input {
     display: inline-block;
     width: 16em;
     float: left;
     vertical-align: middle;
 }
 
-#manage_adType_modal_info {
+#manage_adLabel_modal_info {
     font-size: 1.75em;
     padding: 0.75em 1em;
 }
 
-#manage_adType_modal_table_wrapper {
+#manage_adLabel_modal_table_wrapper {
     width: 100%;
     max-height: 30em;
     overflow: auto;
@@ -139,7 +139,7 @@
     border-radius: 3px;
 }
 
-#manage_adType_modal_table {
+#manage_adLabel_modal_table {
     display: table;
     width: 100%;
     border-spacing: 0.5em;
@@ -148,7 +148,7 @@
     margin-right: auto;
 }
 
-#manage_adType_modal_table .selected {
+#manage_adLabel_modal_table .selected {
     background-color: #d9534f;
 }
 

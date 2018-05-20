@@ -44,7 +44,7 @@ module.exports = (router)=>{
             adLabel:[]
         };
         if(labels.length>0){
-            for(let i of types){
+            for(let i of labels){
                 data.adLabel.push(i.name);
             }
         }
@@ -54,7 +54,7 @@ module.exports = (router)=>{
 
     router.post(prefix('/del'), async(ctx, next)=>{
         let user_person = await user.find({where:{email:ctx.session.custom_email}});
-        let adLabels = ctx.request.body.adLabel;
+        let adLabels = ctx.request.body;
         let flag = 0;
         let err = '';
         for (let i of adLabels){
@@ -65,7 +65,7 @@ module.exports = (router)=>{
                     lib.msgTranslate(ctx,200,{},{code:9,msg:'无法删除！已绑定图片，请先解除绑定！'});
                 }
                 else{
-                    await user_person.removeAd_type(ad_label_one);
+                    await user_person.removeAd_label(ad_label_one);
                 }
             }
             else{
