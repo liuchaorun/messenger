@@ -15,7 +15,7 @@ let ad_label = db.models.ad_label;
 let ad = db.models.ad;
 module.exports = (router)=>{
 	let prefix = function (url){
-		return `/ad/${url}`;
+		return `/ad${url}`;
 	};
 
 	Array.prototype.removeByValue = function(val) {
@@ -27,7 +27,7 @@ module.exports = (router)=>{
 		}
 	};
 
-	router.post(prefix('upload'), koaBody({
+	router.post(prefix('/upload'), koaBody({
 		multipart: true,
 		formidable: {
 			uploadDir: config.upDir
