@@ -147,7 +147,7 @@ module.exports = (router)=>{
             }
             data[i.picture_id] = temp;
         }
-        ctx.api(200,data,{code:1,msg:'获取图片列表成功！'});
+        lib.msgTranslate(ctx, 200,data,{code:1,msg:'获取图片列表成功！'});
         await next();
     });
 
