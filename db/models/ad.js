@@ -3,7 +3,7 @@
  */
 module.exports = (sequelize, DataTypes) => {
 	return sequelize.define('ad',{
-		picture_id: {
+		ad_id: {
 			type: DataTypes.BIGINT,
 			primaryKey:true,
 			autoIncrement:true
