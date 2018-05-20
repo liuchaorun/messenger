@@ -196,7 +196,7 @@ module.exports = (router)=>{
                 await ad_one[0].addAd_type(t);
             }
         }
-        ctx.api(200,{},{code:1,msg:'修改成功！'});
+        lib.msgTranslate(ctx,200,{},{code:1,msg:'修改成功！'});
         await next();
     });
 
@@ -221,10 +221,10 @@ module.exports = (router)=>{
             }
         }
         if(flag === 0){
-            ctx.api(200,{},{code:1,msg:'删除成功！'});
+            lib.msgTranslate(ctx,200,{},{code:1,msg:'删除成功！'});
         }
         else{
-            ctx.api(200,{},{code:7,msg:err+'删除失败！'});
+            lib.msgTranslate(ctx,200,{},{code:7,msg:err+'删除失败！'});
         }
         await next();
     });
