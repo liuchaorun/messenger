@@ -10,6 +10,7 @@ const koaBody = require('koa-body');
 const md5 = require('md5');
 const images = require("image-size");
 const gm = require('gm');
+const fs = require('fs');
 let user = db.models.user;
 let ad_label = db.models.ad_label;
 let ad = db.models.ad;
@@ -45,7 +46,7 @@ module.exports = (router)=>{
 					file_name:file_name,
 					size: files.file[i].size,
 					ad_size: image.width.toString() + '×' + image.height.toString(),
-					ad_type:ctx.request.body.fields.ad_type,//目前仅支持图片
+					ad_type:ctx.request.body.fields.adType,//目前仅支持图片
 					file_type: files.file[i].type,
 					url: 'http://118.89.197.156:8000/' + file_name,
 					thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
@@ -82,12 +83,12 @@ module.exports = (router)=>{
 			let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
 			let image = images(files.file.path);
 			let ad_now = await user_person.createAd({
-				name:ctx.request.body.fields.name + i.toString(),
+				name:ctx.request.body.fields.name,
 				file_name:file_name,
-				size: files.file[i].size,
+				size: files.file.size,
 				ad_size: image.width.toString() + '×' + image.height.toString(),
-				ad_type:ctx.request.body.fields.ad_type,
-				file_type: files.file[i].type,
+				ad_type:ctx.request.body.fields.adType,
+				file_type: files.file.type,
 				url: 'http://118.89.197.156:8000/' + file_name,
 				thumbnails_url:'http://118.89.197.156:8000/thumbnails_'+file_name,
 				position:ctx.request.body.fields.position,

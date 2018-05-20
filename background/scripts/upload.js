@@ -54,7 +54,7 @@ $(function ()
         formData.append('target', imageNameAndTarget.fileTarget);
         formData.append('type', adLabel.toString());
         formData.append('position', qrCodePosition.toString());
-        formData.append('adLabel', 0..toString());
+        formData.append('adType', 0..toString());
 
         for (let i = 0; i < $upload_input[0].files.length; i++)
         {
@@ -65,8 +65,8 @@ $(function ()
                 xhrFields: {
                     withCredentials: true
                 },
-                url: 'http://118.89.197.156:3000/cloudExhibition/ad/upload',
-                //url: 'http://127.0.0.1:3000/action=upload',
+                //url: 'http://118.89.197.156:3000/cloudExhibition/ad/upload',
+                url: 'http://127.0.0.1:3000/cloudExhibition/ad/upload',
                 method: 'post',
                 data: formData,
                 processData: false,
