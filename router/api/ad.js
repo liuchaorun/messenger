@@ -13,11 +13,20 @@ const gm = require('gm');
 let user = db.models.user;
 let ad_label = db.models.ad_label;
 let ad = db.models.ad;
-let resource = db.models.resource;
 module.exports = (router)=>{
 	let prefix = function (url){
 		return `/ad/${url}`;
 	};
+
+	Array.prototype.removeByValue = function(val) {
+		for(let i=0; i<this.length; i++) {
+			if(this[i] === val) {
+				this.splice(i, 1);
+				break;
+			}
+		}
+	};
+
 	router.post(prefix('upload'), koaBody({
 		multipart: true,
 		formidable: {
@@ -29,7 +38,7 @@ module.exports = (router)=>{
 			for (let i = 0; i < files.file.length; ++i) {
 				let fileFormat = (files.file[i].name).split(".");
 				let file_name = 'picture-' + Date.now() + '.' + fileFormat[fileFormat.length - 1];
-				let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+				let user_person = await user.find({where: {email: ctx.session.custom_email}});
 				let image = images(files.file[i].path);
 				let ad_now = await user_person.createAd({
 					name:ctx.request.body.fields.name + i.toString(),
@@ -59,7 +68,7 @@ module.exports = (router)=>{
 				}
 				adLabels.push(elements);
 				for(let j of adLabels){
-					let adType = await ad_label.findOne({where:{name:j}});
+					let adType = await ad_label.find({where:{name:j}});
 					await ad_now.addAd_label(adType);
 				}
 				gm(config.upDir + file_name).resize(null,200).write(config.upDir+'thumbnails_'+file_name,()=>{});
@@ -113,12 +122,12 @@ module.exports = (router)=>{
 
     router.post(prefix('/get'), async(ctx, next)=>{
         let data = {};
-        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let user_person = await user.find({where:{email:ctx.session.custom_email}});
         let all_ad = await user_person.getAds();
         for(let i of all_ad){
             let temp = {};
             temp = {
-                ad_id:i.ad_id,
+                adId:i.ad_id,
                 name:i.name,
                 src:i.thumbnails_url,
                 target:i.target,
@@ -130,10 +139,10 @@ module.exports = (router)=>{
                 temp.pack[j] = all_pack[j].name;
             }
             let types = await i.getAd_types();
-            temp.adType = [];
+            temp.adLabel = [];
             if(types.length>0){
                 for(let j of types){
-                    temp.adType.push(j.name);
+                    temp.adLabel.push(j.name);
                 }
             }
             data[i.picture_id] = temp;
@@ -143,26 +152,26 @@ module.exports = (router)=>{
     });
 
     router.post(prefix('/modify'), async(ctx,next)=>{
-        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let user_person = await user.find({where:{email:ctx.session.custom_email}});
         let ad_one = await user_person.getAds({where:{picture_id:ctx.request.body.id}});
         let resource_now = await ad_one.getResources();
-        if(ad_one[0].target !== ctx.request.body.new_target){
+        if(ad_one[0].target !== ctx.request.body.newTarget){
             for(let r of resource_now){
                 let buf = await fs.readFileSync(config.upDir+r.resource_id+'.json');
                 let main = JSON.parse(buf);
                 for(let i of main){
                     if(i.picture_id === ad_one.picture_id){
-                        i.ad_name=ctx.request.body.new_name;
-                        i.ad_target=ctx.request.body.new_target;
-                        i.ad_qrcode_position=ctx.request.body.new_position;
+                        i.ad_name=ctx.request.body.newName;
+                        i.ad_target=ctx.request.body.newTarget;
+                        i.ad_qrcode_position=ctx.request.body.newPosition;
                     }
                 }
             }
         }
         await ad_one[0].update({
-            name:ctx.request.body.new_name,
-            target:ctx.request.body.new_target,
-            position:ctx.request.body.new_position
+            name:ctx.request.body.newName,
+            target:ctx.request.body.newTarget,
+            position:ctx.request.body.newPosition
         });
         let new_adType = ctx.request.body.new_adType;
         let old_adType = await ad_one[0].getAd_types();
@@ -192,20 +201,20 @@ module.exports = (router)=>{
     });
 
     router.post(prefix('/del'), async(ctx,next)=>{
-        let del_ads = ctx.request.body.ad_id;
-        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let del_ads = ctx.request.body.adId;
+        let user_person = await user.find({where:{email:ctx.session.custom_email}});
         let err = '';
         let flag = 0;
         for(let i of del_ads){
-            let ad_one = await ad.findOne({where:{picture_id:i}});
-            let resource_all = await pic.getResources();
+            let ad_one = await ad.find({where:{picture_id:i}});
+            let resource_all = await ad_one.getResources();
             if(resource_all.length>0){
-                err = err + pic.name + ' ';
+                err = err + ad_one.name + ' ';
                 flag = 1;
             }
             else{
                 let types = await ad_one.getAd_types();
-                await pic.removeAd_types(types);
+                await ad_one.removeAd_types(types);
                 await fs.unlinkSync(config.upDir + ad_one.file_name);
                 await fs.unlinkSync(config.upDir + 'thumbnails_'+ad_one.file_name);
                 await ad_one.destroy();

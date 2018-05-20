@@ -13,7 +13,8 @@ let config = {
 		host: '118.89.197.156',
 		port: 5432
 	},
-	upDir:'/home/lcr/file/',
+	upDir:'/home/ubuntu/file/',
+	qrcode_dir:'/home/ubuntu/file/qrcode/',
 	session:{
         key: 'messenger', /** (string) cookie key (default is koa:sess) */
         /** (number || 'session') maxAge in ms (default is 1 days) */

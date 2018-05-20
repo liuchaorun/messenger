@@ -16,10 +16,10 @@ module.exports = (router)=>{
     };
 
     router.post(prefix('/add'), async (ctx, next)=>{
-        let new_ad_label = ctx.request.body.new_ad_label;
-        let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+        let new_ad_label = ctx.request.body.newAdLabel;
+        let user_person = await user.find({where: {email: ctx.session.custom_email}});
         if (await ad_label.count({where:{name:new_ad_label}}) ===1){
-            let ad_label_one = await ad_label.findOne({where:{name:new_ad_label}});
+            let ad_label_one = await ad_label.find({where:{name:new_ad_label}});
             if(await user_person.hasAd_label(ad_label_one)){
                 lib.msgTranslate(ctx,200,{},{code:0, msg:'标签重复！'});
             }
@@ -38,14 +38,14 @@ module.exports = (router)=>{
     });
 
     router.post(prefix('/get'), async(ctx, next)=>{
-        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
+        let user_person = await user.find({where:{email:ctx.session.custom_email}});
         let labels = await user_person.getAd_labels();
         let data = {
-            ad_label:[]
+            adLabel:[]
         };
         if(labels.length>0){
             for(let i of types){
-                data.ad_label.push(i.name);
+                data.adLabel.push(i.name);
             }
         }
         lib.msgTranslate(ctx,200,data,{code:1, msg:'获取成功！'});
@@ -53,13 +53,13 @@ module.exports = (router)=>{
     });
 
     router.post(prefix('/del'), async(ctx, next)=>{
-        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
-        let adLabels = ctx.request.body.ad_label;
+        let user_person = await user.find({where:{email:ctx.session.custom_email}});
+        let adLabels = ctx.request.body.adLabel;
         let flag = 0;
         let err = '';
         for (let i of adLabels){
             if(await ad_label.count({where:{name:i}}) > 0){
-                let ad_label_one = await ad_label.findOne({where:{name:i}});
+                let ad_label_one = await ad_label.find({where:{name:i}});
                 let ad_num = await ad_label_one.getAds();
                 if(ad_num.length>0){
                     lib.msgTranslate(ctx,200,{},{code:9,msg:'无法删除！已绑定图片，请先解除绑定！'});

@@ -30,9 +30,11 @@ module.exports = (sequelize, DataTypes) => {
 		hooks:{
 			beforeCreate:user=>{
 				user.version = 0;
+				user.last_login_time = new Date();
 			},
 			beforeUpdate:user=>{
 				user.version++;
+				user.last_login_time = new Date();
 			}
 		},
 		associate:function (models) {

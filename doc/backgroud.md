@@ -48,7 +48,7 @@ response.data:{
 ```
 
 ### 验证并注册
-url:'verify'
+url:'/verify'
 ```json
 request:{
   "username":"string",
@@ -63,7 +63,7 @@ request.data:{
 ```
 
 ## 登陆
-url:'login'
+url:'/login'
 ```json
 request:{
   "email":"string",
@@ -93,10 +93,10 @@ response.data{
 ```
 
 ### 忘记密码重置密码
-url:'/new_password'
+url:'/newPassword'
 ```json
 request:{
-  "new_password":"string"
+  "newPassword":"string"
 }
 ```
 ```json
@@ -106,7 +106,7 @@ response.data:{
 ```
 
 ### 获取用户信息
-url:'/get_info'
+url:'/getInfo'
 ```json
 request:{
   "null"
@@ -116,19 +116,19 @@ request:{
 request.data:{
   "username":"string",
   "email":"string",
-  "work_place":"string",
-  "last_login_time":"timestamp with time zone",
-  "ad_num":"int",
-  "screen_num":"int"
+  "workPlace":"string",
+  "lastLoginTime":"timestamp with time zone",
+  "adNum":"int",
+  "screenNum":"int"
 }
 ```
 
 ### 修改用户密码
-url:'/modify_password'
+url:'/modifyPassword'
 ```json
 request:{
-  "old_password":"string",
-  "new_password":"string"
+  "oldPassword":"string",
+  "newPassword":"string"
 }
 ```
 ```json
@@ -138,11 +138,11 @@ response.data:{
 ```
 
 ### 修改用户信息
-url:'/modify_user'
+url:'/modifyUser'
 ```json
 request:{
-  "new_username":"string or undeifned",
-  "new_work_place":"string or undefined"
+  "newUsername":"string or undeifned",
+  "newWorkPlace":"string or undefined"
 }
 ```
 ```json
@@ -155,7 +155,7 @@ response.data:{
 所有请求增加前缀'/screen'
 
 ### 获取所有屏幕
-url:'/get_all'
+url:'/getAll'
 ```json
 request:{
   "null"
@@ -168,11 +168,11 @@ response.data:{
       "uuid":"string",
       "status":"bool",
       "name":"string",
-      "updated_time":"timestamp",
+      "updatedTime":"timestamp",
       "freq":"int",
       "pack":"null or string",
       "note":"string",
-      "screen_resolution":"string"
+      "screenResolution":"string"
       },{}
   ]
 }
@@ -196,9 +196,9 @@ url:'/modify'
 ```json
 request:{
   "uuid":["int"],
-  "new_name":"string",
-  "new_freq":"int",
-  "new_note":"string"
+  "newName":"string",
+  "newFreq":"int",
+  "newNote":"string"
 }
 ```
 ```json
@@ -230,7 +230,7 @@ url:'/upload'
 request:{
   "file":"file",
   "type":"广告标签",
-  "ad_type":"int"
+  "adType":"int"
 }
 ```
 ```json
@@ -249,7 +249,7 @@ request:{
 ```json
 response.data:{
   "ads":{
-    "ad_id":{
+    "adId":{
     "name":"string",
     "src":"string",
     "target":"string",
@@ -266,10 +266,10 @@ url:'/modify'
 ```json
 request:{
   "id":"int",
-  "new_name":"string",
-  "new_target":"string",
-  "new_position":"int",
-  "new_adLabel":["string"]
+  "newName":"string",
+  "newTarget":"string",
+  "newPosition":"int",
+  "newAdLabel":["string"]
 }
 ```
 ```json
@@ -282,7 +282,7 @@ response.data:{
 url:'/del'
 ```json
 request:{
-  "ad_id":["int"]
+  "adId":["int"]
 }
 ```
 ```json
@@ -298,10 +298,10 @@ response.data:{
 url:'/add'
 ```json
 request:{
-  "ad_id":["int"],
-  "ad_time":["int"],
-  "pack_name":"string",
-  "pack_note":"string"
+  "adId":["int"],
+  "adTime":["int"],
+  "packName":"string",
+  "packNote":"string"
 }
 ```
 ```json
@@ -322,54 +322,54 @@ response.data:{
   "resources":[{
     "screen":[{
       "name":"string",
-      "screen_id":"int"
+      "screenId":"int"
       }],
     "name":"string",
     "note":"string",
-    "resource_id":"int"
+    "resourceId":"int"
     }]
 }
 ```
 
 ### 获取资源包绑定的屏幕
-url:'/get_pac_screen'
+url:'/getPackScreen'
 ```json
 request:{
-  "resource_id":"int"
+  "resourceId":"int"
 }
 ```
 ```json
 response.data:{
   "screen":[{
     "name":"string",
-    "screen_id":"int",
+    "screenId":"int",
     "note":"string"
     }]
 }]
 ```
 
 ### 获取该资源包未绑定的屏幕
-url:'/get_pack_no_screen'
+url:'/getPackNoScreen'
 ```json
 request:{
-  "resource_id":"int"
+  "resourceId":"int"
 }
 ```
 ```json
 response.data:{
   "screen":[{
     "name":"string",
-    "screen_id":"int",
+    "screenId":"int",
     "note":"string"
     }]
 }]
 ```
 
 ### 添加关联屏幕
-url:'/add_pack_screen'
+url:'/addPackScreen'
 ```json
 request:{
-  "resource_id":"int",
+  "resourceId":"int",
   "screen":["int"]
 }
 ```
@@ -380,10 +380,10 @@ response.data:{
 ```
 
 ### 删除关联屏幕
-url:'/del_pack_screen'
+url:'/delPackScreen'
 ```json
 request:{
-  "resource_id":"int",
+  "resourceId":"int",
   "screen":["int"]
 }
 ```
@@ -394,22 +394,22 @@ response.data:{
 ```
 
 ### 获取资源包信息
-url:'/get_pack_info'
+url:'/getPackInfo'
 ```json
 request:{
-  "resource_id":"int"
+  "resourceId":"int"
 }
 ```
 ```json
 response.data:{
-  "used_ads":[{
-    "ad_name":"string",
-		"ad_md5":"string",
-		"ad_time":"int",
-		"ad_url":"string",
-		"ad_id":"int",
-		"ad_target":"string",
-		"ad_qrcode_position":"int"
+  "usedAds":[{
+    "adName":"string",
+		"adMd5":"string",
+		"adTime":"int",
+		"adUrl":"string",
+		"adId":"int",
+		"adTarget":"string",
+		"adQrcodePosition":"int"
     }],
   "name":"string",
   "note":"string"
@@ -422,17 +422,17 @@ url:'/modify'
 if(mutiple === true){
   request:{
     "pack":["int"],
-    "new_pack_note":"string",
+    "newPackNote":"string",
     "mutiple":"bool"
   }
 }
 else{
   request:{
     "pack":["int"] //only one
-    "new_pack_name":"string",
-    "new_pack_note":"string",
-    "ad_id":["int"],
-    "ad_time":["int"]
+    "newPackName":"string",
+    "newPackNote":"string",
+    "adId":["int"],
+    "adTime":["int"]
   }
 }
 ```
@@ -462,7 +462,7 @@ response.data:{
 url:'/add'
 ```json
 request:{
-  "new_ad_label":"string"
+  "newAdLabel":"string"
 }
 ```
 ```json
@@ -480,7 +480,7 @@ request:{
 ```
 ```json
 response.data:{
-  "ad_label":["string"]
+  "adLabel":["string"]
 }
 ```
 
@@ -488,7 +488,7 @@ response.data:{
 url:'/del'
 ```json
 request:{
-  "ad_label":["string"]
+  "adLabel":["string"]
 }
 ```
 ```json
@@ -498,7 +498,7 @@ response.data:{
 ```
 
 ## 二维码相关
-url:'/get_qrcode_info'
+url:'/getQrcodeInfo'
 ```json
 request:{
   "browser":"string",
@@ -507,7 +507,7 @@ request:{
   "os":"string",
   "uuid":"string",
   "position":"psoition",
-  "adType":"string",
+  "adLabel":"string",
   "adId":"int",
   "scanTime":"Date"
 }

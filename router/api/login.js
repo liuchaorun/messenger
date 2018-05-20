@@ -13,7 +13,7 @@ module.exports = (router)=>{
 		if (user_num === 0) lib.msgTranslate(ctx,200, {}, {code: 5, msg: '该用户不存在！'});
 		else {
 			if (ctx.cookies.get('user', {}) === undefined) {
-				let user_person = await user.findOne({where: {email: ctx.request.body.email}});
+				let user_person = await user.find({where: {email: ctx.request.body.email}});
 				if (user_person.password === ctx.request.body.password) {
 					ctx.session.custom_email = user_person.email;
 					let data = {};
@@ -41,7 +41,7 @@ module.exports = (router)=>{
 				}
 			}
 			else {
-				let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+				let user_person = await user.findO({where: {email: ctx.session.custom_email}});
 				ctx.session.last_login_time = user_person.last_login_time;
 				await user_person.update({
 					last_login_time: Date.now(),
