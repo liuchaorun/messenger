@@ -16,26 +16,14 @@
  <td><input type="checkbox" class="checkbox-inline screen_checkbox"></td>
  </tr>
  * **/
-
-/**
- * data
- * [
- *      {id,name,note,screen},
- *      {id,name,note,screen},
- *      {id,name,note,screen},
- *      {id,name,note,screen},
- *
- * ]
- * screen is the string that stitched by screens' names
- * **/
 $(function ()
 {
     const $package_management_table = $('#package_management_table');
     const $error_modal = $('#error_modal');
-    AJAX('get_pack', {},
+    AJAX('/resource/get', {},
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code !== SUCC)
                 $error_modal.modal('show');
             else
             {
@@ -55,7 +43,7 @@ $(function ()
  </tr>`)
                 }
             }
-            activate_button();
+            activateButton();
         },
         function (error)
         {
@@ -70,7 +58,7 @@ $(function ()
     const $add_btn = $('#add_btn');
     $add_btn.click(function ()
     {
-        image_AJAX('add', 'add_modal_table', 'add_modal_btn');
+        imageAJAX('add', 'add_modal_table', 'add_modal_btn');
     });
 
 });
@@ -81,11 +69,26 @@ $(function ()
     const $add_modal_btn = $('#add_modal_btn');
     $add_modal_btn.click(function ()
     {
-        package_AJAX('add_modal_table', 'pack_name_input', 'pack_note_input', 'add_modal_footer', 'add_pack');
+        packageAJAX('add_modal_table', 'pack_name_input', 'pack_note_input', 'add_modal_footer', 'addPack');
     });
 });
 
 /**修改以及修改提交按钮**/
+/*
+* response.data:{
+  "usedAds":[{
+    "adName":"string",
+		"adMd5":"string",
+		"adTime":"int",
+		"adUrl":"string",
+		"adId":"int",
+		"adTarget":"string",
+		"adQrcodePosition":"int"
+    }],
+  "name":"string",
+  "note":"string"
+}
+*/
 $(function ()
 {
     const $modify_btn = $('#modify_btn');
@@ -104,43 +107,43 @@ $(function ()
     $modify_btn.click(function (event)
     {
         event.preventDefault();
-        let checked_pack = [];
-        let checked_checkboxes = $('.screen_checkbox:checked');
-        if (checked_checkboxes.length === 0)
+        let checkedPack = [];
+        let checkedCheckboxes = $('.screen_checkbox:checked');
+        if (checkedCheckboxes.length === 0)
         {
             $modify_error_modal.modal('show');
             return false;
         }
-        else if (checked_checkboxes.length === 1)
+        else if (checkedCheckboxes.length === 1)
         {
             $modify_modal.modal('show');
-            AJAX('get_pack_info', {pack_id: $(checked_checkboxes[0]).parent().parent().attr('id')},
+            AJAX('/resource/getPackInfo', {resourceId: $(checkedCheckboxes[0]).parent().parent().attr('id')},
                 function (response)
                 {
-                    if (response.status.code === 0)
+                    if (response.status.code !== SUCC)
                     {
                         showNotification(response.status.msg, FAILURE);
                         $modify_modal_btn.attr('disabled', 'disabled');
                     }
                     else
                     {
-                        image_AJAX('modify', 'modify_modal_table', 'modify_modal_btn');
+                        imageAJAX('modify', 'modify_modal_table', 'modify_modal_btn');
                         $modify_modal_btn.removeAttr('disabled');
-                        let pack_info = response.data;
-                        $new_pack_name_input.val(pack_info.name);
-                        $new_pack_note_input.val(pack_info.note);
-                        let checked_pictures = pack_info.used_pictures.picture;
-                        let checked_picture;
-                        for (const picture of checked_pictures)
+                        let packInfo = response.data;
+                        $new_pack_name_input.val(packInfo.name);
+                        $new_pack_note_input.val(packInfo.note);
+                        let checkedAds = packInfo.usedAds;
+                        let checkedAd;
+                        for (const ad of checkedAds)
                         {
-                            checked_picture = $modify_modal_table.find(`label[class=${picture.picture_id}]`);
-                            $(checked_picture).children().first().css('backgroundImage', 'url("../images/admin/selected.png")');
-                            $(checked_picture).children().first().children().css('opacity', 0.25);
-                            $(checked_picture).find('input[type=text]')
+                            checkedAd = $modify_modal_table.find(`label[class=${ad.adId}]`);
+                            $(checkedAd).children().first().css('backgroundImage', 'url("../images/admin/selected.png")');
+                            $(checkedAd).children().first().children().css('opacity', 0.25);
+                            $(checkedAd).find('input[type=text]')
                                 .css('opacity', 1)
                                 .removeAttr('disabled')
-                                .val(picture.time);
-                            $(checked_picture).find('input[type=checkbox]').attr('checked', true);
+                                .val(ad.adTime);
+                            $(checkedAd).find('input[type=checkbox]').attr('checked', true);
                         }
                     }
                 },
@@ -153,46 +156,46 @@ $(function ()
         }
         else
             $modify_multiple_modal.modal('show');
-        for (let checkbox of checked_checkboxes)
-            checked_pack.push($(checkbox).parent().parent().attr('id'));
-        data.pack = checked_pack;
+        for (let checkbox of checkedCheckboxes)
+            checkedPack.push($(checkbox).parent().parent().attr('id'));
+        data.pack = checkedPack;
 
         $modify_modal_btn.click(function (event)
         {
             event.preventDefault();
-            let picture_id = [], picture_time = [];
-            let picture_checked_checkboxes = $modify_modal_table.find('input:checked');
-            if (picture_checked_checkboxes.length === 0)
+            let adId = [], adTime = [];
+            let adCheckedCheckboxes = $modify_modal_table.find('input:checked');
+            if (adCheckedCheckboxes.length === 0)
             {
                 showNotification('至少选择一幅图片', FAILURE);
                 return false;
             }
-            for (const checkbox of picture_checked_checkboxes)
+            for (const checkbox of adCheckedCheckboxes)
             {
-                picture_id.push($(checkbox).parent().attr('class'));
+                adId.push($(checkbox).parent().attr('class'));
                 if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
                 {
                     showNotification('时间必须为正整数', FAILURE);
-                    border_color_by_id($(checkbox).next().attr('id'));
+                    setBorderColorById($(checkbox).next().attr('id'));
                     return false;
                 }
-                picture_time.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
+                adTime.push($(checkbox).next().val() === '' ? 10 : $(checkbox).next().val());
             }
             if (!PACK_NAME_REG.test($new_pack_name_input.val()))
             {
                 showNotification('包名不合法', FAILURE);
-                border_color_by_id('new_pack_name_input');
+                setBorderColorById('new_pack_name_input');
                 return false;
             }
             if (!PACK_NOTE_REG.test($new_pack_note_input.val()))
             {
                 showNotification('备注不合法', FAILURE);
-                border_color_by_id('new_pack_note_input');
+                setBorderColorById('new_pack_note_input');
                 return false;
             }
-            [data.picture_id, data.picture_time, data.new_pack_name, data.new_pack_note, data.mutiple] =
-                [picture_id, picture_time, $new_pack_name_input.val(), $new_pack_note_input.val(), false];
-            modify_AJAX(data);
+            [data.adid, data.adTime, data.newPackName, data.newPackNote, data.mutiple] =
+                [adId, adTime, $new_pack_name_input.val(), $new_pack_note_input.val(), false];
+            modifyAJAX(data);
         });
 
         $modify_multiple_modal_btn.click(function (event)
@@ -201,11 +204,11 @@ $(function ()
             if (!/^[A-z0-9\u4e00-\u9fa5]{1,32}$/.test($multiple_new_pack_note_input.val()))
             {
                 showNotification('备注不合法', FAILURE);
-                border_color_by_id('multiple_new_pack_note_input');
+                setBorderColorById('multiple_new_pack_note_input');
                 return false;
             }
-            [data.new_pack_note, data.mutiple] = [$multiple_new_pack_note_input.val(), true];
-            modify_AJAX(data);
+            [data.newPackNote, data.mutiple] = [$multiple_new_pack_note_input.val(), true];
+            modifyAJAX(data);
         });
     });
 });
@@ -221,9 +224,9 @@ $(function ()
     $del_btn.click(function ()
     {
         event.preventDefault();
-        let checked_pack = [];
-        let checked_checkboxes = $('input:checked');
-        if (checked_checkboxes.length === 0)
+        let checkedPack = [];
+        let checkedCheckboxes = $('input:checked');
+        if (checkedCheckboxes.length === 0)
         {
             $del_error_modal.modal('show');
             return false;
@@ -232,16 +235,16 @@ $(function ()
         {
             let data = {};
             $del_modal.modal('show');
-            for (const checkbox of checked_checkboxes)
-                checked_pack.push(parseInt($(checkbox).parent().parent().attr('id')));
-            data.pack = checked_pack;
+            for (const checkbox of checkedCheckboxes)
+                checkedPack.push(parseInt($(checkbox).parent().parent().attr('id')));
+            data.pack = checkedPack;
             $del_modal_btn.click(function (event)
             {
                 event.preventDefault();
-                AJAX('del_pack', data,
+                AJAX('/resource/del', data,
                     function (response)
                     {
-                        if (response.status.code === 0)
+                        if (response.status.code !== SUCC)
                             showNotification(response.status.msg, FAILURE);
                         else
                         {
@@ -265,21 +268,21 @@ $(function ()
 /**自动设置高度**/
 $(function ()
 {
-    auto_height('package_management_panel_body', 90);
-    auto_height('add_modal_table_div', 300);
-    auto_height('modify_modal_table_div', 300);
-    auto_max_height('screen_modal_body', 225);
-    auto_height('plus_modal_body', 225);
-    auto_height('minus_modal_body', 225);
+    setHeight('package_management_panel_body', 90);
+    setHeight('add_modal_table_div', 300);
+    setHeight('modify_modal_table_div', 300);
+    setMaxHeight('screen_modal_body', 225);
+    setHeight('plus_modal_body', 225);
+    setHeight('minus_modal_body', 225);
 
 });
 
 /**Tips**/
 $(function ()
 {
-    add_tooltip_by_className('pack_name_input', '16位以内字母、数字与汉字', 'top');
-    add_tooltip_by_className('pack_note_input', '32位以内字母、数字与汉字', 'top');
-    add_tooltip_by_className('multiple_new_pack_note_input', '32位以内字母、数字与汉字', 'top');
+    addTooltipByClassName('pack_name_input', '16位以内字母、数字与汉字', 'top');
+    addTooltipByClassName('pack_note_input', '32位以内字母、数字与汉字', 'top');
+    addTooltipByClassName('multiple_new_pack_note_input', '32位以内字母、数字与汉字', 'top');
 });
 
 /**加减屏幕按钮**/
@@ -289,32 +292,32 @@ $(function ()
     $plus_modal_btn.click(function (event)
     {
         event.preventDefault();
-        screen_AJAX('plus', 'add_pack_screen');
+        screenAJAX('plus', '/resource/addPackScreen');
     });
     $minus_modal_btn.click(function (event)
     {
         event.preventDefault();
-        screen_AJAX('minus', 'del_pack_screen');
+        screenAJAX('minus', '/resource/delPackScreen');
     })
 });
 
-function screen_AJAX(type, action)
+function screenAJAX(type, suffix)
 {
     let data = {};
     data.screen = [];
-    data.resource_id = $(`#${type}_head_row`).attr('class');
-    let checked_checkboxes = $(`#${type}_modal_table`).find('input:checked');
-    if (checked_checkboxes.length === 0)
+    data.resourceId = $(`#${type}_head_row`).attr('class');
+    let checkedCheckboxes = $(`#${type}_modal_table`).find('input:checked');
+    if (checkedCheckboxes.length === 0)
     {
         showNotification('至少选择一个屏幕', FAILURE);
         return false;
     }
-    for (let checkbox of checked_checkboxes)
+    for (let checkbox of checkedCheckboxes)
         data.screen.push(parseInt($(checkbox).parent().parent().attr('class')));
-    AJAX(action, data,
+    AJAX(suffix, data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code !== SUCC)
                 showNotification('response.status.msg', FAILURE);
             else
             {
@@ -343,72 +346,97 @@ function screen_AJAX(type, action)
  </div>
  * **/
 /**
- * data：
- * [
- *      {id,url},
- *      {id,url},
- *      {id,url},
- *      {id,url}
- * ]
- *
+ response.data:{
+  "ads":{
+    "adId":{
+    "name":"string",
+    "src":"string",
+    "target":"string",
+    "position":"int",
+    "pack":["string"],
+    "adLabel":["string"]
+    }
+  }
+}
  * <input type="text" class="form-control" id=${}.id_time>
  * **/
-function image_AJAX(type, table_id, button_id)
+function imageAJAX(type, table_id, button_id)
 {
-	const PICTURES_PER_ROW = 5;
-	if ($(`#${table_id}`).find('.modal_cell').length === 0)
-	{
-		AJAX('get_picture', {},
-			function (response)
-			{
-				if (response.status.code === 0)
-				{
-					showNotification(response.status.msg, FAILURE);
-					$(`#${button_id}`).attr('disabled', 'disabled');
-				}
-				else
-				{
-					$(`#${button_id}`).removeAttr('disabled');
-					let pictures = response.data.pictures;
-					let row = 0;
-					let $row_node = $(`<div class="modal_row"></div>`);
-					for (; row < Math.floor(pictures.length / PICTURES_PER_ROW); row++)
-					{
-						for (let i = 0; i < PICTURES_PER_ROW; i++)
-						{
-							$row_node.append(`<div class="modal_cell"><label class=${pictures[row * PICTURES_PER_ROW + i].id}><div class="picture_div"><img src=${pictures[row * PICTURES_PER_ROW + i].src} alt=${pictures[row * PICTURES_PER_ROW + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * PICTURES_PER_ROW + i].id}_time maxlength="6" disabled placeholder="10"></label></div>`)
-						}
-						$(`#${table_id}`).append($row_node);
-						$row_node = $(`<div class="modal_row"></div>`);
-					}
-					if (pictures.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
-					{
-						$(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
-						for (let i = 0; i < pictures.length - row * 5; i++)
-						{
-							$(`#${table_id}_last_row`).append(`<div class="modal_cell"><label class=${pictures[row * 5 + i].id}><div class="picture_div"><img src=${pictures[row * 5 + i].src} alt=${pictures[row * 5 + i].id} class="image img-responsive"></div><input type="checkbox" class="${type}_checkbox"><input type="text" class="form-control  picture_time_input" id=${table_id}_${pictures[row * 5 + i].id}_time maxlength="6" disabled placeholder="10"></label></div></div>`)
-						}
-					}
-					activate_checkbox(type);
-					add_tooltip_by_className('picture_time_input', '该图片的播放时间(秒)', 'bottom');
-				}
-			},
-			function (error)
-			{
-				console.log(error);
-				showNotification('出现错误，请重试', FAILURE);
-				$(`#${button_id}`).attr('disabled', 'disabled');
-			}, false)
-	}
-	else
-	{
-		const $checkbox = $(`.${type}_checkbox`);
-		$checkbox.attr('checked', false);
-		$checkbox.prev().removeAttr('style');
-		$checkbox.prev().children().removeAttr('style');
-		$checkbox.next().attr('disabled', 'disabled').css('opacity', 0);
-		activate_checkbox(type);
-	}
+    const PICTURES_PER_ROW = 5;
+    if ($(`#${table_id}`).find('.modal_cell').length === 0)
+    {
+        AJAX('/ad/get', {},
+            function (response)
+            {
+                if (response.status.code !== SUCC)
+                {
+                    showNotification(response.status.msg, FAILURE);
+                    $(`#${button_id}`).attr('disabled', 'disabled');
+                }
+                else
+                {
+                    $(`#${button_id}`).removeAttr('disabled');
+                    let ads = response.data.ads;
+                    let row = 0;
+                    let $row_node = $(`<div class="modal_row"></div>`);
+                    const adIds = ads.keys();
+                    for (; row < Math.floor(adIds.length / PICTURES_PER_ROW); row++)
+                    {
+                        for (let i = 0; i < PICTURES_PER_ROW; i++)
+                        {
+                            let currentAdId = adIds[row * PICTURES_PER_ROW + i];
+                            $row_node.append(`
+<div class="modal_cell">
+    <label class=${currentAdId}>
+        <div class="picture_div">
+            <img src=${ads[currentAdId].src} alt=${currentAdId} class="image img-responsive">
+        </div>
+        <input type="checkbox" class="${type}_checkbox">
+        <input type="text" class="form-control  picture_time_input" id=${table_id}_${currentAdId}_time maxlength="6" disabled placeholder="10">
+    </label>
+</div>`)
+                        }
+                        $(`#${table_id}`).append($row_node);
+                        $row_node = $(`<div class="modal_row"></div>`);
+                    }
+                    if (adIds.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
+                    {
+                        $(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
+                        for (let i = 0; i < ads.length - row * 5; i++)
+                        {
+                            let currentAdId = adIds[row * PICTURES_PER_ROW + i];
+                            $(`#${table_id}_last_row`).append(`
+<div class="modal_cell">
+    <label class=${currentAdId}>
+        <div class="picture_div">
+            <img src=${ads[currentAdId].src} alt=${currentAdId} class="image img-responsive">
+        </div>
+        <input type="checkbox" class="${type}_checkbox">
+        <input type="text" class="form-control  picture_time_input" id=${table_id}_${currentAdId}_time maxlength="6" disabled placeholder="10">
+    </label>
+</div>`)
+                        }
+                    }
+                    activateCheckbox(type);
+                    addTooltipByClassName('picture_time_input', '该图片的播放时间(秒)', 'bottom');
+                }
+            },
+            function (error)
+            {
+                console.log(error);
+                showNotification('出现错误，请重试', FAILURE);
+                $(`#${button_id}`).attr('disabled', 'disabled');
+            }, false)
+    }
+    else
+    {
+        const $checkbox = $(`.${type}_checkbox`);
+        $checkbox.attr('checked', false);
+        $checkbox.prev().removeAttr('style');
+        $checkbox.prev().children().removeAttr('style');
+        $checkbox.next().attr('disabled', 'disabled').css('opacity', 0);
+        activateCheckbox(type);
+    }
 }
 
 /**
@@ -422,23 +450,24 @@ function image_AJAX(type, table_id, button_id)
  *
  * add's action：add_pack
  * **/
-function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
+function packageAJAX(table_id, name_input_id, note_input_id, footer_id, suffix)
 {
     let checkboxes = $(`#${table_id}`).find(':checked');
     let data = {};
-    let picture_id = [];
-    let picture_time = [];
-    [data.pack_name, data.pack_note] = [$(`#${name_input_id}`).val(), $(`#${note_input_id}`).val()];
-    if (!PACK_NAME_REG.test(data.pack_name))
+    let adId = [];
+    let adTime = [];
+    data.packName = $(`#${name_input_id}`).val();
+    data.packNote = $(`#${note_input_id}`).val();
+    if (!PACK_NAME_REG.test(data.packName))
     {
         showNotification('包名不合法', FAILURE);
-        border_color_by_id(name_input_id);
+        setBorderColorById(name_input_id);
         return false;
     }
-    if (!PACK_NOTE_REG.test(data.pack_note))
+    if (!PACK_NOTE_REG.test(data.packNote))
     {
         showNotification('备注不合法', FAILURE);
-        border_color_by_id(note_input_id);
+        setBorderColorById(note_input_id);
         return false;
     }
     if (checkboxes.length === 0)
@@ -448,21 +477,21 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
     }
     for (let checkbox of checkboxes)
     {
-        picture_id.push($(checkbox).parent().attr('class'));
-        picture_time.push($(checkbox).next().val() === '' ? 10 : parseInt($(checkbox).next().val()));
+        adId.push($(checkbox).parent().attr('class'));
+        adTime.push($(checkbox).next().val() === '' ? 10 : parseInt($(checkbox).next().val()));
         if (!/^[\d]*$/.test($(checkbox).next().val()) || $(checkbox).next().val() === 0)
         {
             showNotification('时间必须为正整数', FAILURE);
-            border_color_by_id($(checkbox).next().attr('id'));
+            setBorderColorById($(checkbox).next().attr('id'));
             return false;
         }
-        [data.picture_id, data.picture_time] = [picture_id, picture_time];
+        [data.adId, data.adTime] = [adId, adTime];
     }
 
-    AJAX(action, data,
+    AJAX(suffix, data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code !== SUCC)
                 showNotification(response.status.msg, FAILURE);
             else
             {
@@ -500,12 +529,12 @@ function package_AJAX(table_id, name_input_id, note_input_id, footer_id, action)
   *     multiple:true
  * }
  * **/
-function modify_AJAX(data)
+function modifyAJAX(data)
 {
-    AJAX('modify_pack', data,
+    AJAX('/resource/modifyPack', data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code !== SUCC)
                 showNotification(response.status.msg, FAILURE);
             else
             {
@@ -524,16 +553,16 @@ function modify_AJAX(data)
 }
 
 /**图片选中后显示对号**/
-function activate_checkbox(type)
+function activateCheckbox(type)
 {
     const $checkbox = $(`.${type}_checkbox`);
 
-    $checkbox.prop('checked',false);
-	$checkbox.unbind();
+    $checkbox.prop('checked', false);
+    $checkbox.unbind();
 
     $checkbox.click(function (event)
     {
-	    if ($(this).is(':checked'))
+        if ($(this).is(':checked'))
         {
             $(this).prev().css('backgroundImage', 'url("../images/admin/selected.png")');
             $(this).prev().children().css('opacity', 0.25);
@@ -550,7 +579,7 @@ function activate_checkbox(type)
 }
 
 /**显示+-按钮以及tip**/
-function activate_button()
+function activateButton()
 {
     const $packet_row = $('.packet_row');
     $packet_row.hover(
@@ -565,22 +594,22 @@ function activate_button()
     $('.screens').click(function (event)
     {
         event.preventDefault();
-        get_screen_modal(event.target);
+        getScreenModal(event.target);
     });
 
     $('.plus_screen').click(function (event)
     {
         event.preventDefault();
-        table_btn_AJAX(event.target, 'plus', 'get_pack_no_screen');
+        tableBtnAJAX(event.target, 'plus', '/resource/get_pack_no_screen');
     });
     $('.minus_screen').click(function (event)
     {
         event.preventDefault();
-        table_btn_AJAX(event.target, 'minus', 'get_pack_screen');
+        tableBtnAJAX(event.target, 'minus', '/resource/get_pack_screen');
     });
-    add_tooltip_by_className('plus_screen', '增加屏幕', 'left');
-    add_tooltip_by_className('minus_screen', '减少屏幕', 'right');
-    add_tooltip_by_className('screens', '点击查看完整屏幕列表', 'bottom');
+    addTooltipByClassName('plus_screen', '增加屏幕', 'left');
+    addTooltipByClassName('minus_screen', '减少屏幕', 'right');
+    addTooltipByClassName('screens', '点击查看完整屏幕列表', 'bottom');
 }
 
 /**图片列表modal**/
@@ -588,16 +617,16 @@ function activate_button()
  * data
  * [name,name,name……]
  * **/
-function get_screen_modal(pack_dom_obj)
+function getScreenModal(pack_dom_obj)
 {
-    let pack_id = $(pack_dom_obj).parent().parent().attr('id');
+    let packId = $(pack_dom_obj).parent().parent().attr('id');
     const [$screen_modal, $screen_modal_body] = [$('#screen_modal'), $('#screen_modal_body')];
     let data = {};
-    data.resource_id = pack_id;
-    AJAX('get_pack_screen', data,
+    data.resource_id = packId;
+    AJAX('getPackScreen', data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code !== SUCC)
                 showNotification(response.status.msg, FAILURE);
             else
             {
@@ -620,7 +649,7 @@ function get_screen_modal(pack_dom_obj)
 }
 
 /**AJAX for + and - buttons in table**/
-function table_btn_AJAX(btn_html_obj, type, action)
+function tableBtnAJAX(btn_html_obj, type, suffix)
 {
     $(`#${type}_modal_table`).html(`<tbody><tr id=${type}_head_row>
                         <th>序号</th>
@@ -633,10 +662,10 @@ function table_btn_AJAX(btn_html_obj, type, action)
     let data = {};
     data.resource_id = $(btn_html_obj).parent().parent().attr('id');
     $(`#${type}_head_row`).attr('class', data.resource_id);
-    AJAX(action, data,
+    AJAX(suffix, data,
         function (response)
         {
-            if (response.status.code === 0)
+            if (response.status.code !== SUCC)
                 showNotification(response.status.msg, FAILURE);
             else
             {

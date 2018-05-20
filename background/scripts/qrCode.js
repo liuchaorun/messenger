@@ -9,8 +9,8 @@ $(function ()
         return;
     }
 
-	const searchObj = decodeSearchString(searchString);
-    if (!searchObj.hasOwnProperty('uuid') || !searchObj.hasOwnProperty('adType') || !searchObj.hasOwnProperty('adId') || !searchObj.hasOwnProperty('target'))//这几个二维码内置信息如果有缺失则报错
+    const searchObj = decodeSearchString(searchString);
+    if (!searchObj.hasOwnProperty('uuid') || !searchObj.hasOwnProperty('adLabel') || !searchObj.hasOwnProperty('adId') || !searchObj.hasOwnProperty('target'))//这几个二维码内置信息如果有缺失则报错
     {
         $body.text(ERROR_STRING);
         return;
@@ -24,7 +24,7 @@ $(function ()
 
     searchObj.scanTime = new Date();
 
-    AJAX('get_qrcode_info', searchObj,
+    AJAX('/getQrcodeInfo', searchObj,
         function (res)
         {
             console.log(res);

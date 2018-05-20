@@ -7,10 +7,10 @@ $(function ()
     const $username = $('#username');
     const $work_place = $('#work_place');
 
-    AJAX('get_info', {},
+    AJAX('/user/get_info', {},
         function (response)
         {
-            if (response.status.code === FAIL)
+            if (response.status.code !== SUCC)
                 $error_modal.modal('show');
             else
             {
@@ -29,11 +29,11 @@ $(function ()
 /**Tips**/
 $(function ()
 {
-    add_tooltip_by_id('new_username', '输入新用户名，16个字符以内');
-    add_tooltip_by_id('new_work_place', '输入新工作地点，16个字符以内');
-    add_tooltip_by_id('old_password', '输入旧密码');
-    add_tooltip_by_id('new_password', '输入新密码，32个字符以内，允许数字、字母、下划线');
-    add_tooltip_by_id('new_password_again', '重复输入新密码');
+    addTooltipById('new_username', '输入新用户名，16个字符以内');
+    addTooltipById('new_work_place', '输入新工作地点，16个字符以内');
+    addTooltipById('old_password', '输入旧密码');
+    addTooltipById('new_password', '输入新密码，32个字符以内，允许数字、字母、下划线');
+    addTooltipById('new_password_again', '重复输入新密码');
 });
 
 /**用户名修改**/
@@ -51,8 +51,8 @@ $(function ()
             return false;
         }
         let data = {};
-        data.new_username = $new_username.val();
-        modify_AJAX(data, 'modify_username_modal_body');
+        data.newUsername = $new_username.val();
+        modifyAJAX(data);
     })
 });
 
@@ -71,8 +71,8 @@ $(function ()
             return false;
         }
         let data = {};
-        data.new_work_place = $new_work_place.val();
-        modify_AJAX(data, 'modify_work_place_modal_body');
+        data.newWorkPlace = $new_work_place.val();
+        modifyAJAX(data);
     })
 });
 
@@ -116,13 +116,13 @@ $(function ()
         else
         {
             let data = {};
-            data.old_password = md5($old_password.val());
-            data.new_password = md5($new_password.val());
+            data.oldPassword = md5($old_password.val());
+            data.newPassword = md5($new_password.val());
 
-            AJAX('modify_password', data,
+            AJAX('/user/modifyPassword', data,
                 function (response)
                 {
-                    if (response.status.code === FAIL)
+                    if (response.status.code !== SUCC)
                         showNotification(response.status.msg, FAILURE);
                     else
                     {
@@ -142,12 +142,12 @@ $(function ()
     });
 });
 
-function modify_AJAX(data, modal_body_id)
+function modifyAJAX(data)
 {
-    AJAX('modify_user', data,
+    AJAX('/user/modifyUser', data,
         function (response)
         {
-            if (response.status.code === FAIL)
+            if (response.status.code !== SUCC)
                 showNotification(response.status.msg, FAILURE);
             else
             {

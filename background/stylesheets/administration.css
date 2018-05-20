@@ -6,7 +6,7 @@ body{
 .container {
     width: 100%;
     padding: 0;
-    background: url("../images/admin/background_admin.jpg");
+    background: url("../images/admin/backgroundAdmin.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }

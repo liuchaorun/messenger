@@ -19,10 +19,10 @@ $(function ()
     const $picture_num = $('#picture_num');
     const $last_login_time = $('#last_login_time');
 
-    AJAX('get_info', {},
+    AJAX('/user/getInfo', {},
         function (response)
         {
-            if (response.status.code === FAIL)
+            if (response.status.code !== SUCC)
                 $error_modal.modal('show');
             else
             {
@@ -32,7 +32,7 @@ $(function ()
                 $work_place.text(info.work_place === '' ? '无' : info.work_place);
                 $screen_num.text(info.screen_num);
                 $picture_num.text(info.picture_num);
-                $last_login_time.text(parse_time_string(info.last_login_time));
+                $last_login_time.text(parseTimeString(info.last_login_time));
             }
         },
         function (error)

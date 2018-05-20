@@ -15,10 +15,10 @@ const IMAGE_TARGET_REG = /^http[s]?:\/\/.+$/;
 const ADTYPE_REG = /^[A-z0-9\u4e00-\u9fa5]{1,8}$/;
 
 /*请求code*/
+/*注意：后端有不止一个返回代码，目前只需要检查是否为1（成功）即可*/
 const SUCC = 1;
-const FAIL = 0;
 
-function AJAX(action, data_object, success_function, error_function, async = true)
+function AJAX(suffix, dataObject, successFunction, errorFunction, async = true)
 {
     $.ajax(
         {
@@ -29,19 +29,19 @@ function AJAX(action, data_object, success_function, error_function, async = tru
             timeout: 2000,
             async: async,
             dataType: 'json',
-            url: `http://118.89.197.156:3000/action=${action}`,
-            //url: `http://127.0.0.1:3000/action=${action}`,
+            //url: `http://118.89.197.156:3000/cloudExhibition${suffix}`,
+            url: `http://127.0.0.1:3000/cloudExhibition${suffix}`,
             method: 'post',
-            data: JSON.stringify(data_object),
-            success: success_function,
-            error: error_function,
+            data: JSON.stringify(dataObject),
+            success: successFunction,
+            error: errorFunction,
         })
 }
 
 /**上次登录时间裸字符串解析**/
-function parse_time_string(raw_time_string)
+function parseTimeString(rawTimeString)
 {
-    const date = new Date(raw_time_string);
+    const date = new Date(rawTimeString);
     if (date.getTime() === 0)
     {
         const now = new Date();
@@ -69,7 +69,7 @@ $(function ()
 });
 
 /**随浏览器窗口大小变化自动设定id指定元素的高度**/
-function auto_height(id, offset)
+function setHeight(id, offset)
 {
     $(`#${id}`).css('height', $(window).height() - offset);
     $(window).resize(function ()
@@ -78,7 +78,7 @@ function auto_height(id, offset)
     })
 }
 
-function auto_max_height(id, offset)
+function setMaxHeight(id, offset)
 {
     $(`#${id}`).css('maxHeight', $(window).height() - offset);
     $(window).resize(function ()
@@ -88,7 +88,7 @@ function auto_max_height(id, offset)
 }
 
 /**为指定的元素添加tooltip**/
-function add_tooltip_by_id(id, content, position = 'left')
+function addTooltipById(id, content, position = 'left')
 {
     $(`#${id}`).tooltip(
         {
@@ -100,7 +100,7 @@ function add_tooltip_by_id(id, content, position = 'left')
     );
 }
 
-function add_tooltip_by_className(className, content, position = 'left')
+function addTooltipByClassName(className, content, position = 'left')
 {
     $(`.${className}`).tooltip(
         {
@@ -113,7 +113,7 @@ function add_tooltip_by_className(className, content, position = 'left')
 }
 
 /**改变id指定元素的边框颜色**/
-function border_color_by_id(id, color = 'red')
+function setBorderColorById(id, color = 'red')
 {
     $(`#${id}`).css('borderColor', color);
 }

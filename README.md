@@ -2,7 +2,7 @@
 ## 计划中功能
 * 图片标签
     * 获取所有标签   
-        * action=get_adType
+        * action=getAdLabel
         * data 部分是一个数组，写入所有的标签
     * 上传图片
         * 提交信息

@@ -5,30 +5,36 @@
 /*自动高度设置*/
 $(function ()
 {
-    auto_height('image_management_panel_body', 80);
-    auto_height('del_error_2_modal_body', 225);
+    setHeight('image_management_panel_body', 80);
+    setHeight('del_error_2_modal_body', 225);
 });
 
 
 /*拉取图片列表，初始化标签表格*/
-/**
- * data:
- * {
- *      id1:{name:XXX,src:XXX,target:XXX,pack:[XXX,XXX],position:'1'},
- *      id2:{name:XXX,src:XXX,target:XXX,pack:[XXX,XXX],position:'1'},
- *      id3:{name:XXX,src:XXX,target:XXX,pack:[XXX,XXX],position:'1'}
- * }
- * **/
+/*
+response.data:{
+  "ads":{
+    "ad_id":{
+    "name":"string",
+    "src":"string",
+    "target":"string",
+    "position":"int",
+    "pack":["string"],
+    "adLabel":["string"]
+    }
+  }
+}
+*/
 $(function ()
 {
     sessionStorage.clear();
-    get_server_adTypeArr();
+    getServerAdLabelArr();
 
     const $error_modal = $('#error_modal');
 
-    AJAX('get_images', {}, function (res)
+    AJAX('/ad/get', {}, function (res)
     {
-        if (res.status.code === FAIL)
+        if (res.status.code !== SUCC)
         {
             showNotification(res.status.msg, FAILURE);
             $error_modal.modal('show');
@@ -36,7 +42,7 @@ $(function ()
         else
         {
             sessionStorage.setItem('imagesObj', JSON.stringify(res.data));
-            refresh_image_table();
+            refreshImageTable();
         }
     }, function (err)
     {
@@ -75,8 +81,8 @@ $(function ()
             /*预先填充信息*/
             let imagesObj = JSON.parse(sessionStorage.getItem('imagesObj'));
             const imageID = parseInt($selected.attr('id').toString());
-            const adTypeArr = imagesObj[imageID].adType;
-            const $adType = $('.adType');
+            const adLabelArr = imagesObj[imageID].adLabel;
+            const $adLabel = $('.adLabel');
             const $file_preview_table_cell = $('.file_preview_table_cell');
 
             $file_preview_table_wrapper.css('background-image', `url(${imagesObj[imageID].src})`);
@@ -86,12 +92,12 @@ $(function ()
             $new_name.val(imagesObj[imageID].name);
             $new_target.val(imagesObj[imageID].target);
 
-            $adType.removeClass('selected');
-            for (let adType of $adType)
+            $adLabel.removeClass('selected');
+            for (let adLabel of $adLabel)
             {
-                if (adTypeArr.indexOf($(adType).text()) !== -1)
+                if (adLabelArr.indexOf($(adLabel).text()) !== -1)
                 {
-                    $(adType).addClass('selected');
+                    $(adLabel).addClass('selected');
                 }
             }
             $modify_image_modal.modal('show');
@@ -126,16 +132,16 @@ $(function ()
 
         let imagesObj = JSON.parse(sessionStorage.getItem('imagesObj'));
 
-        const new_name = $new_name.val();
-        const new_target = $new_target.val();
+        const newName = $new_name.val();
+        const newTarget = $new_target.val();
         const $selected_position = $('.file_preview_table_cell.selected');
-        const $selected_adType = $('.adType.selected');
-        if (!IMAGE_NAME_REG.test(new_name))
+        const $selected_adLabel = $('.adLabel.selected');
+        if (!IMAGE_NAME_REG.test(newName))
         {
             $new_name.css('border-color', 'red');
             showNotification('新图片名不合法', FAILURE);
         }
-        else if (!IMAGE_TARGET_REG.test(new_target))
+        else if (!IMAGE_TARGET_REG.test(newTarget))
         {
             $new_target.css('border-color', 'red');
             showNotification('新网址不合法', FAILURE);
@@ -144,7 +150,7 @@ $(function ()
         {
             showNotification('二维码位置选择非法', FAILURE);
         }
-        else if ($selected_adType.length === 0)
+        else if ($selected_adLabel.length === 0)
         {
             showNotification('至少选择一个标签', FAILURE);
         }
@@ -152,30 +158,30 @@ $(function ()
         {
             let data = {};
             data.id = $file_preview_table_wrapper.attr('alt');
-            data.new_name = new_name;
-            data.new_target = new_target;
-            data.new_position = $selected_position.attr('id');
-            data.new_adType = [];
+            data.newName = newName;
+            data.newTarget = newTarget;
+            data.newPosition = $selected_position.attr('id');
+            data.newAdLabel = [];
 
-            for (const adType of $selected_adType)
+            for (const adLabel of $selected_adLabel)
             {
-                data.new_adType.push($(adType).text());
+                data.newAdLabel.push($(adLabel).text());
             }
 
-            AJAX('modify_image_info', data, function (res)
+            AJAX('/ad/modify', data, function (res)
             {
-                if (res.status.code === FAIL)
+                if (res.status.code !== SUCC)
                 {
                     showNotification(res.status.msg, FAILURE);
                 }
                 else
                 {
-                    imagesObj[data.id].name = new_name;
-                    imagesObj[data.id].target = new_target;
-                    imagesObj[data.id].position = data.new_position;
-                    imagesObj[data.id].adType = data.new_adType;
+                    imagesObj[data.id].name = newName;
+                    imagesObj[data.id].target = newTarget;
+                    imagesObj[data.id].position = data.newPosition;
+                    imagesObj[data.id].adLabel = data.newAdLabel;
                     sessionStorage.setItem('imagesObj', JSON.stringify(imagesObj));
-                    refresh_image_table();
+                    refreshImageTable();
                     showNotification(res.status.msg);
                     $modify_image_modal.modal('hide');
                 }
@@ -239,9 +245,9 @@ $(function ()
                     {
                         data.push($(image).attr('id'));
                     }
-                    AJAX('delete_image', data, function (res)
+                    AJAX('/ad/del', data, function (res)
                     {
-                        if (res.status.code === FAIL)
+                        if (res.status.code !== SUCC)
                         {
                             showNotification(res.status.msg, FAILURE);
                         }
@@ -253,7 +259,7 @@ $(function ()
                                 delete imagesObj[id];
                             }
                             sessionStorage.setItem('imagesObj', JSON.stringify(imagesObj));
-                            refresh_image_table();
+                            refreshImageTable();
                             $del_image_modal.modal('hide');
                             showNotification(res.status.msg);
                         }
@@ -286,8 +292,8 @@ $(function ()
 /*添加工具提示*/
 $(function ()
 {
-    add_tooltip_by_id('new_name', '8字符以内字母、数字及汉字', 'bottom');
-    add_tooltip_by_id('new_target', 'http:// 或 https:// 开头网址', 'bottom');
+    addTooltipById('new_name', '8字符以内字母、数字及汉字', 'bottom');
+    addTooltipById('new_target', 'http:// 或 https:// 开头网址', 'bottom');
 });
 
 /**图片表格DOM
@@ -312,7 +318,7 @@ $(function ()
  * **/
 
 /*根据sessionStorage内容刷新图片表格*/
-function refresh_image_table()
+function refreshImageTable()
 {
     const $image_management_table = $('#image_management_table');
     const IMAGES_PER_ROW = 4;
@@ -344,11 +350,11 @@ function refresh_image_table()
     {
         $image_management_table.append($currentRow);
     }
-    refresh_image_click_event();
+    refreshImageClickEvent();
 }
 
 /*图片点击事件*/
-function refresh_image_click_event()
+function refreshImageClickEvent()
 {
     const $table_image = $('.table_image');
     $table_image.click(function (e)
@@ -368,34 +374,34 @@ function refresh_image_click_event()
 }
 
 /*从本地缓存解析出对象并返回，如果本地缓存不存在则重新获取*/
-function get_local_adTypeArr()
+function getLocalAdLabelArr()
 {
-    let adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
-    if (adTypeArr === null)
+    let adLabelArr = JSON.parse(sessionStorage.getItem('adLabelArr'));
+    if (adLabelArr === null)
     {
-        get_server_adTypeArr();
-        adTypeArr = JSON.parse(sessionStorage.getItem('adTypeArr'));
+        getServerAdLabelArr();
+        adLabelArr = JSON.parse(sessionStorage.getItem('adLabelArr'));
     }
-    return adTypeArr;
+    return adLabelArr;
 }
 
 /*从服务器获取标签名数组，并放在本地缓存中*/
-function get_server_adTypeArr()
+function getServerAdLabelArr()
 {
     const $err_modal = $('#error_modal');
-    AJAX('get_adType', {},
+    AJAX('/label/get', {},
         function (res)
         {
-            if (res.status.code === FAIL)
+            if (res.status.code !== SUCC)
             {
                 showNotification(res.status.msg, FAILURE);
                 $err_modal.modal('show');
             }
             else
             {
-                const adTypeArr = res.data.adType;
-                sessionStorage.setItem('adTypeArr', JSON.stringify(adTypeArr));
-                refresh_adType_table();
+                const adLabelArr = res.data.adLabel;
+                sessionStorage.setItem('adLabelArr', JSON.stringify(adLabelArr));
+                refreshAdLabelTable();
             }
         },
         function (err)
@@ -406,41 +412,41 @@ function get_server_adTypeArr()
 }
 
 /*刷新标签表格*/
-function refresh_adType_table()
+function refreshAdLabelTable()
 {
-    const $adType_table = $('#adType_table');
-    const adTypeArr = get_local_adTypeArr();
-    $adType_table.text('');
-    const completeRowNum = Math.floor(adTypeArr.length / 5);
-    const restItemNum = adTypeArr.length % 5;
+    const $adLabel_table = $('#adLabel_table');
+    const adLabelArr = getLocalAdLabelArr();
+    $adLabel_table.text('');
+    const completeRowNum = Math.floor(adLabelArr.length / 5);
+    const restItemNum = adLabelArr.length % 5;
     for (let i = 0; i < completeRowNum; i++)
     {
-        $adType_table.append(`<div class="adType_table_row">
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 1]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 2]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 3]}</span>
-      <span class="label label-default adType_table_cell adType">${adTypeArr[5 * i + 4]}</span>
+        $adLabel_table.append(`<div class="adLabel_table_row">
+      <span class="label label-default adLabel_table_cell adLabel">${adLabelArr[5 * i]}</span>
+      <span class="label label-default adLabel_table_cell adLabel">${adLabelArr[5 * i + 1]}</span>
+      <span class="label label-default adLabel_table_cell adLabel">${adLabelArr[5 * i + 2]}</span>
+      <span class="label label-default adLabel_table_cell adLabel">${adLabelArr[5 * i + 3]}</span>
+      <span class="label label-default adLabel_table_cell adLabel">${adLabelArr[5 * i + 4]}</span>
   </div>`);
     }
-    let $lastRow = $(`<div class="adType_table_row"></div>`);
+    let $lastRow = $(`<div class="adLabel_table_row"></div>`);
     for (let i = 0; i < restItemNum; i++)
     {
-        $lastRow.append(`<span class="label label-default adType_table_cell adType">${adTypeArr[5 * completeRowNum + i]}</span>`);
+        $lastRow.append(`<span class="label label-default adLabel_table_cell adLabel">${adLabelArr[5 * completeRowNum + i]}</span>`);
     }
     for (let i = 0; i < 5 - restItemNum; i++)
     {
-        $lastRow.append(`<span class="adType_table_cell"></span>`);
+        $lastRow.append(`<span class="adLabel_table_cell"></span>`);
     }
-    $adType_table.append($lastRow);
-    refresh_adType_click_event();
+    $adLabel_table.append($lastRow);
+    refreshAdLabelClickEvent();
 }
 
 /*点击标签后选中并变色*/
-function refresh_adType_click_event()
+function refreshAdLabelClickEvent()
 {
-    const $adType = $('.adType');
-    $adType.click(function (e)
+    const $adLabel = $('.adLabel');
+    $adLabel.click(function (e)
     {
         e.preventDefault();
         if ($(this).hasClass('selected'))

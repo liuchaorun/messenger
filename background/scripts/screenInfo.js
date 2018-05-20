@@ -35,10 +35,10 @@ let screen_info = [];
 $(function ()
 {
     const $screen_table = $('#screen_table');
-    AJAX('get_screen', {},
+    AJAX('/screen/getAll', {},
         function (response)
         {
-            if (response.status.code === FAIL)
+            if (response.status.code !== SUCC)
                 $error_modal.modal('show');
             else
             {
@@ -46,7 +46,7 @@ $(function ()
                 let update_time = '';
                 for (let i = 0; i < screen_info.length; i++)
                 {
-                    update_time = parse_time_string(screen_info[i].update_time);
+                    update_time = parseTimeString(screen_info[i].updateTime);
                     $screen_table.append(
                         `<tr id=${screen_info[i].uuid} class="screen">
                             <td class="seq">${i + 1}</td>
@@ -116,7 +116,7 @@ $(function ()
     const $uuid = $('#uuid');
     const $add_modal_btn = $('#add_modal_btn');
 
-    add_tooltip_by_id('uuid', '8位字母、数字');
+    addTooltipById('uuid', '8位字母、数字');
 
     $add_modal_btn.click(function (event)
     {
@@ -125,10 +125,10 @@ $(function ()
         {
             let data = {};
             data.uuid = $uuid.val();
-            AJAX('add_screen', data,
+            AJAX('/screen/add', data,
                 function (response)
                 {
-                    if (response.status.code === FAIL)
+                    if (response.status.code !== SUCC)
                         showNotification(response.status.msg, FAILURE);
                     else
                     {
@@ -164,16 +164,16 @@ $(function ()
     const $modify_btn = $('#modify_btn');
     const $modify_modal_btn = $('#modify_modal_btn');
 
-    let checked_screen_uuid = [];//存储被选屏幕的UUID
+    let checkedScreenUuid = [];//存储被选屏幕的UUID
     $modify_btn.click(function (event)
     {
         event.preventDefault();
-        checked_screen_uuid = [];
-        let screen_checkbox = $('.screen_checkbox');
-        for (let checkbox of screen_checkbox)
+        checkedScreenUuid = [];
+        let screenCheckbox = $('.screen_checkbox');
+        for (let checkbox of screenCheckbox)
             if ($(checkbox).is(':checked'))
-                checked_screen_uuid.push($(checkbox).parent().parent().attr('id'));
-        if (checked_screen_uuid.length > 1)
+                checkedScreenUuid.push($(checkbox).parent().parent().attr('id'));
+        if (checkedScreenUuid.length > 1)
         {
             $new_screen_name.removeAttr('disabled').val('');
             $new_freq.removeAttr('disabled').val('');
@@ -181,7 +181,7 @@ $(function ()
             $modify_modal_btn.removeAttr('disabled').val('');
             $new_screen_name.attr('disabled', 'disabled');
         }
-        else if (checked_screen_uuid.length === 0)
+        else if (checkedScreenUuid.length === 0)
         {
             $modify_modal.modal('hide');
             $new_screen_name.attr('disabled', 'disabled');
@@ -204,7 +204,7 @@ $(function ()
         event.preventDefault();
         let status = true;
         let data = {};
-        data.uuid = checked_screen_uuid;
+        data.uuid = checkedScreenUuid;
         if ($new_screen_name.val())
         {
             if (!SCREEN_NAME_REG.test($new_screen_name.val()))
@@ -245,10 +245,10 @@ $(function ()
             showNotification('至少修改一项', FAILURE);
             return false;
         }
-        AJAX('modify_screen', data,
+        AJAX('/screen/modify', data,
             function (response)
             {
-                if (response.status.code === FAIL)
+                if (response.status.code !== SUCC)
                     showNotification(response.status.msg, FAILURE);
                 else
                 {
@@ -276,29 +276,29 @@ $(function ()
     const $del_error_modal = $('#del_error_modal');
     const $del_screen = $('#del_screen');
 
-    let checked_screen_uuid = [];
+    let checkedScreenUuid = [];
 
     $del_btn.click(function (event)
     {
-        checked_screen_uuid = [];
+        checkedScreenUuid = [];
         event.preventDefault();
-        let screen_checkbox = $('.screen_checkbox');
-        for (let checkbox of screen_checkbox)
+        let $screen_checkbox = $('.screen_checkbox');
+        for (let checkbox of $screen_checkbox)
             if ($(checkbox).is(':checked'))
-                checked_screen_uuid.push($(checkbox).parent().parent().attr('id'));
-        if (checked_screen_uuid.length === 0)
+                checkedScreenUuid.push($(checkbox).parent().parent().attr('id'));
+        if (checkedScreenUuid.length === 0)
         {
             $del_error_modal.modal('show');
         }
         else
         {
             $del_modal.modal('show');
-            let del_screen_name = ' ';
-            for (let i = 0; i < checked_screen_uuid.length; i++)
+            let delScreenName = ' ';
+            for (let i = 0; i < checkedScreenUuid.length; i++)
                 for (let j = 0; j < screen_info.length; j++)
-                    if (screen_info[j].uuid === checked_screen_uuid[i])
-                        del_screen_name += screen_info[j].name;
-            $del_screen.text(del_screen_name);
+                    if (screen_info[j].uuid === checkedScreenUuid[i])
+                        delScreenName += screen_info[j].name;
+            $del_screen.text(delScreenName);
         }
     });
 
@@ -306,12 +306,12 @@ $(function ()
     {
         event.preventDefault();
         let data = {};
-        data.uuid = checked_screen_uuid;
+        data.uuid = checkedScreenUuid;
 
-        AJAX('del_screen', data,
+        AJAX('/screen/del', data,
             function (response)
             {
-                if (response.status.code === FAIL)
+                if (response.status.code !== SUCC)
                     showNotification(response.status.msg, FAILURE);
                 else
                 {
@@ -333,13 +333,13 @@ $(function ()
 /**自动设置高度**/
 $(function ()
 {
-    auto_height('screen_info_panel_body', 90);
+    setHeight('screen_info_panel_body', 90);
 });
 
 /**Tips**/
 $(function ()
 {
-    add_tooltip_by_id('new_screen_name', '16位以内字母、数字或汉字');
-    add_tooltip_by_id('new_freq', '正整数，单位为分钟');
-    add_tooltip_by_id('new_note', '32位以内字母、数字或汉字');
+    addTooltipById('new_screen_name', '16位以内字母、数字或汉字');
+    addTooltipById('new_freq', '正整数，单位为分钟');
+    addTooltipById('new_note', '32位以内字母、数字或汉字');
 });

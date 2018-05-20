@@ -5,9 +5,9 @@
 /*自动设定高度*/
 $(function ()
 {
-    auto_height('sidebar', 0);
-    auto_height('frame_div', 0);
-    auto_height('frame', 0);
+    setHeight('sidebar', 0);
+    setHeight('frame_div', 0);
+    setHeight('frame', 0);
 });
 
 /*退出按钮设定*/
@@ -43,14 +43,14 @@ $(function ()
         event.preventDefault();
         $('.active').removeClass('active');
         $user_info.addClass('active');
-        $frame.attr('src', 'frames/user_info.html');
+        $frame.attr('src', 'frames/userInfo.html');
     });
     $screen_info.click(function (event)
     {
         event.preventDefault();
         $('.active').removeClass('active');
         $screen_info.addClass('active');
-        $frame.attr('src', 'frames/screen_management.html');
+        $frame.attr('src', 'frames/screenManagement.html');
     });
     $resource_management.click(function (event)
     {
@@ -81,7 +81,7 @@ $(function ()
         $('.active').removeClass('active');
         $resource_management.addClass('active');
         $image_management.addClass('active');
-        $frame.attr('src', 'frames/ad_management.html');
+        $frame.attr('src', 'frames/adManagement.html');
     });
     $package_management.click(function (event)
     {
@@ -89,14 +89,14 @@ $(function ()
         $('.active').removeClass('active');
         $resource_management.addClass('active');
         $package_management.addClass('active');
-        $frame.attr('src', 'frames/package_management.html');
+        $frame.attr('src', 'frames/packageManagement.html');
     });
     $modify_info.click(function (event)
     {
         event.preventDefault();
         $('.active').removeClass('active');
         $modify_info.addClass('active');
-        $frame.attr('src', 'frames/modify_info.html');
+        $frame.attr('src', 'frames/modifyInfo.html');
     })
 });
 
@@ -121,7 +121,7 @@ $(function ()
         else
         {
             $lockIcon.removeAttr('style');
-            $lockIcon.css('display','inline');//修正默认状态下会消失的问题
+            $lockIcon.css('display', 'inline');//修正默认状态下会消失的问题
             isLocked = false;
         }
     });
@@ -158,5 +158,5 @@ $(function ()
 /*添加工具提示*/
 $(function ()
 {
-    add_tooltip_by_id('lockIcon', '锁定侧边栏', 'right');
+    addTooltipById('lockIcon', '锁定侧边栏', 'right');
 });

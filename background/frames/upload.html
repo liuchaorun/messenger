@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../stylesheets/frame_common.css">
-    <link rel="stylesheet" href="../stylesheets/common.css">
+    <link rel="stylesheet" href="../stylesheets/frameShare.css">
+    <link rel="stylesheet" href="../stylesheets/share.css">
     <link rel="stylesheet" href="../stylesheets/upload.css">
     <title>上传广告 - 云展</title>
 </head>
@@ -52,16 +52,16 @@
                                placeholder="二维码指向网址">
                     </div>
                     <div id="file_info_panel_body_left_bottom">
-                        <h4 id="adType_title">选择广告标签
+                        <h4 id="adLabel_title">选择广告标签
                             <small>
                                 <span style="color: rgba(51, 122, 183, 1);font-weight: bold">蓝色</span>为选中状态，滚动可查看更多
                             </small>
                         </h4>
-                        <div id="adType_table_wrapper">
-                            <div id="adType_table"><!--广告种类表格内容-->Oops，你没有任何标签。<br>准确的标签选择可增加广告投放准确度。<br>点击下方按钮来创建标签吧！</div>
+                        <div id="adLabel_table_wrapper">
+                            <div id="adLabel_table"><!--广告种类表格内容-->Oops，你没有任何标签。<br>准确的标签选择可增加广告投放准确度。<br>点击下方按钮来创建标签吧！</div>
                         </div>
-                        <button id="manage_adType_btn" class="btn btn-primary btn-sm" data-toggle="modal"
-                                data-target="#manage_adType_modal">管理标签
+                        <button id="manage_adLabel_btn" class="btn btn-primary btn-sm" data-toggle="modal"
+                                data-target="#manage_adLabel_modal">管理标签
                         </button>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
 </div>
 
 <!--管理标签模态框-->
-<div class="modal fade" id="manage_adType_modal" tabindex="-1" role="dialog" aria-labelledby="manage_adType_modal">
+<div class="modal fade" id="manage_adLabel_modal" tabindex="-1" role="dialog" aria-labelledby="manage_adLabel_modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -145,17 +145,17 @@
                 <h4 class="modal-title" id="myModalLabel">管理标签</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-info" role="alert" id="manage_adType_modal_info">
+                <div class="alert alert-info" role="alert" id="manage_adLabel_modal_info">
                     <span class="glyphicon glyphicon-info-sign"></span> 可添加标签，或点选后删除标签
                 </div>
-                <div id="manage_adType_modal_table_wrapper">
-                    <div id="manage_adType_modal_table"><!--广告种类表格内容-->Oops，你没有任何标签。<br>准确的标签选择可增加广告投放准确度。<br>点击下方按钮来创建标签吧！</div>
+                <div id="manage_adLabel_modal_table_wrapper">
+                    <div id="manage_adLabel_modal_table"><!--广告种类表格内容-->Oops，你没有任何标签。<br>准确的标签选择可增加广告投放准确度。<br>点击下方按钮来创建标签吧！</div>
                 </div>
             </div>
             <div class="modal-footer">
-                <input type="text" class="form-control" id="add_adType_input" placeholder="输入新标签">
-                <button type="button" class="btn btn-primary" id="add_adType_modal_btn">增加</button>
-                <button type="button" class="btn btn-danger" id="delete_adType_modal_btn">删除</button>
+                <input type="text" class="form-control" id="add_adLabel_input" placeholder="输入新标签">
+                <button type="button" class="btn btn-primary" id="add_adLabel_modal_btn">增加</button>
+                <button type="button" class="btn btn-danger" id="delete_adLabel_modal_btn">删除</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
@@ -165,7 +165,7 @@
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="../scripts/lib.js"></script>
-<script src="../scripts/frame_common.js"></script>
+<script src="../scripts/frameCommon.js"></script>
 <script src="../scripts/upload.js"></script>
 </body>
 </html>

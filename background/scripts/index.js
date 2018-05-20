@@ -27,7 +27,7 @@ $(function ()
         }
         else if (parseInt(parser.getBrowser().version) < 9)
         {
-            window.location = 'ie_refuse.html';
+            window.location = 'ieReject.html';
         }
     }
 });
@@ -35,15 +35,15 @@ $(function ()
 /**输入提示**/
 $(function ()
 {
-    add_tooltip_by_id('register_username', '请输入你的用户名。16个字符以内');
-    add_tooltip_by_id('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
-    add_tooltip_by_id('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
-    add_tooltip_by_id('register_password_again', '请再次输入你的密码');
-    add_tooltip_by_id('verification_code', '请输入接收到的验证码');
-    add_tooltip_by_id('forget_username', '请输入最后使用的用户名');
-    add_tooltip_by_id('forget_email', '请输入注册时使用的邮箱');
-    add_tooltip_by_id('login_email', '请输入邮箱');
-    add_tooltip_by_id('login_password', '请输入密码');
+    addTooltipById('register_username', '请输入你的用户名。16个字符以内');
+    addTooltipById('register_email', '请输入你的邮箱。邮箱将用于接收验证码以及登录');
+    addTooltipById('register_password', '请输入你的密码。32个字符以内，允许字母、数字、下划线');
+    addTooltipById('register_password_again', '请再次输入你的密码');
+    addTooltipById('verification_code', '请输入接收到的验证码');
+    addTooltipById('forget_username', '请输入最后使用的用户名');
+    addTooltipById('forget_email', '请输入注册时使用的邮箱');
+    addTooltipById('login_email', '请输入邮箱');
+    addTooltipById('login_password', '请输入密码');
 });
 
 /**得到验证码**/
@@ -102,10 +102,10 @@ $(function ()
             let data = {};
             data.email = $register_email.val();
 
-            AJAX('signup', data,
+            AJAX('/signup', data,
                 function (response)
                 {
-                    if (response.status.code === FAIL)
+                    if (response.status.code !== SUCC)
                     {
                         //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                         showNotification(response.status.msg, FAILURE);
@@ -175,10 +175,10 @@ $(function ()
         let data = {};
         [data.username, data.email, data.password, data.verify] =
             [$register_username.val(), $register_email.val(), md5($register_password.val()), $verification_code.val()];
-        AJAX('verify', data,
+        AJAX('/verify', data,
             function (response)
             {
-                if (response.status.code === FAIL)
+                if (response.status.code !== SUCC)
                 {
                     //modal_append_warning('register_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
@@ -231,10 +231,10 @@ $(function ()
         let data = {};
         [data.email, data.password, data.remember_me] = [$login_email.val(), md5($login_password.val()), true];
         //data.remember_me = $remember_me_checkbox.is(':checked');
-        AJAX('login', data,
+        AJAX('/login', data,
             function (response)
             {
-                if (response.status.code === FAIL)
+                if (response.status.code !== SUCC)
                 {
                     //modal_append_warning('login_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
@@ -311,10 +311,10 @@ $(function ()
         data.username = $forget_username.val();
         data.email = $forget_email.val();
 
-        AJAX('forget', data,
+        AJAX('/user/forget', data,
             function (response)
             {
-                if (response.status.code === FAIL)
+                if (response.status.code !== SUCC)
                 {
                     //modal_append_warning('forget_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
@@ -356,10 +356,10 @@ $(function ()
 
         let data = {};
         data.new_password = md5($new_password.val());
-        AJAX('new_password', data,
+        AJAX('/user/new_password', data,
             function (response)
             {
-                if (response.status.code === FAIL)
+                if (response.status.code !== SUCC)
                 {
                     //modal_append_warning('new_password_modal_body', 'danger', 'glyphicon-remove', response.status.msg);
                     showNotification(response.status.msg, FAILURE);
