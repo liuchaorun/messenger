@@ -47,7 +47,7 @@ module.exports = (router)=>{
 		data.lastLoginTime = ctx.session.last_login_time;
 		data.adNum = user_ad.length;
 		data.screenNum = user_screen.length;
-		lib.msgTranslate(200, data, {code: 1, msg: '获取信息成功'});
+		lib.msgTranslate(ctx, 200, data, {code: 1, msg: '获取信息成功'});
 		await next();
 	});
 	//重置密码
