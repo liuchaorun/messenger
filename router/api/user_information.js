@@ -15,7 +15,7 @@ module.exports = (router)=>{
 		let user_num = await user.count({where: {email: ctx.request.body.email}});
 		if (user_num === 0) lib.msgTranslate(ctx,200, {}, {code: 0, msg: '不存在该用户！'});
 		else {
-			let user_person = await user.findOne({where: {email: ctx.request.body.email}});
+			let user_person = await user.find({where: {email: ctx.request.body.email}});
 			if (user_person.username === ctx.request.body.username) {
 				ctx.session.forget_email = ctx.request.body.email;
 				lib.msgTranslate(ctx,200, {}, {code: 1, msg: '验证成功！'});
@@ -28,7 +28,7 @@ module.exports = (router)=>{
 	});
 	//重置新密码
 	router.post(prefix('/new_password'), async (ctx, next) => {
-		let user_person = await user.findOne({where: {email: ctx.session.forget_email}});
+		let user_person = await user.find({where: {email: ctx.session.forget_email}});
 		await user_person.update({
 			password: ctx.request.body.new_password
 		});
@@ -37,25 +37,25 @@ module.exports = (router)=>{
 	});
 	//获取信息
 	router.post(prefix('/get_info'), async (ctx, next) => {
-		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+		let user_person = await user.find({where: {email: ctx.session.custom_email}});
 		let user_ad = await user_person.getAds();
 		let user_screen = await user_person.getScreens();
 		let data = {};
 		data.username = user_person.username;
 		data.email = user_person.email;
-		data.work_place = user_person.work_place;
-		data.last_login_time = ctx.session.last_login_time;
-		data.ad_num = user_ad.length;
-		data.screen_num = user_screen.length;
+		data.workPlace = user_person.work_place;
+		data.lastLoginTime = ctx.session.last_login_time;
+		data.adNum = user_ad.length;
+		data.screenNum = user_screen.length;
 		lib.msgTranslate(200, data, {code: 1, msg: '获取信息成功'});
 		await next();
 	});
 	//重置密码
     router.post(prefix('/modify_password'),async(ctx,next)=>{
-        let user_person = await user.findOne({where:{email:ctx.session.custom_email}});
-        if(user_person.password===ctx.request.body.old_password){
+        let user_person = await user.find({where:{email:ctx.session.custom_email}});
+        if(user_person.password===ctx.request.body.oldPassword){
             user_person.update({
-                password:ctx.request.body.new_password
+                password:ctx.request.body.newPassword
             });
             lib.msgTranslate(ctx,200,{},{code:1,msg:'修改密码成功！'});
         }
@@ -66,9 +66,9 @@ module.exports = (router)=>{
     });
 	//修改用户信息
     router.post(prefix('/modify_user'), async (ctx, next) => {
-        let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-        if (ctx.request.body.new_username !== undefined) await user_person.update({username: ctx.request.body.new_username});
-        if (ctx.request.body.new_work_place !== undefined) await user_person.update({work_place: ctx.request.body.new_work_place});
+        let user_person = await user.find({where: {email: ctx.session.custom_email}});
+        if (ctx.request.body.newUsername !== undefined) await user_person.update({username: ctx.request.body.newUsername});
+        if (ctx.request.body.newWorkPlace !== undefined) await user_person.update({work_place: ctx.request.body.newWorkPlace});
         lib.msgTranslate(ctx,200, {}, {code: 1, msg: '修改信息成功！'});
         await next();
     });

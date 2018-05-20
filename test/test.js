@@ -2,9 +2,12 @@
  * Created by lcr on 17-5-16.
  */
 const db = require('../db/index');
+const Sequelize = require('sequelize');
 let resource = db.models.resource;
 let ad = db.models.ad;
 let user = db.models.user;
+let ad_label = db.models.ad_label;
+const Op = Sequelize.Op;
 async function a() {
     // await user.create({
 	 //    username:'lcr',
@@ -13,10 +16,10 @@ async function a() {
 	 //    last_login_time:new Date(),
 	 //    work_place:'ssdut'
     // })
-	let usr = await user.findOne({where:{email:'1558531230@qq.com'}});
-	await usr.createAd_label({
-		name:'测试'
-	});
+	let usr = await user.find({where:{email:{[Op.eq]:'1558531230@qq.com'}}});
+	await usr.createAd_label({name:'asd'});
+	let adLabel = await ad_label.find({where:{name:{[Op.eq]:'asd'}}});
+	console.log(adLabel.name);
 }
 a();
 //const fs = require('fs');

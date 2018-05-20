@@ -96,7 +96,7 @@ response.data{
 url:'/new_password'
 ```json
 request:{
-  "new_password":"string"
+  "newPassword":"string"
 }
 ```
 ```json
@@ -116,10 +116,10 @@ request:{
 request.data:{
   "username":"string",
   "email":"string",
-  "work_place":"string",
-  "last_login_time":"timestamp with time zone",
-  "ad_num":"int",
-  "screen_num":"int"
+  "workPlace":"string",
+  "lastLoginTime":"timestamp with time zone",
+  "adNum":"int",
+  "screenNum":"int"
 }
 ```
 
@@ -127,8 +127,8 @@ request.data:{
 url:'/modify_password'
 ```json
 request:{
-  "old_password":"string",
-  "new_password":"string"
+  "oldPassword":"string",
+  "newPassword":"string"
 }
 ```
 ```json
@@ -141,8 +141,8 @@ response.data:{
 url:'/modify_user'
 ```json
 request:{
-  "new_username":"string or undeifned",
-  "new_work_place":"string or undefined"
+  "newUsername":"string or undeifned",
+  "newWorkPlace":"string or undefined"
 }
 ```
 ```json
@@ -168,11 +168,11 @@ response.data:{
       "uuid":"string",
       "status":"bool",
       "name":"string",
-      "updated_time":"timestamp",
+      "updatedTime":"timestamp",
       "freq":"int",
       "pack":"null or string",
       "note":"string",
-      "screen_resolution":"string"
+      "screenResolution":"string"
       },{}
   ]
 }
@@ -196,9 +196,9 @@ url:'/modify'
 ```json
 request:{
   "uuid":["int"],
-  "new_name":"string",
-  "new_freq":"int",
-  "new_note":"string"
+  "newName":"string",
+  "newFreq":"int",
+  "newNote":"string"
 }
 ```
 ```json
@@ -249,7 +249,7 @@ request:{
 ```json
 response.data:{
   "ads":{
-    "ad_id":{
+    "adId":{
     "name":"string",
     "src":"string",
     "target":"string",
@@ -266,10 +266,10 @@ url:'/modify'
 ```json
 request:{
   "id":"int",
-  "new_name":"string",
-  "new_target":"string",
-  "new_position":"int",
-  "new_adLabel":["string"]
+  "newName":"string",
+  "newTarget":"string",
+  "newPosition":"int",
+  "newAdLabel":["string"]
 }
 ```
 ```json
@@ -282,7 +282,7 @@ response.data:{
 url:'/del'
 ```json
 request:{
-  "ad_id":["int"]
+  "adId":["int"]
 }
 ```
 ```json
@@ -298,10 +298,10 @@ response.data:{
 url:'/add'
 ```json
 request:{
-  "ad_id":["int"],
-  "ad_time":["int"],
-  "pack_name":"string",
-  "pack_note":"string"
+  "adId":["int"],
+  "adTime":["int"],
+  "packName":"string",
+  "packNote":"string"
 }
 ```
 ```json
@@ -326,7 +326,7 @@ response.data:{
       }],
     "name":"string",
     "note":"string",
-    "resource_id":"int"
+    "resourceId":"int"
     }]
 }
 ```
@@ -335,14 +335,14 @@ response.data:{
 url:'/get_pac_screen'
 ```json
 request:{
-  "resource_id":"int"
+  "resourceId":"int"
 }
 ```
 ```json
 response.data:{
   "screen":[{
     "name":"string",
-    "screen_id":"int",
+    "screenId":"int",
     "note":"string"
     }]
 }]
@@ -359,7 +359,7 @@ request:{
 response.data:{
   "screen":[{
     "name":"string",
-    "screen_id":"int",
+    "screenId":"int",
     "note":"string"
     }]
 }]
@@ -369,13 +369,13 @@ response.data:{
 url:'/add_pack_screen'
 ```json
 request:{
-  "resource_id":"int",
+  "resourceId":"int",
   "screen":["int"]
 }
 ```
 ```json
 response.data:{
-  "null"
+  "nconst Op = Sequelize.Opull"
 }
 ```
 
@@ -383,7 +383,7 @@ response.data:{
 url:'/del_pack_screen'
 ```json
 request:{
-  "resource_id":"int",
+  "resourceId":"int",
   "screen":["int"]
 }
 ```
@@ -397,19 +397,19 @@ response.data:{
 url:'/get_pack_info'
 ```json
 request:{
-  "resource_id":"int"
+  "resourceId":"int"
 }
 ```
 ```json
 response.data:{
-  "used_ads":[{
-    "ad_name":"string",
-		"ad_md5":"string",
-		"ad_time":"int",
-		"ad_url":"string",
-		"ad_id":"int",
-		"ad_target":"string",
-		"ad_qrcode_position":"int"
+  "usedAds":[{
+    "adName":"string",
+		"adMd5":"string",
+		"adTime":"int",
+		"adUrl":"string",
+		"adId":"int",
+		"adTarget":"string",
+		"adQrcodePosition":"int"
     }],
   "name":"string",
   "note":"string"
@@ -422,17 +422,17 @@ url:'/modify'
 if(mutiple === true){
   request:{
     "pack":["int"],
-    "new_pack_note":"string",
+    "newPackNote":"string",
     "mutiple":"bool"
   }
 }
 else{
   request:{
     "pack":["int"] //only one
-    "new_pack_name":"string",
-    "new_pack_note":"string",
-    "ad_id":["int"],
-    "ad_time":["int"]
+    "newPackName":"string",
+    "newPackNote":"string",
+    "adId":["int"],
+    "adTime":["int"]
   }
 }
 ```
@@ -462,7 +462,7 @@ response.data:{
 url:'/add'
 ```json
 request:{
-  "new_ad_label":"string"
+  "newAdLabel":"string"
 }
 ```
 ```json
@@ -480,7 +480,7 @@ request:{
 ```
 ```json
 response.data:{
-  "ad_label":["string"]
+  "adLabel":["string"]
 }
 ```
 
@@ -488,7 +488,7 @@ response.data:{
 url:'/del'
 ```json
 request:{
-  "ad_label":["string"]
+  "adLabel":["string"]
 }
 ```
 ```json

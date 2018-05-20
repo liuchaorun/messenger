@@ -18,7 +18,7 @@ router.use(async (ctx, next) => {
 	}
 	catch (e) {
         logger.error(e);
-        lib.msgTranslate(ctx,500,{},{code:0,msg:'服务器错误!'});
+        lib.msgTranslate(ctx,200,{},{code:500,msg:'服务器错误!'});
     }
 });
 

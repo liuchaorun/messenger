@@ -16,17 +16,17 @@ module.exports = (router)=>{
 	};
 
 	router.post(prefix('/add'), async (ctx, next) => {
-		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-		let ad_id = ctx.request.body.ad_id;
-		let ad_time = ctx.request.body.ad_time;
+		let user_person = await user.find({where: {email: ctx.session.custom_email}});
+		let ad_id = ctx.request.body.adId;
+		let ad_time = ctx.request.body.adTime;
 		let main = {}, ad_all = [];
 		let resource_new = await resource.create({
-			name: ctx.request.body.pack_name,
-			remark: ctx.request.body.pack_note
+			name: ctx.request.body.packName,
+			remark: ctx.request.body.packNote
 		});
 		await user_person.addResource(resource_new);
 		for (let i = 0; i < ad_id.length; ++i) {
-			let ad_add = await ad.findOne({where: {picture_id: ad_id[i]}});
+			let ad_add = await ad.find({where: {picture_id: ad_id[i]}});
 			await resource_new.addAds(ad_add);
 			ad_all[i]={
 				ad_name:ad_add.name,
@@ -49,7 +49,7 @@ module.exports = (router)=>{
 	});
 
 	router.post(prefix('/get'), async (ctx, next) => {
-		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+		let user_person = await user.find({where: {email: ctx.session.custom_email}});
 		let person_resource = await user_person.getResources();
 		let data = {};
 		data.resources = [];
@@ -59,7 +59,7 @@ module.exports = (router)=>{
 				screen: get_screen,
 				name: person_resource[i].name,
 				note: person_resource[i].remark,
-				resource_id: person_resource[i].resource_id
+				resourceId: person_resource[i].resource_id
 			}
 		}
 		ctx.api(200, data, {code: 1, msg: '获取资源包成功！'});
@@ -67,14 +67,14 @@ module.exports = (router)=>{
 	});
 
 	router.post(prefix('get_pack_screen'), async (ctx, next) => {
-		let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+		let resource_now = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_now_screen = await resource_now.getScreens();
 		let data = {};
 		data.screen = [];
 		for (let i = 0; i < resource_now_screen.length; ++i) {
 			data.screen[i] = {
 				name: resource_now_screen[i].name,
-				screen_id: resource_now_screen[i].screen_id,
+				screenId: resource_now_screen[i].screen_id,
 				note: resource_now_screen[i].remark
 			}
 		}
@@ -83,9 +83,9 @@ module.exports = (router)=>{
 	});
 
 	router.post(prefix('/get_pack_no_screen'), async (ctx, next) => {
-		let resource_now = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+		let resource_now = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_now_screen = await resource_now.getScreens();
-		let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
+		let user_person = await user.find({where: {email: ctx.session.custom_email}});
 		let user_person_screen = await user_person.getScreens();
 		let data = {},n=0;
 		data.screen = [];
@@ -95,7 +95,7 @@ module.exports = (router)=>{
 			if(flag===0){
 				data.screen[n]={
 					name:i.name,
-					screen_id:i.screen_id,
+					screenId:i.screen_id,
 					note:i.remark
 				};
 				n++;
@@ -107,9 +107,9 @@ module.exports = (router)=>{
 
 	router.post(prefix('/add_pack_screen'), async (ctx, next) => {
 		let screen_add = ctx.request.body.screen;
-		let resource_add = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+		let resource_add = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		for (let i of screen_add) {
-			let screen_new = await screen.findOne({where: {screen_id: i}});
+			let screen_new = await screen.find({where: {screen_id: i}});
 			await resource_add.addScreens(screen_new);
 			await screen_new.update({md5:md5(Date.now())});
 		}
@@ -119,9 +119,9 @@ module.exports = (router)=>{
 
 	router.post(prefix('/del_pack_screen'), async (ctx, next) => {
 		let screen_del = ctx.request.body.screen;
-		let resource_del = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+		let resource_del = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		for (let i of screen_del) {
-			let screen_w = await screen.findOne({where: {screen_id: i}});
+			let screen_w = await screen.find({where: {screen_id: i}});
 			await resource_del.removeScreens(screen_w);
 			await screen_w.update({md5:md5(Date.now())});
 		}
@@ -130,10 +130,10 @@ module.exports = (router)=>{
 	});
 
 	router.post(prefix('/get_pack_info'), async (ctx, next) => {
-		let resource_get = await resource.findOne({where: {resource_id: ctx.request.body.resource_id}});
+		let resource_get = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_settings = JSON.parse(fs.readFileSync(config.upDir + resource_get.resource_id + '.json'));
 		let data = {};
-		data.used_ads = resource_settings;
+		data.usedAds = resource_settings;
 		data.name = resource_get.name;
 		data.note = resource_get.remark;
 		lib.msgTranslate(ctx,200, data, {code: 1, msg: '获取资源包图片成功！'});
@@ -144,29 +144,29 @@ module.exports = (router)=>{
 		if (ctx.request.body.multiple === true) {
 			let pack = ctx.request.body.pack;
 			for (let i of pack) {
-				let resource_new = await resource.findOne({where: {resource_id: i}});
-				await resource_new.update({remark: ctx.request.body.new_pack_note});
+				let resource_new = await resource.find({where: {resource_id: i}});
+				await resource_new.update({remark: ctx.request.body.newPackNote});
 				let buf = await fs.readFileSync(config.upDir+resource_new.resource_id+'.json');
 				await resource_new.update({md5:md5(buf)});
 			}
 			lib.msgTranslate(ctx,200, {}, {code: 1, msg: '批量修改备注成功！'});
 		}
 		else {
-			let resource_new = await resource.findOne({where: {resource_id: ctx.request.body.pack[0]}});
+			let resource_new = await resource.find({where: {resource_id: ctx.request.body.pack[0]}});
 			await fs.unlinkSync(config.upDir + resource_new.resource_id + '.json');
 			await resource_new.update({
-				name: ctx.request.body.new_pack_name,
-				remark: ctx.request.body.new_pack_note
+				name: ctx.request.body.newPackName,
+				remark: ctx.request.body.newPackNote
 			});
 			let del_pictures = await resource_new.getAds();
 			await resource_new.removeAds(del_pictures);
-			let user_person = await user.findOne({where: {email: ctx.session.custom_email}});
-			let ad_id = ctx.request.body.ad_id;
-			let ad_time = ctx.request.body.ad_time;
+			let user_person = await user.find({where: {email: ctx.session.custom_email}});
+			let ad_id = ctx.request.body.adId;
+			let ad_time = ctx.request.body.adTime;
 			let main = {}, ad_all = [];
 			await user_person.addResource(resource_new);
 			for (let i = 0; i < ad_id.length; ++i) {
-				let ad_add = await ad.findOne({where: {picture_id: ad_id[i]}});
+				let ad_add = await ad.find({where: {picture_id: ad_id[i]}});
 				await resource_new.addAds(ad_add);
 				ad_all[i]={
                     ad_name:ad_add.name,
@@ -191,7 +191,7 @@ module.exports = (router)=>{
 
 	router.post(prefix('/del'), async (ctx, next) => {
 		for (let i = 0; i < ctx.request.body.pack.length; ++i) {
-			let del_resource = await resource.findOne({where: {resource_id: ctx.request.body.pack[i]}});
+			let del_resource = await resource.find({where: {resource_id: ctx.request.body.pack[i]}});
 			await fs.unlinkSync(config.upDir + del_resource.resource_id + '.json');
 			let del_resource_ad = await del_resource.getAds();
 			await del_resource.removeAds(del_resource_ad);

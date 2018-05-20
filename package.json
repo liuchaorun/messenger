@@ -1,6 +1,6 @@
 {
   "name": "messenger",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "daydream creator",
   "description": "轮播器",
   "keywords": [
@@ -12,7 +12,7 @@
     "url": "https://github.com/liuchaorun/messenger.git"
   },
   "scripts": {
-    "app": "node app.js"
+    "start": "node /bin/bin.js"
   },
   "bugs": {
     "email": "1558531230@qq.com"
@@ -34,5 +34,6 @@
     "sequelize": "^4.37.7",
     "shelljs": "^0.8.2",
     "log4js": "^2.6.1"
-  }
+  },
+  "license": "MIT"
 }
