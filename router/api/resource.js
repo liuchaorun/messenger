@@ -62,7 +62,7 @@ module.exports = (router)=>{
 				resourceId: person_resource[i].resource_id
 			}
 		}
-		ctx.api(200, data, {code: 1, msg: '获取资源包成功！'});
+		lib.msgTranslate(ctx, 200, data, {code: 1, msg: '获取资源包成功！'});
 		await next();
 	});
 
