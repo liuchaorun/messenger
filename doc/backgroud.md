@@ -48,7 +48,7 @@ response.data:{
 ```
 
 ### 验证并注册
-url:'verify'
+url:'/verify'
 ```json
 request:{
   "username":"string",
@@ -63,7 +63,7 @@ request.data:{
 ```
 
 ## 登陆
-url:'login'
+url:'/login'
 ```json
 request:{
   "email":"string",
@@ -93,7 +93,7 @@ response.data{
 ```
 
 ### 忘记密码重置密码
-url:'/new_password'
+url:'/newPassword'
 ```json
 request:{
   "newPassword":"string"
@@ -106,7 +106,7 @@ response.data:{
 ```
 
 ### 获取用户信息
-url:'/get_info'
+url:'/getInfo'
 ```json
 request:{
   "null"
@@ -124,7 +124,7 @@ request.data:{
 ```
 
 ### 修改用户密码
-url:'/modify_password'
+url:'/modifyPassword'
 ```json
 request:{
   "oldPassword":"string",
@@ -138,7 +138,7 @@ response.data:{
 ```
 
 ### 修改用户信息
-url:'/modify_user'
+url:'/modifyUser'
 ```json
 request:{
   "newUsername":"string or undeifned",
@@ -155,7 +155,7 @@ response.data:{
 所有请求增加前缀'/screen'
 
 ### 获取所有屏幕
-url:'/get_all'
+url:'/getAll'
 ```json
 request:{
   "null"
@@ -332,7 +332,7 @@ response.data:{
 ```
 
 ### 获取资源包绑定的屏幕
-url:'/get_pac_screen'
+url:'/getPackScreen'
 ```json
 request:{
   "resourceId":"int"
@@ -349,7 +349,7 @@ response.data:{
 ```
 
 ### 获取该资源包未绑定的屏幕
-url:'/get_pack_no_screen'
+url:'/getPackNoScreen'
 ```json
 request:{
   "resource_id":"int"
@@ -366,7 +366,7 @@ response.data:{
 ```
 
 ### 添加关联屏幕
-url:'/add_pack_screen'
+url:'/addPackScreen'
 ```json
 request:{
   "resourceId":"int",
@@ -380,7 +380,7 @@ response.data:{
 ```
 
 ### 删除关联屏幕
-url:'/del_pack_screen'
+url:'/delPackScreen'
 ```json
 request:{
   "resourceId":"int",
@@ -394,7 +394,7 @@ response.data:{
 ```
 
 ### 获取资源包信息
-url:'/get_pack_info'
+url:'/getPackInfo'
 ```json
 request:{
   "resourceId":"int"
@@ -498,7 +498,7 @@ response.data:{
 ```
 
 ## 二维码相关
-url:'/get_qrcode_info'
+url:'/getQrcodeInfo'
 ```json
 request:{
   "browser":"string",

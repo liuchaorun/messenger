@@ -66,7 +66,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post(prefix('get_pack_screen'), async (ctx, next) => {
+	router.post(prefix('getPackScreen'), async (ctx, next) => {
 		let resource_now = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_now_screen = await resource_now.getScreens();
 		let data = {};
@@ -82,7 +82,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post(prefix('/get_pack_no_screen'), async (ctx, next) => {
+	router.post(prefix('/getPackNoScreen'), async (ctx, next) => {
 		let resource_now = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_now_screen = await resource_now.getScreens();
 		let user_person = await user.find({where: {email: ctx.session.custom_email}});
@@ -105,7 +105,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post(prefix('/add_pack_screen'), async (ctx, next) => {
+	router.post(prefix('/addPackScreen'), async (ctx, next) => {
 		let screen_add = ctx.request.body.screen;
 		let resource_add = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		for (let i of screen_add) {
@@ -117,7 +117,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post(prefix('/del_pack_screen'), async (ctx, next) => {
+	router.post(prefix('/delPackScreen'), async (ctx, next) => {
 		let screen_del = ctx.request.body.screen;
 		let resource_del = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		for (let i of screen_del) {
@@ -129,7 +129,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post(prefix('/get_pack_info'), async (ctx, next) => {
+	router.post(prefix('/getPackInfo'), async (ctx, next) => {
 		let resource_get = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_settings = JSON.parse(fs.readFileSync(config.upDir + resource_get.resource_id + '.json'));
 		let data = {};

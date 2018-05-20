@@ -13,7 +13,7 @@ module.exports = (router)=>{
 	let prefix = function (url){
 		return `/screen${url}`;
 	};
-	router.post(prefix('/get_all'), async (ctx, next) => {
+	router.post(prefix('/getAll'), async (ctx, next) => {
 		let user_person = await user.find({where: {email: ctx.session.custom_email}});
 		let user_screen = await user_person.getScreens();
 		let data = {};

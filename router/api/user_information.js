@@ -27,7 +27,7 @@ module.exports = (router)=>{
 		await next();
 	});
 	//重置新密码
-	router.post(prefix('/new_password'), async (ctx, next) => {
+	router.post(prefix('/newPassword'), async (ctx, next) => {
 		let user_person = await user.find({where: {email: ctx.session.forget_email}});
 		await user_person.update({
 			password: ctx.request.body.new_password
@@ -36,7 +36,7 @@ module.exports = (router)=>{
 		await next();
 	});
 	//获取信息
-	router.post(prefix('/get_info'), async (ctx, next) => {
+	router.post(prefix('/getInfo'), async (ctx, next) => {
 		let user_person = await user.find({where: {email: ctx.session.custom_email}});
 		let user_ad = await user_person.getAds();
 		let user_screen = await user_person.getScreens();
@@ -51,7 +51,7 @@ module.exports = (router)=>{
 		await next();
 	});
 	//重置密码
-    router.post(prefix('/modify_password'),async(ctx,next)=>{
+    router.post(prefix('/modifyPassword'),async(ctx,next)=>{
         let user_person = await user.find({where:{email:ctx.session.custom_email}});
         if(user_person.password===ctx.request.body.oldPassword){
             user_person.update({
@@ -65,7 +65,7 @@ module.exports = (router)=>{
         await next();
     });
 	//修改用户信息
-    router.post(prefix('/modify_user'), async (ctx, next) => {
+    router.post(prefix('/modifyUser'), async (ctx, next) => {
         let user_person = await user.find({where: {email: ctx.session.custom_email}});
         if (ctx.request.body.newUsername !== undefined) await user_person.update({username: ctx.request.body.newUsername});
         if (ctx.request.body.newWorkPlace !== undefined) await user_person.update({work_place: ctx.request.body.newWorkPlace});
