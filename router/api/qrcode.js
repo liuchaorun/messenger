@@ -15,7 +15,7 @@ module.exports = (router)=>{
             os:body.os,
             uuid:body.uuid,
             position:body.position,
-            ad_type:body.adType,
+            ad_type:body.adLabel,
             ad_id:body.adId,
             scan_time:body.scanTime,
             ip:ctx.request.ip

@@ -230,7 +230,7 @@ url:'/upload'
 request:{
   "file":"file",
   "type":"广告标签",
-  "ad_type":"int"
+  "adType":"int"
 }
 ```
 ```json
@@ -322,7 +322,7 @@ response.data:{
   "resources":[{
     "screen":[{
       "name":"string",
-      "screen_id":"int"
+      "screenId":"int"
       }],
     "name":"string",
     "note":"string",
@@ -352,7 +352,7 @@ response.data:{
 url:'/getPackNoScreen'
 ```json
 request:{
-  "resource_id":"int"
+  "resourceId":"int"
 }
 ```
 ```json
@@ -375,7 +375,7 @@ request:{
 ```
 ```json
 response.data:{
-  "nconst Op = Sequelize.Opull"
+  "null"
 }
 ```
 
@@ -507,7 +507,7 @@ request:{
   "os":"string",
   "uuid":"string",
   "position":"psoition",
-  "adType":"string",
+  "adLabel":"string",
   "adId":"int",
   "scanTime":"Date"
 }
