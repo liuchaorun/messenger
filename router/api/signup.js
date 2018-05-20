@@ -33,7 +33,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post('verify', async (ctx, next) => {
+	router.post('/verify', async (ctx, next) => {
 		if (ctx.session.verify === ctx.request.body.verify) {
 			await user.create({
 				username: ctx.request.body.username,
