@@ -7,7 +7,7 @@ const router = require('./router/index');
 const routerAndroid = require('./routerAndroid/index');
 const app = new koa();
 const session = require("koa-session");
-const lib = require('./config/config');
+const config = require('./config/config');
 
 app.keys = ['cloudExhibition'];
 app.use(bodyParser());
