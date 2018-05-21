@@ -1,27 +1,27 @@
 /**
  * Created by lcr on 17-5-16.
  */
-const db = require('../db/index');
-const Sequelize = require('sequelize');
-let resource = db.models.resource;
-let ad = db.models.ad;
-let user = db.models.user;
-let ad_label = db.models.ad_label;
-const Op = Sequelize.Op;
-async function a() {
-    // await user.create({
-	 //    username:'lcr',
-	 //    email:'1558531230@qq.com',
-	 //    password:'123456',
-	 //    last_login_time:new Date(),
-	 //    work_place:'ssdut'
-    // })
-	let usr = await user.find({where:{email:{[Op.eq]:'1558531230@qq.com'}}});
-	await usr.createAd_label({name:'asd'});
-	let adLabel = await ad_label.find({where:{name:{[Op.eq]:'asd'}}});
-	console.log(adLabel.name);
-}
-a();
+// const db = require('../db/index');
+// const Sequelize = require('sequelize');
+// let resource = db.models.resource;
+// let ad = db.models.ad;
+// let user = db.models.user;
+// let ad_label = db.models.ad_label;
+// const Op = Sequelize.Op;
+// async function a() {
+//     // await user.create({
+// 	 //    username:'lcr',
+// 	 //    email:'1558531230@qq.com',
+// 	 //    password:'123456',
+// 	 //    last_login_time:new Date(),
+// 	 //    work_place:'ssdut'
+//     // })
+// 	let usr = await user.find({where:{email:{[Op.eq]:'1558531230@qq.com'}}});
+// 	await usr.createAd_label({name:'asd'});
+// 	let adLabel = await ad_label.find({where:{name:{[Op.eq]:'asd'}}});
+// 	console.log(adLabel.name);
+// }
+// a();
 //const fs = require('fs');
 // let data = {};
 // data.i = "qwe";
@@ -98,3 +98,6 @@ a();
 //     str = md5sum.digest('hex').toUpperCase();
 //     console.log('文件:.zip'+',MD5签名为:'+str);
 // });
+let string = 'http://202.118.72.78/m/opac/detail.action?id=656652516268396958344f32314d514f7664457634773d3d';
+const IF_BOOK_ID = /^.+\/m\/opac\/detail\.action\?id=([0-9a-z]+)$/;
+console.log(IF_BOOK_ID.exec(string)[1]);

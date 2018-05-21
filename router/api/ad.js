@@ -165,7 +165,9 @@ module.exports = (router)=>{
                         i.ad_name=ctx.request.body.newName;
                         i.ad_target=ctx.request.body.newTarget;
                         i.ad_qrcode_position=ctx.request.body.newPosition;
+                        i.ad_qrcode_update = 0;
                     }
+	                i.ad_qrcode_update = 1;
                 }
             }
         }
@@ -203,7 +205,6 @@ module.exports = (router)=>{
 
     router.post(prefix('/del'), async(ctx,next)=>{
         let del_ads = ctx.request.body.adId;
-        let user_person = await user.find({where:{email:ctx.session.custom_email}});
         let err = '';
         let flag = 0;
         for(let i of del_ads){

@@ -8,7 +8,7 @@
   "data":{
 
   },
-  "msg":{
+  "status":{
     "code":"int",
     "msg":"string",
   }
@@ -37,6 +37,7 @@
 	"ad_id":"int",
 	"ad_target":"string",
 	"ad_qrcode_position":"string",
+	"ad_qrcode_update":"int"
   "ad_type":"0为图片 1为视频"
   }]
 ```
