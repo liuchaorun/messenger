@@ -39,12 +39,12 @@ module.exports = (router)=>{
 		let user_person = await user.find({where: {email: ctx.session.custom_email}});
 		let screen_num = await screen.count({where: {uuid: ctx.request.body.uuid}});
 		if (screen_num === 0) {
-			lib.msgTranslate(200, {}, {code: 6, msg: '不存在该屏幕！'});
+			lib.msgTranslate(ctx,200, {}, {code: 6, msg: '不存在该屏幕！'});
 		}
 		else {
 			let screen_new = await screen.find({where: {uuid: ctx.request.body.uuid}});
 			await user_person.addScreen(screen_new);
-			lib.msgTranslate(200, {}, {code: 1, msg: '添加成功！'});
+			lib.msgTranslate(ctx,200, {}, {code: 1, msg: '添加成功！'});
 		}
 		await next();
 	});

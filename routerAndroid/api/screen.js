@@ -31,7 +31,7 @@ module.exports = (router)=>{
 			data.is_user = 2;
 		}
 		else{
-			let screen_now = await screen.findOne({where:{uuid:ctx.request.body.uuid}});
+			let screen_now = await screen.find({where:{uuid:ctx.request.body.uuid}});
 			if(screen_now.user_id===null){
 				data.is_user = 0;
 			}
