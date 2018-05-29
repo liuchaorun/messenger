@@ -376,7 +376,7 @@ function imageAJAX(type, table_id, button_id)
                 else
                 {
                     $(`#${button_id}`).removeAttr('disabled');
-                    let ads = response.data.ads;
+                    let ads = response.data;
                     let row = 0;
                     let $row_node = $(`<div class="modal_row"></div>`);
                     const adIds = ads.keys();
