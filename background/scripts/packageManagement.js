@@ -379,7 +379,7 @@ function imageAJAX(type, table_id, button_id)
                     let ads = response.data;
                     let row = 0;
                     let $row_node = $(`<div class="modal_row"></div>`);
-                    const adIds = ads.keys();
+                    const adIds = Object.keys(ads);
                     for (; row < Math.floor(adIds.length / PICTURES_PER_ROW); row++)
                     {
                         for (let i = 0; i < PICTURES_PER_ROW; i++)
