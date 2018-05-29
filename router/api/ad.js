@@ -122,32 +122,32 @@ module.exports = (router)=>{
 	});
 
     router.post(prefix('/get'), async(ctx, next)=>{
-        let data = {};
-        let user_person = await user.find({where:{email:ctx.session.custom_email}});
-        let all_ad = await user_person.getAds();
-        for(let i of all_ad){
-            let temp = {};
-            temp = {
-                adId:i.ad_id,
-                name:i.name,
-                src:i.thumbnails_url,
-                target:i.target,
-                position:i.position
-            };
-            let all_pack = await i.getResources();
-            temp.pack = [];
-            for(let j = 0;j<all_pack.length;++j){
-                temp.pack[j] = all_pack[j].name;
-            }
-            let types = await i.getAd_types();
-            temp.adLabel = [];
-            if(types.length>0){
-                for(let j of types){
-                    temp.adLabel.push(j.name);
-                }
-            }
-            data[i.picture_id] = temp;
-        }
+	    let data ={};
+	    let user_person = await user.find({where:{email:'1558531230@qq.com'}});
+	    let all_ad = await user_person.getAds();
+	    for(let i of all_ad){
+		    let temp = {};
+		    temp = {
+			    adId:i.ad_id,
+			    name:i.name,
+			    src:i.thumbnails_url,
+			    target:i.target,
+			    position:i.position
+		    };
+		    let all_pack = await i.getResources();
+		    temp.pack = [];
+		    for(let j = 0;j<all_pack.length;++j){
+			    temp.pack[j] = all_pack[j].name;
+		    }
+		    let types = await i.getAd_labels();
+		    temp.adLabel = [];
+		    if(types.length>0){
+			    for(let j of types){
+				    temp.adLabel.push(j.name);
+			    }
+		    }
+		    data[i.ad_id] = temp;
+	    }
         lib.msgTranslate(ctx, 200,data,{code:1,msg:'获取图片列表成功！'});
         await next();
     });
