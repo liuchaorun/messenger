@@ -26,7 +26,7 @@ module.exports = (router)=>{
 		});
 		await user_person.addResource(resource_new);
 		for (let i = 0; i < ad_id.length; ++i) {
-			let ad_add = await ad.find({where: {picture_id: ad_id[i]}});
+			let ad_add = await ad.find({where: {ad_id: ad_id[i]}});
 			await resource_new.addAds(ad_add);
 			ad_all[i]={
 				ad_name:ad_add.name,
@@ -44,7 +44,7 @@ module.exports = (router)=>{
 		let json_file = JSON.stringify(main);
 		await fs.writeFileSync(config.upDir+resource_new.resource_id+'.json',json_file);
 		let buf = await fs.readFileSync(config.upDir+resource_new.resource_id+'.json');
-		resource_new.update({md5:md5(buf)});
+		await resource_new.update({md5:md5(buf)});
 		lib.msgTranslate(ctx,200, {}, {code: 1, msg: '创建资源包成功！'});
 		await next();
 	});
