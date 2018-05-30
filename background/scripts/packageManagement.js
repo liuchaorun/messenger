@@ -360,10 +360,10 @@ function screenAJAX(type, suffix)
 }
  * <input type="text" class="form-control" id=${}.id_time>
  * **/
-function imageAJAX(type, table_id, button_id)
+function imageAJAX(type, tableId, buttonId)
 {
     const PICTURES_PER_ROW = 5;
-    if ($(`#${table_id}`).find('.modal_cell').length === 0)
+    if ($(`#${tableId}`).find('.modal_cell').length === 0)
     {
         AJAX('/ad/get', {},
             function (response)
@@ -371,11 +371,11 @@ function imageAJAX(type, table_id, button_id)
                 if (response.status.code !== SUCC)
                 {
                     showNotification(response.status.msg, FAILURE);
-                    $(`#${button_id}`).attr('disabled', 'disabled');
+                    $(`#${buttonId}`).attr('disabled', 'disabled');
                 }
                 else
                 {
-                    $(`#${button_id}`).removeAttr('disabled');
+                    $(`#${buttonId}`).removeAttr('disabled');
                     let ads = response.data;
                     let row = 0;
                     let $row_node = $(`<div class="modal_row"></div>`);
@@ -392,27 +392,27 @@ function imageAJAX(type, table_id, button_id)
             <img src=${ads[currentAdId].src} alt=${currentAdId} class="image img-responsive">
         </div>
         <input type="checkbox" class="${type}_checkbox">
-        <input type="text" class="form-control  picture_time_input" id=${table_id}_${currentAdId}_time maxlength="6" disabled placeholder="10">
+        <input type="text" class="form-control  picture_time_input" id=${tableId}_${currentAdId}_time maxlength="6" disabled placeholder="10">
     </label>
 </div>`)
                         }
-                        $(`#${table_id}`).append($row_node);
+                        $(`#${tableId}`).append($row_node);
                         $row_node = $(`<div class="modal_row"></div>`);
                     }
                     if (adIds.length - row * PICTURES_PER_ROW > 0 && !$('#modify_modal_table_last_row').length)
                     {
-                        $(`#${table_id}`).append(`<div class="modal_row" id="${table_id}_last_row"></div>`);
-                        for (let i = 0; i < ads.length - row * 5; i++)
+                        $(`#${tableId}`).append(`<div class="modal_row" id="${tableId}_last_row"></div>`);
+                        for (let i = 0; i < adIds.length - row * 5; i++)
                         {
                             let currentAdId = adIds[row * PICTURES_PER_ROW + i];
-                            $(`#${table_id}_last_row`).append(`
+                            $(`#${tableId}_last_row`).append(`
 <div class="modal_cell">
     <label class=${currentAdId}>
         <div class="picture_div">
             <img src=${ads[currentAdId].src} alt=${currentAdId} class="image img-responsive">
         </div>
         <input type="checkbox" class="${type}_checkbox">
-        <input type="text" class="form-control  picture_time_input" id=${table_id}_${currentAdId}_time maxlength="6" disabled placeholder="10">
+        <input type="text" class="form-control  picture_time_input" id=${tableId}_${currentAdId}_time maxlength="6" disabled placeholder="10">
     </label>
 </div>`)
                         }
@@ -425,8 +425,8 @@ function imageAJAX(type, table_id, button_id)
             {
                 console.log(error);
                 showNotification('出现错误，请重试', FAILURE);
-                $(`#${button_id}`).attr('disabled', 'disabled');
-            }, false)
+                $(`#${buttonId}`).attr('disabled', 'disabled');
+            })
     }
     else
     {
@@ -649,7 +649,7 @@ function getScreenModal(pack_dom_obj)
 }
 
 /**AJAX for + and - buttons in table**/
-function tableBtnAJAX(btn_html_obj, type, suffix)
+function tableBtnAJAX(btnHtmlObj, type, suffix)
 {
     $(`#${type}_modal_table`).html(`<tbody><tr id=${type}_head_row>
                         <th>序号</th>
@@ -660,7 +660,7 @@ function tableBtnAJAX(btn_html_obj, type, suffix)
                    </tbody>`);
     $(`#${type}_modal`).modal('show');
     let data = {};
-    data.resourceId = $(btn_html_obj).parent().parent().attr('id');
+    data.resourceId = $(btnHtmlObj).parent().parent().attr('id');
     $(`#${type}_head_row`).attr('class', data.resourceId);
     AJAX(suffix, data,
         function (response)
