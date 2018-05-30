@@ -123,7 +123,7 @@ module.exports = (router)=>{
 
     router.post(prefix('/get'), async(ctx, next)=>{
 	    let data ={};
-	    let user_person = await user.find({where:{email:'1558531230@qq.com'}});
+	    let user_person = await user.find({where:{email:ctx.session.custom_email}});
 	    let all_ad = await user_person.getAds();
 	    for(let i of all_ad){
 		    let temp = {};

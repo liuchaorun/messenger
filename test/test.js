@@ -98,41 +98,41 @@
 //     str = md5sum.digest('hex').toUpperCase();
 //     console.log('文件:.zip'+',MD5签名为:'+str);
 // });
-const db = require('../db/index');
-let user = db.models.user;
-let ad = db.models.ad;
-async function testdb() {
-	try{
-		let data ={};
-		let user_person = await user.find({where:{email:'1558531230@qq.com'}});
-		let all_ad = await user_person.getAds();
-		for(let i of all_ad){
-			let temp = {};
-			temp = {
-				adId:i.ad_id,
-				name:i.name,
-				src:i.thumbnails_url,
-				target:i.target,
-				position:i.position
-			};
-			let all_pack = await i.getResources();
-			temp.pack = [];
-			for(let j = 0;j<all_pack.length;++j){
-				temp.pack[j] = all_pack[j].name;
-			}
-			let types = await i.getAd_labels();
-			temp.adLabel = [];
-			if(types.length>0){
-				for(let j of types){
-					temp.adLabel.push(j.name);
-				}
-			}
-			data[i.ad_id] = temp;
-		}
-		console.log(data);
-	}
-	catch (e) {
-		console.log(e);
-	}
-}
-testdb();
+// const db = require('../db/index');
+// let user = db.models.user;
+// let ad = db.models.ad;
+// async function testdb() {
+// 	try{
+// 		let data ={};
+// 		let user_person = await user.find({where:{email:'1558531230@qq.com'}});
+// 		let all_ad = await user_person.getAds();
+// 		for(let i of all_ad){
+// 			let temp = {};
+// 			temp = {
+// 				adId:i.ad_id,
+// 				name:i.name,
+// 				src:i.thumbnails_url,
+// 				target:i.target,
+// 				position:i.position
+// 			};
+// 			let all_pack = await i.getResources();
+// 			temp.pack = [];
+// 			for(let j = 0;j<all_pack.length;++j){
+// 				temp.pack[j] = all_pack[j].name;
+// 			}
+// 			let types = await i.getAd_labels();
+// 			temp.adLabel = [];
+// 			if(types.length>0){
+// 				for(let j of types){
+// 					temp.adLabel.push(j.name);
+// 				}
+// 			}
+// 			data[i.ad_id] = temp;
+// 		}
+// 		Object.keys(data);
+// 	}
+// 	catch (e) {
+// 		console.log(e);
+// 	}
+// }
+// testdb();
