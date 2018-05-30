@@ -3,6 +3,7 @@
  * Date 18-5-16
  * Time 下午1:05
  **/
+const fs = require('fs');
 const lib = require('../../lib/lib');
 const db = require('../../db/index');
 const config = require('../../config/config');
