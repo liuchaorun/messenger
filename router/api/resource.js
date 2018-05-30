@@ -11,6 +11,7 @@ const md5 = require('md5');
 let user = db.models.user;
 let resource = db.models.resource;
 let ad = db.models.ad;
+let screen = db.models.screen;
 module.exports = (router)=>{
 	let prefix = function (url){
 		return `/resource${url}`;
