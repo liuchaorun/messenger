@@ -24,7 +24,7 @@ module.exports = (router) => {
 		for (let i of ad_labels) {
 			adLabel = adLabel + i.name + ' ';
 		}
-		await lib.create_qrcode('http://118.89.197.156:3000/qrcode.html?' + 'uuid=' + uuid + '&adType=' + encodeURI(adLabel) + '&adId=' + ad_now.ad_id + '&target=' + ad_now.target, qrcode_name, config.qrcode_dir);
+		await lib.create_qrcode('http://118.89.197.156:3000/qrCode.html?' + 'uuid=' + uuid + '&adType=' + encodeURI(adLabel) + '&adId=' + ad_now.ad_id + '&target=' + ad_now.target, qrcode_name, config.qrcode_dir);
 		data.qr_url = 'http://118.89.197.156:8000/qrcode/' + qrcode_name;
 		let buf = await fs.readFileSync(config.upDir + resource_now.resource_id + '.json');
 		let main = JSON.parse(buf);
