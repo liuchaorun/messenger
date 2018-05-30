@@ -600,12 +600,12 @@ function activateButton()
     $('.plus_screen').click(function (event)
     {
         event.preventDefault();
-        tableBtnAJAX(event.target, 'plus', '/resource/get_pack_no_screen');
+        tableBtnAJAX(event.target, 'plus', '/resource/getPackNoScreen');
     });
     $('.minus_screen').click(function (event)
     {
         event.preventDefault();
-        tableBtnAJAX(event.target, 'minus', '/resource/get_pack_screen');
+        tableBtnAJAX(event.target, 'minus', '/resource/getPackScreen');
     });
     addTooltipByClassName('plus_screen', '增加屏幕', 'left');
     addTooltipByClassName('minus_screen', '减少屏幕', 'right');
