@@ -672,7 +672,7 @@ function tableBtnAJAX(btnHtmlObj, type, suffix)
                 let screens = response.data.screen;
                 for (let i = 0; i < screens.length; i++)
                 {
-                    $(`#${type}_modal_table`).append(`<tr class=${screens[i].screen_id}>
+                    $(`#${type}_modal_table`).append(`<tr class=${screens[i].screenId}>
                         <td>${i + 1}</td>
                         <td>${screens[i].name}</td>
                         <td>${screens[i].note === null ? '无' : screens[i].note}</td>
