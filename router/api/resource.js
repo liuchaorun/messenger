@@ -69,7 +69,7 @@ module.exports = (router)=>{
 		await next();
 	});
 
-	router.post(prefix('getPackScreen'), async (ctx, next) => {
+	router.post(prefix('/getPackScreen'), async (ctx, next) => {
 		let resource_now = await resource.find({where: {resource_id: ctx.request.body.resourceId}});
 		let resource_now_screen = await resource_now.getScreens();
 		let data = {};
