@@ -30,7 +30,7 @@ $(function ()
                 let packs = response.data.resources;
                 for (let i = 0; i < packs.length; i++)
                 {
-                    $package_management_table.append(`<tr id=${packs[i].resource_id} class="packet_row"> 
+                    $package_management_table.append(`<tr id=${packs[i].resourceId} class="packet_row"> 
  <td>${i + 1}</td>
  <td>${packs[i].name}</td>
  <td>${packs[i].note === '' ? '无' : packs[i].note}</td>
@@ -450,24 +450,24 @@ function imageAJAX(type, table_id, button_id)
  *
  * add's action：add_pack
  * **/
-function packageAJAX(table_id, name_input_id, note_input_id, footer_id, suffix)
+function packageAJAX(tableId, nameInputId, noteInputId, footerId, suffix)
 {
-    let checkboxes = $(`#${table_id}`).find(':checked');
+    let checkboxes = $(`#${tableId}`).find(':checked');
     let data = {};
     let adId = [];
     let adTime = [];
-    data.packName = $(`#${name_input_id}`).val();
-    data.packNote = $(`#${note_input_id}`).val();
+    data.packName = $(`#${nameInputId}`).val();
+    data.packNote = $(`#${noteInputId}`).val();
     if (!PACK_NAME_REG.test(data.packName))
     {
         showNotification('包名不合法', FAILURE);
-        setBorderColorById(name_input_id);
+        setBorderColorById(nameInputId);
         return false;
     }
     if (!PACK_NOTE_REG.test(data.packNote))
     {
         showNotification('备注不合法', FAILURE);
-        setBorderColorById(note_input_id);
+        setBorderColorById(noteInputId);
         return false;
     }
     if (checkboxes.length === 0)
@@ -622,7 +622,7 @@ function getScreenModal(pack_dom_obj)
     let packId = $(pack_dom_obj).parent().parent().attr('id');
     const [$screen_modal, $screen_modal_body] = [$('#screen_modal'), $('#screen_modal_body')];
     let data = {};
-    data.resource_id = packId;
+    data.resourceId = packId;
     AJAX('getPackScreen', data,
         function (response)
         {
@@ -660,8 +660,8 @@ function tableBtnAJAX(btn_html_obj, type, suffix)
                    </tbody>`);
     $(`#${type}_modal`).modal('show');
     let data = {};
-    data.resource_id = $(btn_html_obj).parent().parent().attr('id');
-    $(`#${type}_head_row`).attr('class', data.resource_id);
+    data.resourceId = $(btn_html_obj).parent().parent().attr('id');
+    $(`#${type}_head_row`).attr('class', data.resourceId);
     AJAX(suffix, data,
         function (response)
         {
