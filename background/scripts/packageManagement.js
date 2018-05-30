@@ -69,7 +69,7 @@ $(function ()
     const $add_modal_btn = $('#add_modal_btn');
     $add_modal_btn.click(function ()
     {
-        packageAJAX('add_modal_table', 'pack_name_input', 'pack_note_input', 'add_modal_footer', 'addPack');
+        packageAJAX('add_modal_table', 'pack_name_input', 'pack_note_input', 'add_modal_footer', 'resource/add');
     });
 });
 
