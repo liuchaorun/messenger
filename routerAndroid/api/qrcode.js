@@ -28,7 +28,7 @@ module.exports = (router) => {
 		data.qr_url = 'http://118.89.197.156:8000/' + qrcode_name;
 		let buf = await fs.readFileSync(config.upDir + resource_now.resource_id + '.json');
 		let main = JSON.parse(buf);
-		for (let i of main) {
+		for (let i of main.ad) {
 			if (i.ad_id === ad_now.ad_id) {
 				i.qr_url = 'http://118.89.197.156:8000/' + qrcode_name;
 			}
