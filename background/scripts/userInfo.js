@@ -31,7 +31,7 @@ $(function ()
                 $email.text(info.email);
                 $work_place.text(info.workPlace === '' ? '无' : info.workPlace);
                 $screen_num.text(info.screenNum);
-                $picture_num.text(info.pictureNum);
+                $picture_num.text(info.adNum);
                 $last_login_time.text(parseTimeString(info.lastLoginTime));
             }
         },
