@@ -74,7 +74,7 @@ module.exports = (router)=>{
 			await user_person.removeScreen(screen_del);
 			await screen_del.destroy();
 		}
-		lib.msgTranslate(200, {}, {code: 1, msg: '删除成功！'});
+		lib.msgTranslate(ctx,200, {}, {code: 1, msg: '删除成功！'});
 		await next();
 	});
 };
